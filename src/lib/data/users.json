@@ -1,0 +1,163 @@
+[
+    {
+      "id": 1,
+      "fullname": "Alex Johnson",
+      "username": "alexj",
+      "teach": ["JavaScript", "HTML", "CSS"],
+      "learn": ["UI/UX Design", "React"],
+      "bio": "Frontend developer who loves clean code."
+    },
+    {
+      "id": 2,
+      "fullname": "Bella Martinez",
+      "username": "bella.design",
+      "teach": ["UI/UX Design"],
+      "learn": ["JavaScript"],
+      "bio": "Designer curious about frontend dev."
+    },
+    {
+      "id": 3,
+      "fullname": "Chris Lee",
+      "username": "clee_dev",
+      "teach": ["React"],
+      "learn": ["TypeScript"],
+      "bio": "Self-taught developer transitioning to TS."
+    },
+    {
+      "id": 4,
+      "fullname": "Dana Kim",
+      "username": "dana.codes",
+      "teach": ["TypeScript", "JavaScript"],
+      "learn": ["React", "GraphQL"],
+      "bio": "Always learning. TypeScript advocate."
+    },
+    {
+      "id": 5,
+      "fullname": "Ethan Rivera",
+      "username": "ethan.r",
+      "teach": ["HTML/CSS", "Figma"],
+      "learn": ["JavaScript"],
+      "bio": "Building beautiful UIs with simple code."
+    },
+    {
+      "id": 6,
+      "fullname": "Fatima Noor",
+      "username": "fatimanoor",
+      "teach": ["Python", "Pandas", "NumPy"],
+      "learn": ["Frontend Development", "React"],
+      "bio": "Data nerd diving into web apps."
+    },
+    {
+      "id": 7,
+      "fullname": "George Smith",
+      "username": "george_smith",
+      "teach": ["Vue.js"],
+      "learn": ["React", "Next.js"],
+      "bio": "Fullstack engineer switching to React."
+    },
+    {
+      "id": 8,
+      "fullname": "Hannah Liu",
+      "username": "hannahl.dev",
+      "teach": ["TypeScript", "React"],
+      "learn": ["Python", "Django"],
+      "bio": "Strong on frontend, learning backend now."
+    },
+    {
+      "id": 9,
+      "fullname": "Ian Wright",
+      "username": "wright.codes",
+      "teach": ["Node.js", "Express.js"],
+      "learn": ["UI/UX Design"],
+      "bio": "API guy with interest in design thinking."
+    },
+    {
+      "id": 10,
+      "fullname": "Julia Park",
+      "username": "julia.p",
+      "teach": ["Python", "Flask"],
+      "learn": ["React"],
+      "bio": "Machine learning enthusiast entering web dev."
+    },
+    {
+      "id": 11,
+      "fullname": "Kevin Patel",
+      "username": "kev.p",
+      "teach": ["MongoDB", "PostgreSQL"],
+      "learn": ["TypeScript"],
+      "bio": "NoSQL fan exploring typed JS."
+    },
+    {
+      "id": 12,
+      "fullname": "Lara Nguyen",
+      "username": "lara.codes",
+      "teach": ["HTML/CSS", "Bootstrap"],
+      "learn": ["JavaScript", "React"],
+      "bio": "Design-to-code specialist."
+    },
+    {
+      "id": 13,
+      "fullname": "Marcus Allen",
+      "username": "marcusall",
+      "teach": ["Express.js", "Node.js"],
+      "learn": ["Next.js", "Docker"],
+      "bio": "Backend dev diving into fullstack."
+    },
+    {
+      "id": 14,
+      "fullname": "Nina Gupta",
+      "username": "nina.frontend",
+      "teach": ["UI/UX Design", "Figma"],
+      "learn": ["TypeScript", "React"],
+      "bio": "UI specialist exploring interactive UIs."
+    },
+    {
+      "id": 15,
+      "fullname": "Oscar Blake",
+      "username": "oblake",
+      "teach": ["Next.js", "React", "Vite"],
+      "learn": ["Express.js"],
+      "bio": "React lover stepping into SSR."
+    },
+    {
+      "id": 16,
+      "fullname": "Priya Shah",
+      "username": "priya.codes",
+      "teach": ["JavaScript", "HTML"],
+      "learn": ["MongoDB"],
+      "bio": "Frontend dev learning databases."
+    },
+    {
+      "id": 17,
+      "fullname": "Quentin Torres",
+      "username": "qtorres",
+      "teach": ["Python"],
+      "learn": ["Vue.js", "Tailwind CSS"],
+      "bio": "Data analyst trying frontend frameworks."
+    },
+    {
+      "id": 18,
+      "fullname": "Rosa Delgado",
+      "username": "rosadelgado",
+      "teach": ["UI/UX Design", "Prototyping", "Design Systems"],
+      "learn": ["JavaScript"],
+      "bio": "UX researcher turned visual designer."
+    },
+    {
+      "id": 19,
+      "fullname": "Samir Khan",
+      "username": "samirk",
+      "teach": ["React", "Redux"],
+      "learn": ["Node.js", "GraphQL"],
+      "bio": "Frontend pro going fullstack."
+    },
+    {
+      "id": 20,
+      "fullname": "Tina Miles",
+      "username": "tinam",
+      "teach": ["Node.js", "REST APIs", "TypeScript"],
+      "learn": ["UI/UX Design"],
+      "bio": "Backend brain curious about design."
+    }
+  ]
+  

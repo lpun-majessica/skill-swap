@@ -1,6 +1,7 @@
 import { ModeToggle } from "@/components/common/mode-toggle";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import Navbar from "@/components/layout/navbar";
 
 export const metadata = {
   title: "SkillSwap",
@@ -13,14 +14,15 @@ export default function RootLayout({ children }) {
       <head />
       <body>
         <ThemeProvider>
-          <nav>
+          {/* <nav>
             <div className="flex items-center justify-between shadow-2xl shadow-accent p-4 ">
               <div className="text-lg font-bold">SkillSwap</div>
               <div className="flex space-x-4">
                 <ModeToggle />
               </div>
             </div>
-          </nav>
+          </nav> */}
+          <Navbar />
           {children}
         </ThemeProvider>
       </body>

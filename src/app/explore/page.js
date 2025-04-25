@@ -1,3 +1,6 @@
+"use client";
+import Filter from "@/components/ui/filter";
+import USERS from "@/lib/data/users";
 export default function ExplorePage() {
   return (
     <div className="flex items-center min-h-screen p-24">
@@ -7,7 +10,9 @@ export default function ExplorePage() {
         <p className="mb-8">Select your preferences.</p>
         <div className="bg-white shadow-md rounded-lg p-4">
           <h2 className="text-xl font-bold">Filter Options</h2>
-          {/* Add filter options here */}
+          <Filter onFilterChange={(userIds) => {
+          console.log("Show these users:", userIds);
+        }} />
         </div>
       </div>
       {/* Main content */}

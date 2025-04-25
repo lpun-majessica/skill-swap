@@ -7,6 +7,9 @@ import Link from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
+import Logo from "./logo";
+import { useTheme } from "next-themes";
+import { ModeToggle } from "../common/mode-toggle";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -34,16 +37,8 @@ export default function Navbar() {
     setIsLoggedIn(!isLoggedIn);
   };
 
-  const logoSrc = () => {
-    if (!scrolled) {
-      return "/logo-white.svg"; // Use white logo initially when not scrolled
-    } else {
-      const isDarkMode = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      return isDarkMode ? "/logo-white.svg" : "/logo-dark.svg";
-    }
-  };
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === "dark";
 
   return (
     <nav
@@ -58,27 +53,18 @@ export default function Navbar() {
         {/* Left: Logo + Nav */}
         <div className="flex items-center gap-8">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="relative w-8 h-8 flex items-center justify-center">
-              <Image
-                src={logoSrc()}
-                alt="SkillSwap Logo"
-                width={32}
-                height={32}
-                className="w-8 h-8"
-              />
-            </div>
-            <span
-              className={clsx(
-                "font-bold text-lg",
-                scrolled
-                  ? "text-black dark:text-white"
-                  : "text-black dark:text-white"
-              )}
-            >
+          <Link href="/" className="flex items-center gap-2">
+            {!scrolled ? (
+              <Logo /> // light when not scrolled
+            ) : isDarkMode ? (
+              <Logo />
+            ) : (
+              <Logo variant="dark" />
+            )}
+            <span className="font-bold text-lg text-black dark:text-white">
               SkillSwap
             </span>
-          </div>
+          </Link>
 
           {/* Desktop nav */}
           <div className="hidden md:flex gap-6 items-center">
@@ -115,11 +101,8 @@ export default function Navbar() {
               >
                 My Network
               </Link>
-              <Button
-                variant="ghost"
-                className="text-black dark:text-white p-1 h-auto bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800"
-              >
-                <Bell size={20} />
+              <Button variant="ghost" size="icon">
+                <Bell />
               </Button>
               <div className="w-8 h-8 rounded-full overflow-hidden">
                 <Image
@@ -138,6 +121,7 @@ export default function Navbar() {
               Log in
             </Button>
           )}
+          <ModeToggle />
         </div>
 
         {/* Mobile menu button */}
@@ -189,11 +173,8 @@ export default function Navbar() {
               <Button className="px-4 py-1 bg-ss-red-505 text-white rounded-full hover:bg-red-700 transition w-full h-auto border-0">
                 My Network
               </Button>
-              <Button
-                variant="ghost"
-                className="text-black dark:text-white h-auto bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800"
-              >
-                <Bell size={20} />
+              <Button variant="ghost" size="icon">
+                <Bell />
               </Button>
             </div>
           ) : (

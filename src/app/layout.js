@@ -2,6 +2,7 @@ import { ModeToggle } from "@/components/common/mode-toggle";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
 
 export const metadata = {
   title: "SkillSwap",
@@ -13,7 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <head />
       <body>
-        <ThemeProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {/* <nav>
             <div className="flex items-center justify-between shadow-2xl shadow-accent p-4 ">
               <div className="text-lg font-bold">SkillSwap</div>
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
           </nav> */}
           <Navbar />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

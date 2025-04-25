@@ -1,5 +1,19 @@
+'use client';
+import AuthGuard from '../../components/auth/AuthGuard';
+import { logout } from '../../utils/auth';
+
 export default function ExplorePage() {
+  const handleLogout = () => {
+    logout();
+    window.location.href = '/login';
+  };
+
   return (
+    <AuthGuard>
+      <div style={{ padding: '2rem' }}>
+        <h1>Chào mừng đến Dashboard!</h1>
+        <button onClick={handleLogout} className="w-full bg-red-600 text-white py-2 rounded-full font-semibold hover:bg-red-700 transition">Đăng xuất</button>
+      </div>
     <div className="flex items-center min-h-screen p-24">
       {/* Filter */}
       <div className="flex flex-col items-center mr-8">
@@ -35,5 +49,6 @@ export default function ExplorePage() {
         </div>
       </div>
     </div>
+    </AuthGuard>
   );
 }

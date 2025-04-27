@@ -1,0 +1,22 @@
+/* styles scroll bar */
+.dropdown-scroll {
+    padding-right: 4px; /* tạo khoảng trống để thanh scroll nằm gọn */
+    border-radius: 8px; /* bo góc cho vùng scroll */
+  }
+  
+  .dropdown-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .dropdown-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--color-ss-black-29D);
+    border-radius: 8px; /* bo tròn thumb */
+    margin: 4px; /* Tạo khoảng cách đầu/cuối scrollbar */
+  }
+  
+  .dropdown-scroll::-webkit-scrollbar-track {
+    background: var(--color-ss-light-777); 
+    border-radius: 2px;
+    margin-block: 8px; /* Quan trọng: tạo margin đầu/cuối cho track */
+  }
+  

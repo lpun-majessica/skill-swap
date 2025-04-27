@@ -119,19 +119,26 @@ export default function Navbar() {
           <ModeToggle />
         </div>
 
-        {/* Mobile menu button */}
-        <div className="md:hidden">
-          <Button
-            onClick={() => setMenuOpen(!menuOpen)}
-            variant="ghost"
-            className={clsx(
-              "p-1 h-auto bg-transparent",
-              scrolled
-                ? "text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-                : "text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10"
-            )}
-          >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        {/* Mobile menu button and controls */}
+        <div className="md:hidden flex items-center gap-2">
+          {isLoggedIn && (
+            <>
+              <Button variant="ghost" size="icon" className="h-8 w-8">
+                <Bell />
+              </Button>
+              <div className="w-7 h-7 rounded-full overflow-hidden">
+                <Image
+                  src="/pfp/1.jpeg"
+                  width={80}
+                  height={80}
+                  alt="User Profile"
+                />
+              </div>
+            </>
+          )}
+          <ModeToggle />
+          <Button onClick={() => setMenuOpen(!menuOpen)} variant="ghost">
+            {menuOpen ? <X /> : <Menu />}
           </Button>
         </div>
       </div>
@@ -164,14 +171,9 @@ export default function Navbar() {
             );
           })}
           {isLoggedIn ? (
-            <div className="flex flex-col gap-2 items-center w-full mt-2">
-              <Button className="px-4 py-1 bg-ss-red-505 text-white rounded-full hover:bg-red-700 transition w-full h-auto border-0">
-                My Network
-              </Button>
-              <Button variant="ghost" size="icon">
-                <Bell />
-              </Button>
-            </div>
+            <Button className="px-4 py-1 bg-ss-red-505 text-white rounded-full hover:bg-red-700 transition w-full mt-2 h-auto border-0">
+              My Network
+            </Button>
           ) : (
             <Button
               onClick={toggleLogin}

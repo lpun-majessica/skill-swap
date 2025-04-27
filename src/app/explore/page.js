@@ -2,7 +2,7 @@ import UserCard from "@/components/UserCard/UserCard";
 
 export default function ExplorePage() {
 	return (
-		<div className="flex flex-row items-start min-h-screen p-24">
+		<div className="flex flex-row items-start min-h-screen px-20 py-10">
 			{/* Filter */}
 			<div className="flex flex-col items-center mr-8">
 				<h1 className="text-4xl font-bold mb-4">Filter</h1>

@@ -155,18 +155,10 @@ export default function Navbar() {
                 href={item.href}
                 className={clsx(
                   "relative group transition py-2 w-full",
-                  isActive && "font-semibold"
+                  isActive && "font-bold"
                 )}
               >
                 {item.label}
-                <span
-                  className={clsx(
-                    "absolute bottom-0 left-0 w-full h-[2px] bg-ss-red-505 transition-opacity duration-300",
-                    isActive
-                      ? "opacity-100"
-                      : "opacity-0 group-hover:opacity-100"
-                  )}
-                />
               </Link>
             );
           })}

@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import Logo from "./logo";
 import { useTheme } from "next-themes";
 import { ModeToggle } from "../common/mode-toggle";
+import { navItems } from "@/lib/constant";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -25,12 +26,6 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const navItems = [
-    { label: "Home", href: "/" },
-    { label: "Explore", href: "/explore" },
-    { label: "About us", href: "/about" },
-  ];
 
   // For demo, toggle login state
   const toggleLogin = () => {

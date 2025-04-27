@@ -1,20 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Facebook, Twitter, Github } from "lucide-react";
 import Logo from "./logo";
 import { useTheme } from "next-themes";
+import { navItems } from "@/lib/constant";
 
 export default function Footer() {
-  const navItems = [
-    { label: "Home", href: "/" },
-    { label: "Explore", href: "/explore" },
-    { label: "About us", href: "/about" },
-  ];
-
-  const { resolvedTheme } = useTheme();
-  const isDarkMode = resolvedTheme === "dark";
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
 
   return (
     <footer className="w-full py-8 border-t bg-white dark:bg-ss-black-717 border-gray-200 dark:border-ss-black-929 text-black dark:text-white">

@@ -10,7 +10,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 
-import { Button, DropDownButton } from "@/components/common/Buttons";
+import { Button, PopUpButton } from "@/components/common/Buttons";
 import { SkillDisplay } from "./SkillDisplay";
 
 import { UserRoundPlus } from "lucide-react";
@@ -61,8 +61,8 @@ export default function UserCard({
 			</CardContent>
 
 			<CardFooter className="flex flex-row mt-1 -mb-1 lg:mt-2 lg:mb-0 flex-wrap justify-center gap-2">
-				<DropDownButton variant="pending" username={username} />
-				<DropDownButton variant="connected" username={username} />
+				<PopUpButton variant="pending" username={username} />
+				<PopUpButton variant="connected" username={username} />
 				<Button text="Accept" />
 				<Button text="Connect">
 					<UserRoundPlus />

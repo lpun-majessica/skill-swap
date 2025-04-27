@@ -9,7 +9,7 @@ import { SkillBadge } from "../common/SkillBadge";
 export function SkillDisplay({ fullname, header, skills }) {
 	const containerWidth = 254;
 	const paddingWidth = 5;
-	const wordWidth = 12;
+	const wordWidth = 10;
 	let maxSkillDisplay = 0;
 
 	skills.reduce((currentWidth, skill) => {
@@ -48,7 +48,7 @@ export function SkillDisplay({ fullname, header, skills }) {
 								variant="link"
 								className="p-1 text-xs text-ss-black-444 dark:text-ss-light-555 font-bold hover:cursor-pointer hover:underline decoration-1 justify-center"
 							>
-								+{skills.length - maxSkillDisplay} skills
+								+{skills.length - maxSkillDisplay}
 							</p>
 						</PopoverTrigger>
 					)}

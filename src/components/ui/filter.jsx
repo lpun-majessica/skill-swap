@@ -106,14 +106,14 @@ export default function Filter({ onFilterChange }) {
           <div className="mt-auto grid grid-cols-2 gap-2 pt-4">
         <button
           onClick={handleClearAll}
-          className="text-sm w-full py-2 bg-gray-200 dark:bg-gray-400 dark:text-white text-black rounded-md font-semibold"
+          className="text-sm w-full py-2 bg-gray-200 dark:bg-gray-400 dark:text-white text-black rounded-md font-semibold hover:bg-gray-200 dark:hover:bg-gray-500 transition-colors"
         >
           Clear all
         </button>
   
         <button
           onClick={() => setIsMobileFilterOpen(true)}
-          className="text-sm w-full flex items-center justify-center gap-1 py-2 bg-gray-100 dark:bg-gray-400 text-black dark:text-white rounded-md text-sm font-semibold hover:bg-gray-500 dark:hover:bg-black transition-colors"
+          className="text-sm w-full flex items-center justify-center gap-1 py-2 bg-gray-100 dark:bg-gray-400 text-black dark:text-white rounded-md font-semibold hover:bg-gray-200 dark:hover:bg-gray-500 transition-colors"
         >
           Filter
         </button>
@@ -159,7 +159,7 @@ function FilterBody({
           placeholder="Search skills"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="rounded-full bg-gray-100 dark:bg-black text-left text-xs sm:text-sm text-gray-200 dark:text-gray-200"
+          className="rounded-full bg-gray-100 dark:bg-black text-left text-xs sm:text-sm text-black dark:text-gray-200"
         />
       </div>
 
@@ -170,8 +170,8 @@ function FilterBody({
         {/* Sticky header */}
         <div className="grid grid-cols-3 items-center gap-1 sm:gap-2 px-1 sm:px-2 py-2 sticky top-0 bg-white dark:bg-black z-10">
           <div className="text-xs sm:text-sm font-semibold text-left text-black dark:text-white">Skills</div>
-          <div className="text-xs sm:text-sm font-semibold text-center text-gray-500 dark:text-gray-200">Teach</div>
-          <div className="text-xs sm:text-sm font-semibold text-center text-gray-500 dark:text-gray-200">Learn</div>
+          <div className="text-xs sm:text-sm font-semibold text-center text-gray-400 dark:text-gray-200">Teach</div>
+          <div className="text-xs sm:text-sm font-semibold text-center text-gray-400 dark:text-gray-200">Learn</div>
         </div>
 
         {sortedSkills.map((skill) => (

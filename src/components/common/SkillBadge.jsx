@@ -1,25 +1,9 @@
 import { Badge } from "@/components/ui/badge";
 
-export function SkillBadge({ skill }) {
-	return (
-		<Badge
-			className={
-				"rounded-xl bg-stone-300 dark:bg-stone-600 text-stone-600 dark:text-stone-200"
-			}
-		>
-			{skill}
-		</Badge>
-	);
-}
+export function SkillBadge({ isMatch, skill }) {
+	const className = isMatch
+		? "rounded-xl bg-ss-red-ABA dark:bg-ss-red-666 border-[1.75px] border-ss-red-444 dark:border-ss-red-999 text-ss-red-404 dark:text-ss-light-555"
+		: "rounded-xl bg-ss-light-222 dark:bg-ss-black-444 text-ss-black-131 dark:text-ss-light-555";
 
-export function MatchingSkillBadge({ skill }) {
-	return (
-		<Badge
-			className={
-				"rounded-xl bg-red-300 dark:bg-red-400/80 border-[1.75px] border-red-700 dark:border-red-300 text-red-900 dark:text-red-100"
-			}
-		>
-			{skill}
-		</Badge>
-	);
+	return <Badge className={className}>{skill}</Badge>;
 }

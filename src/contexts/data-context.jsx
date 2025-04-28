@@ -94,6 +94,49 @@ export function DataProvider({ children }) {
     return filtered;
   };
 
+  // Get the list of users based on connection status
+  const getConnectionLists = (currentUserId) => {
+    const accepted = connections
+      .filter(
+        (conn) =>
+          conn.isAccepted &&
+          (conn.sender_id === currentUserId ||
+            conn.receiver_id === currentUserId)
+      )
+      .map((conn) =>
+        conn.sender_id === currentUserId ? conn.receiver_id : conn.sender_id
+      );
+
+    const pendingSent = connections
+      .filter((conn) => !conn.isAccepted && conn.sender_id === currentUserId)
+      .map((conn) => conn.receiver_id);
+
+    const pendingReceived = connections
+      .filter((conn) => !conn.isAccepted && conn.receiver_id === currentUserId)
+      .map((conn) => conn.sender_id);
+
+    return { accepted, pendingSent, pendingReceived };
+  };
+
+  // Get users by type
+  const getUsersByStatus = (currentUserId, type) => {
+    const { accepted, pendingSent, pendingReceived } =
+      getConnectionLists(currentUserId);
+
+    switch (type) {
+      case "all":
+        return getFilteredUsers(currentUserId); 
+      case "connections":
+        return users.filter((user) => accepted.includes(user.id));
+      case "pending":
+        return users.filter((user) => pendingSent.includes(user.id));
+      case "requests":
+        return users.filter((user) => pendingReceived.includes(user.id));
+      default:
+        return [];
+    }
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -109,6 +152,7 @@ export function DataProvider({ children }) {
         searchKeyword,
         setSearchKeyword,
         getFilteredUsers,
+        getUsersByStatus,
       }}
     >
       {children}

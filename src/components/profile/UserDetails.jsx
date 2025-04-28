@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import EditProfilePopup from "./EditProfilePopup"; // nhớ import
+import EditProfilePopup from "./EditProfilePopup";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -14,11 +14,13 @@ const UserDetails = ({ user, isEditable = true }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("userProfile");
-    if (savedUser) {
-      setUserData(JSON.parse(savedUser));
+    if (isEditable) {
+      const savedUser = localStorage.getItem("userProfile");
+      if (savedUser) {
+        setUserData(JSON.parse(savedUser));
+      }
     }
-  }, []);
+  }, [isEditable]);
 
   const handleEditClick = () => setShowPopup(true);
   const handleClosePopup = () => setShowPopup(false);
@@ -70,7 +72,7 @@ const UserDetails = ({ user, isEditable = true }) => {
       {isEditable && (
         <button
           onClick={handleEditClick}
-          className="mt-2 px-4 py-2 bg-gray-300 rounded hover:bg-ss-red-404 hover:text-ss-light-FFF"
+          className="mt-2 px-4 py-2 bg-gray-300 dark:bg-ss-black-444 dark:hover:bg-ss-red-505 rounded hover:bg-ss-red-404 hover:text-ss-light-FFF"
         >
           Edit profile
         </button>

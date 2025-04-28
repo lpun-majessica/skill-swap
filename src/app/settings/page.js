@@ -16,10 +16,10 @@ export default function SettingsPage() {
   if (!user) return <div>Loading...</div>;
 
   return (
-    <div className="min-h-screen flex justify-center mt-28">
+    <div className="flex justify-center mt-28 mb-10">
       <div className="flex flex-col lg:flex-row gap-10">
         <UserDetails user={user} isEditable={true}/>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 ">
           {user && (
             <>
               <SkillSection title="Teach" skillKey="teach" userSkills={user.teach} />

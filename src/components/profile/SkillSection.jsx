@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import React, { useEffect, useState, useRef } from 'react';
 import { SKILLS } from '@/lib/constant';
 import './profile.css';
+import { Checkbox } from '../ui/checkbox';
 
 const SkillSection = ({ title, skillKey, userSkills = [] }) => {
   const localStorageKey = `selectedSkills_${skillKey}`;
@@ -97,7 +98,7 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
 
 
   return (
-    <div className="w-lg bg-white p-6 rounded-2xl shadow-lg">
+    <div className="mx-auto w-sm sm:w-md max-w-lg md:w-md lg:w-md bg-white p-6 rounded-2xl shadow-lg dark:bg-ss-black-929">
       <h3 className="font-semibold text-lg mb-2">{title}</h3>
       <div className="relative" ref={dropdownRef}>
         <input
@@ -106,21 +107,20 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onClick={handleDropdownToggle}
-          className="w-full p-2 border rounded-2xl bg-ss-light-777"
+          className="w-full p-2 border rounded-2xl bg-ss-light-777 dark:bg-ss-black-131 dark:focus:border-ss-black-444"
         />
 
         {openDropdown && (
-          <div className="absolute z-10 mt-1 bg-ss-light-777 border rounded-2xl shadow max-h-40 overflow-auto w-full dropdown-scroll">
+          <div className="absolute z-10 mt-1 bg-ss-light-777 border rounded-2xl shadow max-h-40 overflow-auto w-full dropdown-scroll dark:bg-ss-black-131">
             {displayedSkills.map((skill) => (
               <label
                 key={skill}
-                className="flex items-center justify-between px-4 py-2 hover:bg-gray-100"
+                className="flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-ss-black-444"
               >
                 <span>{skill}</span>
-                <input
-                  type="checkbox"
+                <Checkbox
                   checked={selectedSkills.includes(skill)}
-                  onChange={() => handleCheckboxChange(skill)}
+                  onCheckedChange={(checked) => handleCheckboxChange(skill)}                
                 />
               </label>
             ))}
@@ -132,7 +132,7 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
         {selectedSkills.map((skill) => (
           <div
             key={skill}
-            className="group flex items-center bg-gray-200 text-sm px-3 py-1 rounded-full hover:bg-ss-red-404 hover:text-ss-light-FFF"
+            className="group flex items-center bg-gray-200 text-sm px-3 py-1 rounded-full hover:bg-ss-red-404 hover:text-ss-light-FFF dark:bg-ss-black-444 dark:hover:bg-ss-red-666"
           >
             <span>{skill}</span>
             <button

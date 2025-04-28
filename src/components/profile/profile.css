@@ -20,6 +20,13 @@
     margin-block: 8px; /* Quan trọng: tạo margin đầu/cuối cho track */
   }
   
+  .dark .dropdown-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--color-ss-black-171); /* màu sáng hơn khi dark mode */
+  }
+  
+  .dark .dropdown-scroll::-webkit-scrollbar-track {
+    background: var(--color-ss-black-131); /* nền track tối lại */
+  }
 
   html {
     overflow-y: scroll;

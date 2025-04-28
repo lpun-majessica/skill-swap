@@ -1,11 +1,11 @@
 "use client";
 import { Input } from "@/components/ui/input"
-import { Calendar } from "@/components/ui/calendar"; 
+import { DatePickerDemo } from "../ui/datepicker";
 import { useState } from "react";
-import { CalendarDays } from 'lucide-react'
+
 
 const EditProfilePopup = ({ userData, onSave, onClose }) => {
-    // const [dob, setDob] = useState(userData.dob); 
+  const [dob, setDob] = useState(userData.dob);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,16 +14,12 @@ const EditProfilePopup = ({ userData, onSave, onClose }) => {
       ...userData,
       fullname: formData.get("fullname"),
       username: formData.get("username"),
-      dob: formData.get("dob"),
+      dob: dob,
       job: formData.get("job"),
       bio: formData.get("bio"),
     };
     onSave(updatedUser);
   };
-
-//   const handleDateChange = (selectedDate) => {
-//     setDob(selectedDate); // Update the state when the date is changed
-//   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[4px] z-50">
@@ -46,13 +42,9 @@ const EditProfilePopup = ({ userData, onSave, onClose }) => {
             className="border rounded px-3 py-2"
             required
           />
-          <input
-            type="date"
-            name="dob"
-            defaultValue={userData.dob}
-            className="border rounded px-3 py-2 shadow-xs "
-            required
-          />
+
+          <DatePickerDemo dob={dob} onChangeDob={setDob}/>
+          
           <Input
             type="text"
             name="job"

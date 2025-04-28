@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState } from 'react';
-import usersData from '../lib/data/users.json';
-import connectionsData from '../lib/data/connections.json';
+import { createContext, useContext, useState } from "react";
+import usersData from "../lib/data/users.json";
+import connectionsData from "../lib/data/connections.json";
 
 const DataContext = createContext();
 
@@ -10,9 +10,13 @@ export function DataProvider({ children }) {
   const [users, setUsers] = useState(usersData);
   const [connections, setConnections] = useState(connectionsData);
 
-  // User  
+  // User
   const updateUser = (id, updatedFields) => {
-    setUsers((prev) => prev.map((user) => user.id === id ? { ...user, ...updatedFields } : user));
+    setUsers((prev) =>
+      prev.map((user) =>
+        user.id === id ? { ...user, ...updatedFields } : user
+      )
+    );
   };
 
   // CRUD Connection
@@ -27,7 +31,11 @@ export function DataProvider({ children }) {
   };
 
   const acceptConnection = (connectionId) => {
-    setConnections((prev) => prev.map((conn) => conn.id === connectionId ? { ...conn, isAccepted: true } : conn));
+    setConnections((prev) =>
+      prev.map((conn) =>
+        conn.id === connectionId ? { ...conn, isAccepted: true } : conn
+      )
+    );
   };
 
   const rejectConnection = (connectionId) => {
@@ -38,16 +46,71 @@ export function DataProvider({ children }) {
     setConnections((prev) => prev.filter((conn) => conn.id !== connectionId));
   };
 
+  // Filtered list
+  const [filters, setFilters] = useState({
+    skillsToTeach: [],
+    skillsToLearn: [],
+  });
+
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+  const getFilteredUsers = (currentUserId) => {
+    let filtered = users.filter((user) => user.id !== currentUserId); // Exclude self
+
+    const currentUser = users.find((user) => user.id === currentUserId);
+    if (!currentUser) return [];
+
+    // Determine which skills to use
+    const baseSkillsToTeach =
+      filters.skillsToTeach.length > 0
+        ? filters.skillsToTeach
+        : currentUser.skillsToTeach;
+    const baseSkillsToLearn =
+      filters.skillsToLearn.length > 0
+        ? filters.skillsToLearn
+        : currentUser.skillsToLearn;
+
+    // Filter by skills
+    filtered = filtered.filter((user) => {
+      const teachesMatch = user.skillsToTeach.some((skill) =>
+        baseSkillsToLearn.includes(skill)
+      );
+      const learnsMatch = user.skillsToLearn.some((skill) =>
+        baseSkillsToTeach.includes(skill)
+      );
+      return teachesMatch || learnsMatch;
+    });
+
+    // Filter by search keyword
+    if (searchKeyword.trim() !== "") {
+      const keyword = searchKeyword.toLowerCase();
+      filtered = filtered.filter(
+        (user) =>
+          user.name.toLowerCase().includes(keyword) ||
+          user.username.toLowerCase().includes(keyword)
+      );
+    }
+
+    return filtered;
+  };
+
   return (
-    <DataContext.Provider value={{
-      users,
-      connections,
-      updateUser,
-      createConnection,
-      acceptConnection,
-      rejectConnection,
-      removeConnection
-    }}>
+    <DataContext.Provider
+      value={{
+        users,
+        connections,
+        updateUser,
+        createConnection,
+        acceptConnection,
+        rejectConnection,
+        removeConnection,
+        filters,
+        setFilters,
+        searchKeyword,
+        setSearchKeyword,
+        getFilteredUsers,
+      }}
+    >
       {children}
     </DataContext.Provider>
   );
@@ -56,7 +119,7 @@ export function DataProvider({ children }) {
 export function useDataContext() {
   const context = useContext(DataContext);
   if (!context) {
-    throw new Error('useDataContext must be used within a DataProvider');
+    throw new Error("useDataContext must be used within a DataProvider");
   }
   return context;
 }

@@ -3,7 +3,7 @@ import users from '../lib/data/users.json';
 export const login = (username) => {
     const user = users.find((u) => u.username === username);
     if (user) {
-        localStorage.setItem('user', JSON.stringify({ username }));
+        localStorage.setItem('user', JSON.stringify(user));
         return true;
     }    
 

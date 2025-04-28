@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { login } from '../../utils/auth';
@@ -19,9 +20,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 font-sans">
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-3 font-sans">
       {/* Left Side */}
-      <div className="bg-red-600 text-white flex flex-col justify-center relative overflow-hidden">
+      <div className="bg-red-600 text-white flex flex-col justify-center relative overflow-hidden md:col-span-1">
         <div className="pl-35 pt-10">
           <h1 className="text-4xl font-bold mb-4 z-10">Welcome back!</h1>
           <p className="text-xl z-10">Time to enhance your tech skills</p>
@@ -36,7 +37,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right Side */}
-      <div className="bg-white relative">
+      <div className="bg-white relative md:col-span-2">
         <div className="absolute right-5">
           <ModeToggle/>
         </div>

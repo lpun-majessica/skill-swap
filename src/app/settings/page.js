@@ -16,7 +16,7 @@ export default function SettingsPage() {
   if (!user) return <div>Loading...</div>;
 
   return (
-    <div className="min-h-screen flex justify-center bg-gray-50 p-6">
+    <div className="min-h-screen flex justify-center mt-28">
       <div className="flex flex-col lg:flex-row gap-10">
         <UserDetails user={user} isEditable={true}/>
         <div className="flex flex-col gap-6">

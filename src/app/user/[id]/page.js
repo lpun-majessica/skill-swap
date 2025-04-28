@@ -17,12 +17,12 @@ export default async function UserProfile(props) { //Nextjs 15 yêu cầu
   }
 
   return (
-    <div className="flex justify-center gap-10 mt-10 flex-wrap">
+    <div className="flex justify-center gap-10 mt-25 mx-10 flex-wrap bg-ss-light-FFF dark:bg-ss-black-121">
       {/* Left: user details */}
       <UserDetails user={user} isEditable={false} />
 
       {/* Right: skills */}
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 items-center">
         <SkillDisplay title="Skills to Teach" skills={user.teach} />
         <SkillDisplay title="Skills to Learn" skills={user.learn} />
       </div>

@@ -30,38 +30,38 @@ const UserDetails = ({ user, isEditable = true }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center w-lg h-fit">
+    <div className=" mx-5 md:mx-0 w-sm lg:w-lg md:w-md sm:w-md bg-white dark:bg-ss-black-929 rounded-2xl shadow-lg inset-shadow-2xs p-6 flex flex-col items-center h-fit">
       <Image src={`/pfp/${userData.id}.jpeg`} alt="Avatar" width={160} height={160} className="rounded-full" />
       <h2 className="text-xl font-bold mt-4">{userData.fullname}</h2>
-      <h4 className="text-ss-red-444 text-base mt-2">{userData.job}</h4>
+      <h4 className="text-ss-red-444 text-base mt-1">{userData.job}</h4>
       {!isEditable && (
         <button className="font-semibold text-ss-light-FFF mt-4 px-6 py-2 bg-ss-red-404 rounded-full hover:bg-ss-light-777 hover:text-ss-black-717">
           Connect
         </button>
       )}
-      <div className="border border-gray-300 rounded-2xl p-6 flex flex-col items-center my-4 w-90">
+      <div className="w-78 px-5 border border-gray-300 dark:border-ss-black-131 rounded-2xl py-4 sm:px-6 flex flex-col items-center my-4 sm:w-90">
         <div className="flex flex-col gap-4 w-full">
           {/* Username */}
           <div>
-            <p className="text-sm font-semibold text-gray-900 mb-1">User name</p>
-            <div className="bg-gray-100 rounded-xl px-4 py-2">
-              <span className="text-gray-500 text-sm">@{userData.username}</span>
+            <p className="text-sm font-semibold text-gray-900 mb-1 dark:text-ss-light-FFF">User name</p>
+            <div className="bg-gray-100 rounded-xl px-4 py-2 dark:bg-ss-black-121 w-full">
+              <span className="text-gray-500 text-sm dark:text-ss-light-333">@{userData.username}</span>
             </div>
           </div>
 
           {/* Date of Birth */}
           <div>
-            <p className="text-sm font-semibold text-gray-900 mb-1">Date of Birth</p>
-            <div className="bg-gray-100 rounded-xl px-4 py-2">
-              <span className="text-gray-500 text-sm">{formatDate(userData.dob)}</span>
+            <p className="text-sm font-semibold text-gray-900 mb-1 dark:text-ss-light-FFF">Date of Birth</p>
+            <div className="bg-gray-100 rounded-xl px-4 py-2 dark:bg-ss-black-121">
+              <span className="text-gray-500 text-sm dark:text-ss-light-333">{formatDate(userData.dob)}</span>
             </div>
           </div>
 
           {/* Bio */}
           <div>
-            <p className="font-medium text-gray-700">Bio:</p>
-            <div className="bg-gray-100 rounded-xl px-4 py-2 h-20">
-              <span className="text-gray-500 text-sm">{userData.bio}</span>
+            <p className="font-medium text-gray-700 dark:text-ss-light-FFF">Bio:</p>
+            <div className="bg-gray-100 rounded-xl px-4 py-2 h-20 dark:bg-ss-black-121">
+              <span className="text-gray-500 text-sm dark:text-ss-light-333">{userData.bio}</span>
             </div>
           </div>
         </div>

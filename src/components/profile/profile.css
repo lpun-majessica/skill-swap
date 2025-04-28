@@ -20,3 +20,7 @@
     margin-block: 8px; /* Quan trọng: tạo margin đầu/cuối cho track */
   }
   
+
+  html {
+    overflow-y: scroll;
+  }

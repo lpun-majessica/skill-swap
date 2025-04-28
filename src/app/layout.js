@@ -1,6 +1,7 @@
 import { ModeToggle } from "@/components/common/mode-toggle";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = {
   title: "SkillSwap",
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
             </div>
           </nav>
           {children}
+          <Toaster expand={true} />
         </ThemeProvider>
       </body>
     </html>

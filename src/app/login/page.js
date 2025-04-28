@@ -19,25 +19,26 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 font-sans">
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-5 font-sans">
       {/* Left Side */}
-      <div className="bg-red-600 text-white flex flex-col justify-center relative overflow-hidden">
-        <div className="pl-35 pt-10">
-          <h1 className="text-4xl font-bold mb-4 z-10">Welcome back!</h1>
-          <p className="text-xl z-10">Time to enhance your tech skills</p>
+      <div className="bg-red-600 text-white justify-center relative col-span-2">
+        <div className="p-9 text-lg font-bold">SkillSwap</div>
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4 w-full">Welcome back!</h1>
+          <p className="text-xl w-full">Time to enhance your tech skills</p>
         </div>       
-        <div className="relative w-full h-96 z-0">
+        <div className="relative h-96 overflow-visible">
           <img
             src="/pfp/login.png"
             alt="Pending card"
-            className="absolute top-[50px] right-[60px] h-100"
+            className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[300%] h-auto object-contain "
           />          
         </div>
       </div>
 
       {/* Right Side */}
-      <div className="bg-white relative">
-        <div className="absolute right-5">
+      <div className="bg-white flex justify-center relative col-span-3 dark dark:bg-[oklch(0.145_0_0)]">
+        <div className="absolute right-5 p-10">
           <ModeToggle/>
         </div>
         <div className="flex flex-col justify-center items-center px-10 py-20">

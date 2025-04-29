@@ -64,7 +64,12 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             {scrolled && !isDarkMode ? <Logo variant="dark" /> : <Logo />}
-            <span className="font-bold text-lg text-black dark:text-white">
+            <span
+              className={clsx(
+                "font-bold text-lg",
+                scrolled ? "text-black dark:text-white" : "text-white"
+              )}
+            >
               SkillSwap
             </span>
           </Link>
@@ -77,7 +82,10 @@ export default function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="relative transition px-1 py-2 group text-black dark:text-white focus:outline-none focus:ring-0"
+                  className={clsx(
+                    "relative transition px-1 py-2 group focus:outline-none focus:ring-0",
+                    scrolled ? "text-black dark:text-white" : "text-white"
+                  )}
                 >
                   {item.label}
                   <span
@@ -104,9 +112,11 @@ export default function Navbar() {
               >
                 My Network
               </Link>
-              <Button variant="ghost" size="icon">
-                <Bell />
-              </Button>
+              <Link href="/my-network">
+                <Button variant="ghost" size="icon">
+                  <Bell />
+                </Button>
+              </Link>
 
               {/* Profile dropdown - desktop */}
               <DropdownMenu>
@@ -209,11 +219,7 @@ export default function Navbar() {
               <div className="w-full">
                 <Link
                   href="/my-network"
-                  className={clsx(
-                    "flex justify-start px-4 py-2 text-sm rounded-md w-full my-1",
-                    "hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors",
-                    pathname === "/my-network" && "font-bold"
-                  )}
+                  className="flex justify-start px-4 py-2 text-sm rounded-md w-full my-1 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
                   onClick={() => setMenuOpen(false)}
                 >
                   <span>Notification</span>

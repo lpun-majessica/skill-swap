@@ -28,7 +28,7 @@ export default function LoginPage() {
         </div>
         <div className="relative h-96 overflow-visible">
           <img
-            src="/pfp/login.png"
+            src="/pfp/login-1.svg"
             alt="Pending card"
             className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[300%] h-auto object-contain "
           />
@@ -38,7 +38,7 @@ export default function LoginPage() {
       {/* Right Side */}
       <div className="bg-white flex justify-center relative col-span-3 md:col-span-3 dark dark:bg-[oklch(0.145_0_0)]">        
         <div className="absolute right-5 p-10 z-10 flex justify-between items-center w-full">
-          <div className="text-left"><div className="p-9 text-lg font-bold md:hidden visible text-left">SkillSwap</div></div>
+          <div className="text-left"><div className="p-9 font-bold md:hidden visible text-left">SkillSwap</div></div>
           
           <div className="text-right"><ModeToggle /></div>          
         </div>

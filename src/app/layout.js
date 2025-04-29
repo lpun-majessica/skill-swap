@@ -1,5 +1,6 @@
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 
@@ -9,10 +10,10 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-	return (
-		<html lang="en" suppressHydrationWarning>
-			<head />
-			<body>
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head />
+      <body>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
 					<Navbar />
 					{children}

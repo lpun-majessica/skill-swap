@@ -1,12 +1,14 @@
-import { ModeToggle } from "@/components/common/mode-toggle";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { DataProvider } from '@/contexts/data-context';
 import {AuthProvider} from '@/contexts/auth-context';
+import { Toaster } from "@/components/ui/sonner";
+import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
 
 export const metadata = {
-  title: "SkillSwap",
-  description: "SkillSwap - A platform for skill exchange",
+	title: "SkillSwap",
+	description: "SkillSwap - A platform for skill exchange",
 };
 
 export default function RootLayout({ children }) {
@@ -16,17 +18,11 @@ export default function RootLayout({ children }) {
       <body>
         <AuthProvider>
           <DataProvider>
-            <ThemeProvider>
-              <nav>
-                <div className="flex items-center justify-between shadow-2xl shadow-accent p-4 ">
-                  <div className="text-lg font-bold">SkillSwap</div>
-                  <div className="flex space-x-4">
-                    <ModeToggle />
-                  </div>
-                </div>
-              </nav>
-              {children}
-            </ThemeProvider>
+				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+					<Navbar />
+					{children}
+					<Footer />
+				</ThemeProvider>
           </DataProvider>
         </AuthProvider>
       </body>

@@ -49,13 +49,17 @@ export default function Navbar() {
   const { resolvedTheme } = useTheme();
   const isDarkMode = resolvedTheme === "dark";
 
+  const isHomePage = pathname === "/";
+
   return (
     <nav
       className={clsx(
         "fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b",
-        scrolled
-          ? "bg-white dark:bg-ss-black-717 shadow-md border-gray-200 dark:border-ss-black-131"
-          : "bg-transparent border-transparent"
+        isHomePage
+          ? scrolled
+            ? "bg-white dark:bg-ss-black-717 shadow-md border-gray-200 dark:border-ss-black-131"
+            : "bg-transparent border-transparent"
+          : "bg-white dark:bg-ss-black-717 border-gray-200 dark:border-ss-black-131"
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
@@ -63,11 +67,25 @@ export default function Navbar() {
         <div className="flex items-center gap-8">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            {scrolled && !isDarkMode ? <Logo variant="dark" /> : <Logo />}
+            {isHomePage ? (
+              scrolled && !isDarkMode ? (
+                <Logo variant="dark" />
+              ) : (
+                <Logo />
+              )
+            ) : !isDarkMode ? (
+              <Logo variant="dark" />
+            ) : (
+              <Logo />
+            )}
             <span
               className={clsx(
                 "font-bold text-lg",
-                scrolled ? "text-black dark:text-white" : "text-white"
+                isHomePage
+                  ? scrolled
+                    ? "text-black dark:text-white"
+                    : "text-white"
+                  : "text-black dark:text-white"
               )}
             >
               SkillSwap
@@ -84,7 +102,11 @@ export default function Navbar() {
                   href={item.href}
                   className={clsx(
                     "relative transition px-1 py-2 group focus:outline-none focus:ring-0",
-                    scrolled ? "text-black dark:text-white" : "text-white"
+                    isHomePage
+                      ? scrolled
+                        ? "text-black dark:text-white"
+                        : "text-white"
+                      : "text-black dark:text-white"
                   )}
                 >
                   {item.label}

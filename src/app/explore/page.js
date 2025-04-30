@@ -1,6 +1,5 @@
 "use client";
 import Filter from "@/components/ui/filter";
-import USERS from "@/lib/data/users";
 
 export default function ExplorePage() {
   return (

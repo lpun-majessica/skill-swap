@@ -98,7 +98,7 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
 
 
   return (
-    <div className="mx-auto w-sm sm:w-md max-w-lg md:w-md lg:w-md bg-white p-6 rounded-2xl shadow-lg dark:bg-ss-black-929">
+    <div className="mx-auto w-sm sm:w-md max-w-lg md:w-md lg:w-md bg-white p-6 rounded-2xl shadow-lg inset-shadow-2xs  dark:bg-ss-black-929">
       <h3 className="font-semibold text-lg mb-2">{title}</h3>
       <div className="relative" ref={dropdownRef}>
         <input

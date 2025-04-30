@@ -1,6 +1,4 @@
-import { Fragment } from "react";
-import UserCard from "@/components/UserCard/UserCard";
-import { ConnectionFilter } from "@/components/ConnectionFilter";
+import { MyNetWorkUserList } from "@/components/user-list/my-network-user-list";
 
 export default function MyNetworkPage() {
 	return (
@@ -12,56 +10,8 @@ export default function MyNetworkPage() {
 					<h2 className="text-xl font-bold">Filter Options</h2>
 				</div>
 			</div>
-
 			<div>
-				<ConnectionFilter />
-
-				<div className="flex flex-row flex-wrap justify-center items-center gap-4">
-					<UserCard
-						{...{
-							id: 1,
-							fullname: "Alex Johnson",
-							username: "alexj",
-							teach: ["JavaScript", "HTML", "CSS"],
-							learn: ["UI/UX Design", "React"],
-							bio: "Frontend developer who loves clean code.",
-							dob: "1994-06-15",
-						}}
-					/>
-					<UserCard
-						{...{
-							id: 2,
-							fullname: "Bella Martinez",
-							username: "bella.design",
-							teach: ["UI/UX Design"],
-							learn: ["JavaScript"],
-							bio: "Designer curious about frontend dev.",
-							dob: "1996-11-03",
-						}}
-					/>
-					<UserCard
-						{...{
-							id: 4,
-							fullname: "Dana Kim",
-							username: "dana.codes",
-							teach: ["TypeScript", "JavaScript"],
-							learn: ["React", "GraphQL"],
-							bio: "Always learning. TypeScript advocate.",
-							dob: "1995-09-30",
-						}}
-					/>
-					<UserCard
-						{...{
-							id: 18,
-							fullname: "Rosa Delgado",
-							username: "rosadelgado",
-							teach: ["UI/UX Design", "Prototyping", "Design Systems"],
-							learn: ["JavaScript"],
-							bio: "UX researcher turned visual designer.",
-							dob: "1991-03-17",
-						}}
-					/>
-				</div>
+				<MyNetWorkUserList />
 			</div>
 		</div>
 	);

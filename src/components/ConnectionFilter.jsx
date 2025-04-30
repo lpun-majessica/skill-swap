@@ -1,18 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "./ui/button";
 
-const filterText = ["All", "My connections", "Pending", "Request"];
-
-export function ConnectionFilter() {
-	const [activeButton, setActiveButton] = useState(0);
-
+export function ConnectionFilter({
+	filterText,
+	activeButton,
+	setActiveButton,
+}) {
 	return (
 		<div className="flex flex-row gap-2 mb-5">
-			{filterText.map((text, index) => (
+			{Object.entries(filterText).map(([key, text], index) => (
 				<ConnectionFilterButton
-					key={index}
+					key={key}
 					text={text}
 					active={activeButton === index}
 					handleClick={() => setActiveButton(index)}

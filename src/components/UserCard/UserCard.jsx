@@ -1,4 +1,16 @@
 "use client";
+
+// Demo purpose
+const currentUser = {
+	id: 1,
+	fullname: "Alex Johnson",
+	username: "alexj",
+	teach: ["JavaScript", "HTML", "CSS"],
+	learn: ["UI/UX Design", "React"],
+	bio: "Frontend developer who loves clean code.",
+	dob: "1994-06-15",
+};
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	Card,
@@ -13,6 +25,8 @@ import { SkillDisplay } from "./SkillDisplay";
 import { UserRoundPlus } from "lucide-react";
 import Link from "next/link";
 
+import { useDataContext } from "@/contexts/data-context";
+
 export default function UserCard({
 	id,
 	fullname,
@@ -21,6 +35,12 @@ export default function UserCard({
 	learn,
 	bio,
 }) {
+	const connection = useDataContext().connections.filter(
+		(conn) =>
+			(conn.sender_id === id && conn.receiver_id === currentUser.id) ||
+			(conn.sender_id === currentUser.id && conn.receiver_id === id)
+	);
+
 	const fallbackName = fullname
 		.split(" ")
 		.map((word) => word[0].toUpperCase())
@@ -30,7 +50,7 @@ export default function UserCard({
 		<>
 			<Card className="relative w-3xs lg:w-2xs bg-ss-light-777 dark:bg-ss-black-131">
 				<Link href={`/user/${id}`} className="absolute inset-0" />
-				<Avatar className="-mt-1 lg:mt-0 size-16 lg:size-20 mx-auto">
+				<Avatar className="-mt-1 lg:mt-0 size-16 lg:size-18 mx-auto">
 					<AvatarImage
 						className="size-fit"
 						src={`pfp/${id}.jpeg`}
@@ -53,22 +73,48 @@ export default function UserCard({
 				</CardHeader>
 
 				<CardContent className="relative -mt-2 -mb-1">
-					<SkillDisplay fullname={fullname} header="Teaching" skills={teach} />
+					<SkillDisplay
+						fullname={fullname}
+						header="Teaching"
+						skills={teach}
+						currentUserSkills={currentUser.learn}
+					/>
 					<hr className="mt-3 mb-1 border-ss-light-333 dark:border-ss-black-444" />
-					<SkillDisplay fullname={fullname} header="Learning" skills={learn} />
+					<SkillDisplay
+						fullname={fullname}
+						header="Learning"
+						skills={learn}
+						currentUserSkills={currentUser.teach}
+					/>
 				</CardContent>
 
-				<CardFooter className="flex flex-row mt-1 -mb-1 lg:mt-2 lg:mb-0 flex-wrap justify-center gap-2">
-					<PopUpButton variant="pending" username={username} />
-					<PopUpButton variant="connected" username={username} />
-					<Button text="Accept" username={username} />
-					<Button text="Connect" username={username}>
-						<UserRoundPlus />
-					</Button>
+				<CardFooter className="flex flex-row -mb-1 lg:mb-0 flex-wrap justify-center gap-2">
+					<ConnectionsButtons connection={connection} username={username} />
 				</CardFooter>
 			</Card>
 		</>
 	);
+}
+
+function ConnectionsButtons({ connection, username }) {
+	if (connection.length === 0) {
+		return (
+			<Button text="Connect" username={username}>
+				<UserRoundPlus />
+			</Button>
+		);
+	} else if (connection[connection.length - 1].isAccepted) {
+		return <PopUpButton variant="connected" username={username} />;
+	} else if (connection[connection.length - 1].sender_id === currentUser.id) {
+		return <PopUpButton variant="pending" username={username} />;
+	} else if (connection[connection.length - 1].receiver_id === currentUser.id) {
+		return (
+			<>
+				<Button text="Decline" username={username} />
+				<Button text="Accept" username={username} />
+			</>
+		);
+	}
 }
 
 function shortenBio(bio, maxLength = 50) {

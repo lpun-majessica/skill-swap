@@ -11,16 +11,11 @@ export default function ExplorePage() {
         {/* <p className="mb-8">Select your preferences.</p> */}
         {/* <div className="bg-white shadow-md rounded-lg p-4 w-full"> */}
           {/* <h2 className="text-xl font-bold mb-4">Filter Options</h2> */}
-          <Filter
-            onFilterChange={(userIds) => {
-              console.log("Show these users:", userIds);
-            }}
-          />
+          
+          <Filter/>
         </div>
-      {/* </div> */}
 
       {/* Main content */}
-
     </div>
   );
 }

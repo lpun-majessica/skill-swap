@@ -1,12 +1,11 @@
-"use client";
-
+// "use client";
 import { useState, useEffect } from "react";
 import { SKILLS } from "@/lib/constant";
 import { Input } from "@/components/ui/input";
 import { Filter as FilterIcon, X } from "lucide-react";
 import USERS from "@/lib/data/users";
 
-export default function Filter({ onFilterChange }) {
+export default function Filter() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTeach, setSelectedTeach] = useState([]);
   const [selectedLearn, setSelectedLearn] = useState([]);
@@ -46,9 +45,8 @@ export default function Filter({ onFilterChange }) {
       return matchesTeach || matchesLearn;
     }).map((user) => user.id);
 
-    if (onFilterChange) {
-      onFilterChange(matched);
-    }
+    // For debugging purposes, log the matched user IDs
+    console.log("Matched user IDs: ", matched);
   }, [selectedTeach, selectedLearn]);
 
   return (
@@ -180,7 +178,7 @@ function FilterBody({
             className="grid grid-cols-[3.5fr_1fr_1fr] gap-1 sm:gap-2 px-1 sm:px-2 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-300 transition-colors duration-300"
           >
             <div className="flex justify-start items-center">
-            <span className="bg-ss-light-222 dark:bg-ss-black-444 whitespace-nowrap rounded-full px-2 py-0.5 text-[12px] sm:text-[19px] md:text-[11px] font-medium text-black dark:text-white">
+            <span className="bg-ss-light-222 dark:bg-ss-black-444 whitespace-nowrap rounded-full px-2 py-0.5 text-[12px] sm:text-[11px] md:text-[11px] font-medium text-black dark:text-white">
                {skill}
             </span>
 

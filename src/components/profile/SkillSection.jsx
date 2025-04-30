@@ -30,13 +30,29 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
   useEffect(() => {
     const stored = localStorage.getItem(localStorageKey);
     if (stored) {
-      setSelectedSkills(JSON.parse(stored));
+      const parsedSkills = JSON.parse(stored);
+      if (JSON.stringify(parsedSkills) !== JSON.stringify(selectedSkills)) {
+        setSelectedSkills(parsedSkills);
+      }
     } else {
-      // save to localStorage
-      setSelectedSkills(userSkills);
-      localStorage.setItem(localStorageKey, JSON.stringify(userSkills));
+      // Nếu không có giá trị trong localStorage, lưu vào localStorage và set state
+      if (JSON.stringify(userSkills) !== JSON.stringify(selectedSkills)) {
+        setSelectedSkills(userSkills);
+        localStorage.setItem(localStorageKey, JSON.stringify(userSkills));
+      }
     }
-  }, [userSkills, localStorageKey]);
+  }, [userSkills, localStorageKey, selectedSkills]);  // Thêm selectedSkills vào dependency
+  
+  useEffect(() => {
+    const stored = localStorage.getItem(localStorageKey);
+    if (stored) {
+      const parsedSkills = JSON.parse(stored);
+      if (!selectedSkills.length || !selectedSkills.some(skill => parsedSkills.includes(skill))) {
+        setSelectedSkills(parsedSkills);
+      }
+    }
+  }, [selectedSkills, localStorageKey]);
+  
 
   // Handle click outside
   useEffect(() => {

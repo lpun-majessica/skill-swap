@@ -45,7 +45,7 @@ export function SkillDisplay({ fullname, header, skills, currentUserSkills }) {
 				{header}
 			</p>
 			<Popover>
-				<div className="flex flex-row gap-1 h-xs">
+				<div className="flex flex-row gap-1 h-6">
 					{displaySkill(maxSkillDisplay)}
 					{skills.length > maxSkillDisplay && (
 						<PopoverTrigger asChild className="ml-auto">

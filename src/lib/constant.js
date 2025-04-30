@@ -38,3 +38,9 @@ export const SKILLS = [
   "SQL",
   "Scala",
 ];
+
+export  const navItems = [
+  { label: "Home", href: "/" },
+  { label: "Explore", href: "/explore" },
+  { label: "About us", href: "/about" },
+];

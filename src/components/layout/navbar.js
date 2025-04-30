@@ -137,7 +137,15 @@ export default function Navbar() {
                 My Network
               </Link>
               <Link href="/my-network">
-                <Button variant="ghost" size="icon">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={clsx(
+                    isHomePage && !scrolled
+                      ? "text-white hover:text-white"
+                      : "text-black dark:text-white"
+                  )}
+                >
                   <Bell />
                 </Button>
               </Link>
@@ -155,7 +163,13 @@ export default function Navbar() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gray-300 dark:bg-gray-700">
-                        <User className="w-5 h-5" />
+                        className=
+                        {clsx(
+                          "w-5 h-5",
+                          isHomePage && !scrolled
+                            ? "text-white"
+                            : "text-black dark:text-white"
+                        )}
                       </div>
                     )}
                   </button>
@@ -184,11 +198,12 @@ export default function Navbar() {
               Log in
             </Button>
           )}
-          <ModeToggle />
+          <ModeToggle isHomePage={isHomePage} scrolled={scrolled} />
         </div>
 
         <div className="md:hidden flex items-center gap-2">
-          <ModeToggle />
+          <ModeToggle isHomePage={isHomePage} scrolled={scrolled} />
+
           <Button
             onClick={() => setMenuOpen(!menuOpen)}
             variant="ghost"

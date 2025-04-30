@@ -35,8 +35,8 @@
     "username": "dana.codes",
     "skillsToTeach": ["TypeScript", "JavaScript"],
     "skillsToLearn": ["React", "GraphQL"],
-    "bio": "Always skillsToLearning. TypeScript advocate.",
-    "dob": "1995-09-30"
+    "bio": "Always learning. TypeScript advocate.",
+    "dob": "1995-09-30",
     "job": "Fullstack Developer"
   },
   {
@@ -75,8 +75,8 @@
     "username": "hannahl.dev",
     "skillsToTeach": ["TypeScript", "React"],
     "skillsToLearn": ["Python", "Django"],
-    "bio": "Strong on frontend, skillsToLearning backend now.",
-    "dob": "1998-12-09"
+    "bio": "Strong on frontend, learning backend now.",
+    "dob": "1998-12-09",
     "job": "Frontend Developer"
   },
   {
@@ -95,8 +95,8 @@
     "username": "julia.p",
     "skillsToTeach": ["Python", "Flask"],
     "skillsToLearn": ["React"],
-    "bio": "Machine skillsToLearning enthusiast entering web dev.",
-    "dob": "1995-10-21"
+    "bio": "Machine learning enthusiast entering web dev.",
+    "dob": "1995-10-21",
     "job": "Machine Learning Engineer"
   },
   {
@@ -155,8 +155,8 @@
     "username": "priya.codes",
     "skillsToTeach": ["JavaScript", "HTML"],
     "skillsToLearn": ["MongoDB"],
-    "bio": "Frontend dev skillsToLearning databases.",
-    "dob": "1998-06-01"
+    "bio": "Frontend dev learning databases.",
+    "dob": "1998-06-01",
     "job": "Frontend Developer"
   },
   {

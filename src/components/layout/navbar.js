@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Menu, X, Bell, User, LogOut } from "lucide-react";
 import Link from "next/link";
 import clsx from "clsx";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import Logo from "./logo";
 import { useTheme } from "next-themes";
@@ -19,12 +19,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { useAuthContext } from "@/contexts/auth-context";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Toggle for demo purposes
+  const router = useRouter();
+  const { currentUser, logout } = useAuthContext();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,14 +38,14 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // For demo, toggle login state
-  const toggleLogin = () => {
-    setIsLoggedIn(!isLoggedIn);
+  const handleLogin = () => {
+    router.push("/login");
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    logout();
     setMenuOpen(false);
+    router.push("/");
   };
 
   const { resolvedTheme } = useTheme();
@@ -74,9 +76,9 @@ export default function Navbar() {
                 <Logo />
               )
             ) : !isDarkMode ? (
-              <Logo variant="dark" />
-            ) : (
               <Logo />
+            ) : (
+              <Logo variant="dark" />
             )}
             <span
               className={clsx(
@@ -126,7 +128,7 @@ export default function Navbar() {
 
         {/* Right: Login or User Info */}
         <div className="hidden md:flex items-center gap-4">
-          {isLoggedIn ? (
+          {currentUser ? (
             <>
               <Link
                 href="/my-network"
@@ -143,13 +145,19 @@ export default function Navbar() {
               {/* Profile dropdown - desktop */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="w-8 h-8 rounded-full overflow-hidden focus:outline-none">
-                    <Image
-                      src="/pfp/1.jpeg"
-                      width={100}
-                      height={100}
-                      alt="User Profile"
-                    />
+                  <button className="w-8 h-8 hover:cursor-pointer rounded-full overflow-hidden focus:outline-none">
+                    {currentUser?.pfp ? (
+                      <Image
+                        src={currentUser.pfp}
+                        width={100}
+                        height={100}
+                        alt={`${currentUser.username}'s Profile`}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-300 dark:bg-gray-700">
+                        <User className="w-5 h-5" />
+                      </div>
+                    )}
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
@@ -170,7 +178,7 @@ export default function Navbar() {
             </>
           ) : (
             <Button
-              onClick={toggleLogin}
+              onClick={handleLogin}
               className="px-6 py-1 rounded-full transition text-white bg-ss-red-505 hover:bg-red-700 h-auto border-0 inline-block"
             >
               Log in
@@ -218,7 +226,7 @@ export default function Navbar() {
             );
           })}
 
-          {isLoggedIn ? (
+          {currentUser ? (
             <>
               {/* Separator line */}
               <div className="h-px bg-gray-200 dark:bg-zinc-800 my-2 w-full" />
@@ -267,14 +275,14 @@ export default function Navbar() {
                   onClick={handleLogout}
                   className="flex justify-start px-4 py-2 text-sm rounded-md w-full my-1 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
                 >
-                  <span>Log Out</span>
+                  Log Out
                 </button>
               </div>
             </>
           ) : (
             <div className="w-full mt-2 px-4 flex justify-center">
               <Button
-                onClick={toggleLogin}
+                onClick={handleLogin}
                 className="px-6 py-1 bg-ss-red-505 text-white rounded-full hover:bg-red-700 transition h-auto border-0 inline-block"
               >
                 Log in

@@ -1,6 +1,6 @@
 'use client';
 
-const { createContext, useState, useEffect } = require("react");
+const { createContext, useState, useEffect, useContext } = require("react");
 import { login as loginUser, logout as logoutUser, getUser } from '@/utils/auth';
 
 const AuthContext = createContext();

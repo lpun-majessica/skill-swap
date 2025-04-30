@@ -5,8 +5,8 @@ import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 
 export const metadata = {
-	title: "SkillSwap",
-	description: "SkillSwap - A platform for skill exchange",
+  title: "SkillSwap",
+  description: "SkillSwap - A platform for skill exchange",
 };
 
 export default function RootLayout({ children }) {
@@ -14,12 +14,13 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <head />
       <body>
-				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-					<Navbar />
-					{children}
-					<Footer />
-				</ThemeProvider>
-			</body>
-		</html>
-	);
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Navbar />
+          {children}
+          <Footer />
+          <Toaster />
+        </ThemeProvider>
+      </body>
+    </html>
+  );
 }

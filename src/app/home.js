@@ -12,7 +12,7 @@ export default function HomePage() {
         <div
           className="absolute inset-0 w-full h-full bg-cover bg-center"
           style={{
-            backgroundImage: "url('/landing_page_picture/hero.jpg')",
+            backgroundImage: "url('/lpp/hero.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -49,7 +49,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-30 ml-30 mr-0">
           {/* Card 1 */}
             <div className="bg-[#F7F7F7] dark:bg-[#292929] rounded-xl shadow-sm p-6 text-left">
-              <img src="/landing_page_picture/share.png" alt="Connect Icon" className="w-6 h-6 mb-2" />
+              <img src="/lpp/share.png" alt="Connect Icon" className="w-6 h-6 mb-2" />
               <h3 className="text-red-600 font-semibold mb-1">Connect</h3>
               <p className="text-sm text-gray-700 dark:text-gray-300 leading-snug">
                 Find people who match your learning or teaching goals, make meaningful tech connections.
@@ -58,7 +58,7 @@ export default function HomePage() {
 
             {/* Card 2 */}
             <div className="bg-[#F7F7F7] dark:bg-[#292929] rounded-xl shadow-sm p-6 text-left">
-              <img src="/landing_page_picture/arrow.png" alt="Exchange Icon" className="w-6 h-6 mb-2" />
+              <img src="/lpp/arrow.png" alt="Exchange Icon" className="w-6 h-6 mb-2" />
               <h3 className="text-red-600 font-semibold mb-1">Exchange</h3>
               <p className="text-sm text-gray-700 dark:text-gray-300 leading-snug">
                 Share what you know and learn what you love through skill-based collaboration.
@@ -67,7 +67,7 @@ export default function HomePage() {
 
             {/* Card 3 */}
             <div className="bg-[#F7F7F7] dark:bg-[#292929] rounded-xl shadow-sm p-6 text-left">
-              <img src="/landing_page_picture/Union.png" alt="Grow Together Icon" className="w-6 h-6 mb-2" />
+              <img src="/lpp/Union.png" alt="Grow Together Icon" className="w-6 h-6 mb-2" />
               <h3 className="text-red-600 font-semibold mb-1">Grow Together</h3>
               <p className="text-sm text-gray-700 dark:text-gray-300 leading-snug">
                 Grow with a community that believes in mutual learning and support.
@@ -82,12 +82,12 @@ export default function HomePage() {
       <section className="w-full bg-background px-6 mt-20">
         <div
           className="max-w-6xl mx-auto bg-red-600 rounded-2xl p-8 md:p-10 flex flex-col md:flex-row items-center text-white gap-8 relative overflow-hidden"
-          style={{ backgroundImage: "url('/landing_page_picture/grid.svg')", backgroundSize: "cover" }}
+          style={{ backgroundImage: "url('/lpp/grid.svg')", backgroundSize: "cover" }}
         >
           {/* Image side */}
           <div className="flex-1 overflow-hidden rounded-xl w-200 h-full">
             <img
-              src="/landing_page_picture/laptop.svg"
+              src="/lpp/laptop.svg"
               alt="Collaboration"
               className="w-full h-full object-cover"
             />
@@ -129,7 +129,7 @@ export default function HomePage() {
             <span className="bg-red-600 text-white px-6 py-3 rounded-full text-sm md:text-base font-semibold">
               Start connecting, sharing, and leveling up together
             </span>
-            <img src="/landing_page_picture/logo.svg" alt="Logo" className="w-10 h-10 inline-block" />
+            <img src="/lpp/logo.svg" alt="Logo" className="w-10 h-10 inline-block" />
           </div>
 
           {/* Cards */}
@@ -175,7 +175,7 @@ export default function HomePage() {
       {/* === 5. Testimonial Banner === */}
       <section
         className="relative w-full h-[220px] bg-cover bg-center text-white mt-20"
-        style={{ backgroundImage: "url('/landing_page_picture/hand.jpg')" }}
+        style={{ backgroundImage: "url('/lpp/hand.jpg')" }}
       >
         {/* Overlay blur */}
         <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
@@ -183,7 +183,7 @@ export default function HomePage() {
         <div className="relative z-10 max-w-6xl mx-auto flex items-center justify-between h-full px-6">
           {/* Left - Logo and Text */}
           <div className="flex items-start gap-4">
-            <img src="/landing_page_picture/logo.svg" alt="Logo" className="w-18 h-18" /> {/* tăng từ w-12 h-12 → w-16 h-16 */}
+            <img src="/lpp/logo.svg" alt="Logo" className="w-18 h-18" /> {/* tăng từ w-12 h-12 → w-16 h-16 */}
             <div className="text-lg leading-relaxed text-black">
               <p>
                 <span className="font-bold text-xl">SkillSwap</span> gives everyone — from beginners to experts — a space
@@ -201,9 +201,9 @@ export default function HomePage() {
 
             <div className="bg-red-600 rounded-full px-5 py-3 flex items-center gap-[-8px] shadow-lg">
               <div className="flex -space-x-2">
-                <img src="/landing_page_picture/avatar (1).png" className="w-8 h-8 rounded-full" />
-                <img src="/landing_page_picture/avatar (2).png" className="w-8 h-8 rounded-full" />
-                <img src="/landing_page_picture/avatar (3).png" className="w-8 h-8 rounded-full" />
+                <img src="/lpp/avatar (1).png" className="w-8 h-8 rounded-full" />
+                <img src="/lpp/avatar (2).png" className="w-8 h-8 rounded-full" />
+                <img src="/lpp/avatar (3).png" className="w-8 h-8 rounded-full" />
               </div>
               <span className="text-white text-sm font-semibold ml-3">2K+</span>
             </div>
@@ -214,12 +214,12 @@ export default function HomePage() {
       <section className="relative w-full text-center overflow-hidden mt-20 h-[600px]">
         {/* Light and dark background images */}
         <img
-          src="/landing_page_picture/universe_light.svg"
+          src="/lpp/universe_light.svg"
           className="absolute top-0 left-0 w-full h-full object-cover z-0 dark:hidden"
           alt="Universe Light"
         />
         <img
-          src="/landing_page_picture/universe_dark.svg"
+          src="/lpp/universe_dark.svg"
           className="hidden dark:block absolute top-0 left-0 w-full h-full object-cover z-0"
           alt="Universe Dark"
         />

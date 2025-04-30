@@ -1,7 +1,7 @@
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { DataProvider } from '@/contexts/data-context';
-import {AuthProvider} from '@/contexts/auth-context';
+import { DataProvider } from "@/contexts/data-context";
+import { AuthProvider } from "@/contexts/auth-context";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
@@ -18,11 +18,12 @@ export default function RootLayout({ children }) {
       <body>
         <AuthProvider>
           <DataProvider>
-				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-					<Navbar />
-					{children}
-					<Footer />
-				</ThemeProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <Navbar />
+              {children}
+              <Footer />
+              <Toaster />
+            </ThemeProvider>
           </DataProvider>
         </AuthProvider>
       </body>

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col items-center w-full overflow-x-hidden">
+    <div className="flex flex-col items-center w-full overflow-x-hidden font-inter">
 
       {/* === 1. Hero Section === */}
       <section
@@ -19,97 +19,106 @@ export default function HomePage() {
         />
 
         {/* Semi-transparent black overlay */}
-        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" /> {/* <- control how dark here */}
+        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
 
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 text-white">
-          <h1 className="text-4xl md:text-4xl font-bold max-w-3xl">
+          <h1 className="text-4xl md:text-4xl text-white font-bold max-w-3xl font-inter text-[48px] leading-[120%]">
             Grow Your Network, Sharpen Your Skills
           </h1>
-          <p className="text-lg mt-4 max-w-2xl text-gray-200 font-semibold">
+          <p className="text-lg mt-4 max-w-2xl text-white font-inter text-[24px] font-regular">
             Fuel Your Growth Through Skill Exchange.<br />
             Share What You Know, Learn What You Love.
           </p>
-          <button className="mt-6 px-6 py-3 bg-red-600 hover:bg-red-700 rounded-full text-white font-bold">
+          <button className="mt-6 px-6 py-3 bg-red-600 hover:bg-red-700 rounded-full text-white font-bold font-inter">
             Get Started
           </button>
         </div>
       </section>
 
       {/* === 2. Intro + Features === */}
-        <section className="w-full bg-background py-20 px-6 mt-20">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-center text-black dark:text-white">
-          Welcome to <span className="text-red-600">SkillSwap</span>
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300 max-w-2xl mx-auto mb-12 text-center">
-          SkillSwap is a platform that helps you <span className="font-medium">connect</span> with others through technology skills — whether you want to teach or learn. Share your knowledge, grow your skills, and empower each other.
-            </p>
+      <section className="w-full bg-background py-20 px-6 mt-20">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-2xl md:text-3xl mb-4 text-center text-[50px] font-regular text-black dark:text-white">
+            Welcome to{' '}
+            <span className="relative inline-block">
+              {/* Image behind text */}
+              <img
+                src="/lpp/red_box.svg "
+                alt=""
+                className="absolute top-6 left-3 w-full pointer-events-none z-0 bg-[#FF0000] dark:bg-[#CB0404]"
+              />
+              {/* Text on top */}
+              <span className="relative z-10 font-bold">SkillSwap</span>
+            </span>
+          </h2>
+          <p className="text-black dark:text-white max-w-2xl mx-auto mb-12 text-center font-regular text-[20px] font-inter">
+            SkillSwap is a platform that helps you connect with others through <br></br> technology skills — whether you want to teach or learn. Share your <br></br> knowledge, grow your skills, and empower each other.
+          </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-30 ml-30 mr-0">
-          {/* Card 1 */}
-            <div className="bg-[#F7F7F7] dark:bg-[#292929] rounded-xl shadow-sm p-6 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-15 justify-items-center px-35">
+            {/* Card 1 */}
+            <div className="w-full max-w-sm bg-[#F7F7F7] dark:bg-[#292929] rounded-xl shadow-sm p-6 text-left">
               <img src="/lpp/share.png" alt="Connect Icon" className="w-6 h-6 mb-2" />
-              <h3 className="text-red-600 font-semibold mb-1">Connect</h3>
-              <p className="text-sm text-gray-700 dark:text-gray-300 leading-snug">
+              <h3 className="text-red-600 font-semibold mb-1 text-[DA0505]">Connect</h3>
+              <p className="text-sm text-black dark:text-[#8C8C8C] leading-snug">
                 Find people who match your learning or teaching goals, make meaningful tech connections.
               </p>
             </div>
 
             {/* Card 2 */}
-            <div className="bg-[#F7F7F7] dark:bg-[#292929] rounded-xl shadow-sm p-6 text-left">
+            <div className="w-full max-w-sm bg-[#F7F7F7] dark:bg-[#292929] rounded-xl shadow-sm p-6 text-left">
               <img src="/lpp/arrow.png" alt="Exchange Icon" className="w-6 h-6 mb-2" />
-              <h3 className="text-red-600 font-semibold mb-1">Exchange</h3>
-              <p className="text-sm text-gray-700 dark:text-gray-300 leading-snug">
+              <h3 className="text-red-600 font-semibold mb-1 text-[DA0505]">Exchange</h3>
+              <p className="text-sm text-black dark:text-[#8C8C8C] leading-snug">
                 Share what you know and learn what you love through skill-based collaboration.
               </p>
             </div>
 
             {/* Card 3 */}
-            <div className="bg-[#F7F7F7] dark:bg-[#292929] rounded-xl shadow-sm p-6 text-left">
+            <div className="w-full max-w-sm bg-[#F7F7F7] dark:bg-[#292929] rounded-xl shadow-sm p-6 text-left">
               <img src="/lpp/Union.png" alt="Grow Together Icon" className="w-6 h-6 mb-2" />
-              <h3 className="text-red-600 font-semibold mb-1">Grow Together</h3>
-              <p className="text-sm text-gray-700 dark:text-gray-300 leading-snug">
+              <h3 className="text-red-600 font-semibold mb-1 text-[DA0505]">Grow Together</h3>
+              <p className="text-sm text-black dark:text-[#8C8C8C] leading-snug">
                 Grow with a community that believes in mutual learning and support.
               </p>
             </div>
           </div>
+
         </div>
       </section>
 
 
       {/* === 3. What You Can Do === */}
-      <section className="w-full bg-background px-6 mt-20">
-        <div
-          className="max-w-6xl mx-auto bg-red-600 rounded-2xl p-8 md:p-10 flex flex-col md:flex-row items-center text-white gap-8 relative overflow-hidden"
-          style={{ backgroundImage: "url('/lpp/grid.svg')", backgroundSize: "cover" }}
-        >
+      <section className="w-full bg-background px-6 py-16">
+        <div className="max-w-6xl mx-auto bg-red-600 rounded-2xl overflow-hidden p-6 md:p-10 flex flex-col md:flex-row gap-8 items-center"
+         style={{ backgroundImage: "url('/lpp/grid.svg')", backgroundSize: "cover" }}>
+
           {/* Image side */}
-          <div className="flex-1 overflow-hidden rounded-xl w-200 h-full">
+          <div className="w-full md:w-1/2">
             <img
               src="/lpp/laptop.svg"
               alt="Collaboration"
-              className="w-full h-full object-cover"
+              className="rounded-xl w-full h-full object-cover"
             />
           </div>
 
-
           {/* Text side */}
-          <div className="flex-1 space-y-4">
-            <h3 className="text-2xl font-bold">What You Can Do?</h3>
-            <ul className="list-disc pl-5 space-y-2 text-white text-sm md:text-base">
-              <li>Find people who can teach you skills you&apos;re eager to learn</li>
+          <div className="flex-1 space-y-4 text-white">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">What You Can Do?</h2>
+            <ul className="list-disc pl-5 space-y-2 mb-6">
+              <li>Find people who can teach you skills you're eager to learn</li>
               <li>Share your own knowledge by helping others</li>
               <li>Build meaningful connections in the tech community</li>
               <li>Explore a wide range of skills</li>
             </ul>
 
             {/* Tags */}
-            <div className="flex flex-wrap gap-2 pt-4">
-              {["Python", "C++", "ReactJS", "Angular", "Java", "PHP", "SQL"].map((tag) => (
+            <div className="flex flex-wrap gap-2">
+              {['Python', 'C++', 'ReactJS', 'Angular', 'Java', 'PHP', 'SQL'].map((tag) => (
                 <span
                   key={tag}
-                  className="bg-white text-red-600 px-3 py-1 text-sm font-medium rounded-full shadow-sm"
+                  className="bg-white text-red-600 px-3 py-1 rounded-full text-sm font-semibold"
                 >
                   {tag}
                 </span>
@@ -118,6 +127,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
 
 
       {/* === 4. Featured Profiles === */}
@@ -178,19 +188,15 @@ export default function HomePage() {
         style={{ backgroundImage: "url('/lpp/hand.jpg')" }}
       >
         {/* Overlay blur */}
-        <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-white/10 backdrop-blur-sm" />
 
         <div className="relative z-10 max-w-6xl mx-auto flex items-center justify-between h-full px-6">
           {/* Left - Logo and Text */}
-          <div className="flex items-start gap-4">
+          <div className="flex items-start gap-4 text-[25px] font-regular">
             <img src="/lpp/logo.svg" alt="Logo" className="w-18 h-18" /> {/* tăng từ w-12 h-12 → w-16 h-16 */}
             <div className="text-lg leading-relaxed text-black">
               <p>
-                <span className="font-bold text-xl">SkillSwap</span> gives everyone — from beginners to experts — a space
-              </p>
-              <p className="mt-1"> to share and grow through skill exchange.</p>
-              <p className="mt-1 text-m text-black/80">
-                No classes, no fees. Just people helping people.
+                SkillSwap gives everyone — from beginners to experts — a space <br></br> to share and grow through skill exchange.<br></br>No classes, no fees. Just people helping people.
               </p>
             </div>
           </div>
@@ -226,17 +232,17 @@ export default function HomePage() {
 
         {/* Centered content */}
         <div className="relative z-10 h-full flex flex-col justify-center items-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black dark:text-white">
+          <h2 className="text-4xl md:text-4xl font-bold mb-4 text-black dark:text-white">
             Ready to start your skill–sharing journey?
           </h2>
-          <p className="text-gray-700 dark:text-gray-300 mb-6 max-w-xl">
-            Join SkillSwap today and be part of a growing tech learning community!
+          <p className="text-dark dark:text-white mb-6 max-w-xl text-2xl">
+            Join SkillSwap today and be part of a growing <br></br> tech learning community!
           </p>
           <div className="flex justify-center gap-4">
-            <button className="px-6 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition font-bold">
+            <button className="px-6 py-2 bg-[#DA0505] text-white rounded-full hover:bg-red-700 transition font-bold">
               Get Started
             </button>
-            <button className="px-6 py-2 border border-red-600 text-red-600 rounded-full hover:bg-red-600 hover:text-white transition font-semibold">
+            <button className="px-6 py-2 border border-[#DA0505] text-red-600 rounded-full hover:bg-red-600 hover:text-white transition font-semibold">
               Explore Users
             </button>
           </div>

@@ -208,7 +208,12 @@ export default function Navbar() {
             onClick={() => setMenuOpen(!menuOpen)}
             variant="ghost"
             size="icon"
-            className="focus:ring-0"
+            className={clsx(
+              "focus:ring-0",
+              isHomePage && !scrolled
+                ? "text-white hover:text-white"
+                : "text-black dark:text-white"
+            )}
           >
             {menuOpen ? <X /> : <Menu />}
           </Button>

@@ -6,8 +6,8 @@ import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 
 export const metadata = {
-	title: "SkillSwap",
-	description: "SkillSwap - A platform for skill exchange",
+  title: "SkillSwap",
+  description: "SkillSwap - A platform for skill exchange",
 };
 
 export default function RootLayout({ children }) {

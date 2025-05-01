@@ -23,8 +23,8 @@ export default async function UserProfile(props) { //Nextjs 15 yêu cầu
 
       {/* Right: skills */}
       <div className="flex flex-col gap-6 items-center">
-        <SkillDisplay title="Skills to Teach" skills={user.teach} />
-        <SkillDisplay title="Skills to Learn" skills={user.learn} />
+        <SkillDisplay title="Skills to Teach" skills={user.skillsToTeach} />
+        <SkillDisplay title="Skills to Learn" skills={user.skillsToLearn} />
       </div>
     </div>
   );

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useDataContext } from "@/contexts/data-context";
+import { useAuthContext } from "@/contexts/auth-context";
 import Image from "next/image";
 import EditProfilePopup from "./EditProfilePopup";
 
@@ -10,27 +12,31 @@ const formatDate = (dateString) => {
 };
 
 const UserDetails = ({ user, isEditable = true }) => {
-  const [userData, setUserData] = useState(user);
+  const { users, updateUser } = useDataContext();
+  const { currentUser } = useAuthContext();
+  const [userData, setUserData] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    if (isEditable) {
-      const savedUser = localStorage.getItem("userProfile");
-      if (savedUser) {
-        setUserData(JSON.parse(savedUser));
+    if (currentUser) {
+      const matchedUser = users.find((u) => u.id === currentUser.id);
+      if (matchedUser) {
+        setUserData(matchedUser);
       }
     }
-  }, [isEditable]);
+  }, [currentUser, users]);
 
   const handleEditClick = () => setShowPopup(true);
   const handleClosePopup = () => setShowPopup(false);
 
   const handleSave = (updatedUser) => {
+    updateUser(updatedUser.id, updatedUser);
     setUserData(updatedUser);
-    localStorage.setItem("userProfile", JSON.stringify(updatedUser));
     setShowPopup(false);
   };
 
+  if (!userData) return null;
+  
   return (
     <div className=" mx-5 md:mx-0 w-sm lg:w-lg md:w-md sm:w-md bg-white dark:bg-ss-black-929 rounded-2xl shadow-lg inset-shadow-2xs p-6 flex flex-col items-center h-fit">
       <Image src={`/pfp/${userData.id}.jpeg`} alt="Avatar" width={160} height={160} className="rounded-full" />

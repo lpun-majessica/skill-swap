@@ -7,9 +7,10 @@ export default function MyNetworkPage() {
 			<div className="flex flex-col items-center mr-8">
 				<Filter />
 			</div>
-    
+
 			<div>
 				<MyNetWorkUserList />
 			</div>
 		</div>
 	);
+}

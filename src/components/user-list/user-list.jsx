@@ -5,13 +5,15 @@ import UserCard from "@/components/UserCard/UserCard";
 
 import { useEffect, useState } from "react";
 
-export function UserList({ users }) {
+export function UserList({ users, tab }) {
 	const pageSize = 8;
 	const [currentPage, setCurrentPage] = useState(0);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, [currentPage]);
+
+	useEffect(() => setCurrentPage(0), [tab]);
 
 	return (
 		<>
@@ -28,7 +30,7 @@ export function UserList({ users }) {
 					setCurrentPage={setCurrentPage}
 				/>
 				<NextButton
-					disabled={currentPage === Math.round(users.length / pageSize)}
+					disabled={currentPage === Math.floor(users.length / pageSize)}
 					setCurrentPage={setCurrentPage}
 				/>
 			</div>

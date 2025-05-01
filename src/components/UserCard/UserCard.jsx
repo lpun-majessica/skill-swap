@@ -5,8 +5,8 @@ const currentUser = {
 	id: 1,
 	fullname: "Alex Johnson",
 	username: "alexj",
-	teach: ["JavaScript", "HTML", "CSS"],
-	learn: ["UI/UX Design", "React"],
+	skillsToTeach: ["JavaScript", "HTML", "CSS"],
+	skillsToLearn: ["UI/UX Design", "React"],
 	bio: "Frontend developer who loves clean code.",
 	dob: "1994-06-15",
 };
@@ -31,8 +31,8 @@ export default function UserCard({
 	id,
 	fullname,
 	username,
-	teach,
-	learn,
+	skillsToTeach,
+	skillsToLearn,
 	bio,
 }) {
 	const connection = useDataContext().connections.filter(
@@ -76,14 +76,14 @@ export default function UserCard({
 					<SkillDisplay
 						fullname={fullname}
 						header="Teaching"
-						skills={teach}
+						skills={skillsToTeach}
 						currentUserSkills={currentUser.skillsToLearn}
 					/>
 					<hr className="mt-3 mb-1 border-ss-light-333 dark:border-ss-black-444" />
 					<SkillDisplay
 						fullname={fullname}
 						header="Learning"
-						skills={learn}
+						skills={skillsToLearn}
 						currentUserSkills={currentUser.skillsToTeach}
 					/>
 				</CardContent>

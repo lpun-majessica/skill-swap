@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Menu, X, Bell, User, LogOut } from "lucide-react";
 import Link from "next/link";
 import clsx from "clsx";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import Logo from "./logo";
 import { useTheme } from "next-themes";
@@ -19,12 +19,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { useAuthContext } from "@/contexts/auth-context";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Toggle for demo purposes
+  const router = useRouter();
+  const { currentUser, logout } = useAuthContext();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,26 +38,30 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // For demo, toggle login state
-  const toggleLogin = () => {
-    setIsLoggedIn(!isLoggedIn);
+  const handleLogin = () => {
+    router.push("/login");
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    logout();
     setMenuOpen(false);
+    router.push("/");
   };
 
   const { resolvedTheme } = useTheme();
   const isDarkMode = resolvedTheme === "dark";
 
+  const isHomePage = pathname === "/";
+
   return (
     <nav
       className={clsx(
         "fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b",
-        scrolled
-          ? "bg-white dark:bg-ss-black-717 shadow-md border-gray-200 dark:border-ss-black-131"
-          : "bg-transparent border-transparent"
+        isHomePage
+          ? scrolled
+            ? "bg-white dark:bg-ss-black-717 shadow-md border-gray-200 dark:border-ss-black-131"
+            : "bg-transparent border-transparent"
+          : "bg-white dark:bg-ss-black-717 border-gray-200 dark:border-ss-black-131"
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
@@ -63,11 +69,25 @@ export default function Navbar() {
         <div className="flex items-center gap-8">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            {scrolled && !isDarkMode ? <Logo variant="dark" /> : <Logo />}
+            {isHomePage ? (
+              scrolled && !isDarkMode ? (
+                <Logo variant="dark" />
+              ) : (
+                <Logo />
+              )
+            ) : !isDarkMode ? (
+              <Logo />
+            ) : (
+              <Logo variant="dark" />
+            )}
             <span
               className={clsx(
                 "font-bold text-lg",
-                scrolled ? "text-black dark:text-white" : "text-white"
+                isHomePage
+                  ? scrolled
+                    ? "text-black dark:text-white"
+                    : "text-white"
+                  : "text-black dark:text-white"
               )}
             >
               SkillSwap
@@ -84,7 +104,11 @@ export default function Navbar() {
                   href={item.href}
                   className={clsx(
                     "relative transition px-1 py-2 group focus:outline-none focus:ring-0",
-                    scrolled ? "text-black dark:text-white" : "text-white"
+                    isHomePage
+                      ? scrolled
+                        ? "text-black dark:text-white"
+                        : "text-white"
+                      : "text-black dark:text-white"
                   )}
                 >
                   {item.label}
@@ -104,7 +128,7 @@ export default function Navbar() {
 
         {/* Right: Login or User Info */}
         <div className="hidden md:flex items-center gap-4">
-          {isLoggedIn ? (
+          {currentUser ? (
             <>
               <Link
                 href="/my-network"
@@ -113,7 +137,15 @@ export default function Navbar() {
                 My Network
               </Link>
               <Link href="/my-network">
-                <Button variant="ghost" size="icon">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={clsx(
+                    isHomePage && !scrolled
+                      ? "text-white hover:text-white"
+                      : "text-black dark:text-white"
+                  )}
+                >
                   <Bell />
                 </Button>
               </Link>
@@ -121,13 +153,25 @@ export default function Navbar() {
               {/* Profile dropdown - desktop */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="w-8 h-8 rounded-full overflow-hidden focus:outline-none">
-                    <Image
-                      src="/pfp/1.jpeg"
-                      width={100}
-                      height={100}
-                      alt="User Profile"
-                    />
+                  <button className="w-8 h-8 hover:cursor-pointer rounded-full overflow-hidden focus:outline-none">
+                    {currentUser?.pfp ? (
+                      <Image
+                        src={currentUser.pfp}
+                        width={100}
+                        height={100}
+                        alt={`${currentUser.username}'s Profile`}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-300 dark:bg-gray-700">
+                        className=
+                        {clsx(
+                          "w-5 h-5",
+                          isHomePage && !scrolled
+                            ? "text-white"
+                            : "text-black dark:text-white"
+                        )}
+                      </div>
+                    )}
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
@@ -148,22 +192,28 @@ export default function Navbar() {
             </>
           ) : (
             <Button
-              onClick={toggleLogin}
+              onClick={handleLogin}
               className="px-6 py-1 rounded-full transition text-white bg-ss-red-505 hover:bg-red-700 h-auto border-0 inline-block"
             >
               Log in
             </Button>
           )}
-          <ModeToggle />
+          <ModeToggle isHomePage={isHomePage} scrolled={scrolled} />
         </div>
 
         <div className="md:hidden flex items-center gap-2">
-          <ModeToggle />
+          <ModeToggle isHomePage={isHomePage} scrolled={scrolled} />
+
           <Button
             onClick={() => setMenuOpen(!menuOpen)}
             variant="ghost"
             size="icon"
-            className="focus:ring-0"
+            className={clsx(
+              "focus:ring-0",
+              isHomePage && !scrolled
+                ? "text-white hover:text-white"
+                : "text-black dark:text-white"
+            )}
           >
             {menuOpen ? <X /> : <Menu />}
           </Button>
@@ -196,7 +246,7 @@ export default function Navbar() {
             );
           })}
 
-          {isLoggedIn ? (
+          {currentUser ? (
             <>
               {/* Separator line */}
               <div className="h-px bg-gray-200 dark:bg-zinc-800 my-2 w-full" />
@@ -245,14 +295,14 @@ export default function Navbar() {
                   onClick={handleLogout}
                   className="flex justify-start px-4 py-2 text-sm rounded-md w-full my-1 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
                 >
-                  <span>Log Out</span>
+                  Log Out
                 </button>
               </div>
             </>
           ) : (
             <div className="w-full mt-2 px-4 flex justify-center">
               <Button
-                onClick={toggleLogin}
+                onClick={handleLogin}
                 className="px-6 py-1 bg-ss-red-505 text-white rounded-full hover:bg-red-700 transition h-auto border-0 inline-block"
               >
                 Log in

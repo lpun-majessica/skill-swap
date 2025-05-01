@@ -1,33 +1,44 @@
 "use client";
 
-// Demo purpose only
-const currentUser = {
-	id: 1,
-	fullname: "Alex Johnson",
-	username: "alexj",
-	skillsToTeach: ["JavaScript", "HTML", "CSS"],
-	skillsToLearn: ["UI/UX Design", "React"],
-	bio: "Frontend developer who loves clean code.",
-	dob: "1994-06-15",
-};
-
 import { useDataContext } from "@/contexts/data-context";
+import { useAuthContext } from "@/contexts/auth-context";
 import { UserList } from "./user-list";
 
 export function RecommendedUserList() {
-	const dataContext = useDataContext();
+	const { currentUser } = useAuthContext(); 
+	const { users, filters, getFilteredUsers } = useDataContext();
 
-	const users = dataContext.users.filter((user) => user.id !== currentUser.id);
-	const displayUsers = users.sort(
-		(userA, userB) =>
-			countSimilarSkills(userB.skillsToTeach, userB.skillsToLearn) -
-			countSimilarSkills(userA.skillsToTeach, userA.skillsToLearn)
-	);
+	if (!currentUser) return null;
+
+	const currentUserId = currentUser.id;
+
+	const filtersAreActive =
+		filters.skillsToTeach.length > 0 || filters.skillsToLearn.length > 0;
+
+	const filteredUsers = getFilteredUsers(currentUserId);
+
+	const displayUsers = filtersAreActive
+		? filteredUsers
+		: users
+				.filter((user) => user.id !== currentUserId)
+				.sort(
+					(userA, userB) =>
+						countSimilarSkills(
+							userB.skillsToTeach,
+							userB.skillsToLearn,
+							currentUser
+						) -
+						countSimilarSkills(
+							userA.skillsToTeach,
+							userA.skillsToLearn,
+							currentUser
+						)
+				);
 
 	return <UserList users={displayUsers} />;
 }
 
-function countSimilarSkills(skillsToTeach, skillsToLearn) {
+function countSimilarSkills(skillsToTeach, skillsToLearn, currentUser) {
 	return (
 		compare(skillsToTeach, currentUser.skillsToLearn) +
 		compare(skillsToLearn, currentUser.skillsToTeach)
@@ -36,9 +47,9 @@ function countSimilarSkills(skillsToTeach, skillsToLearn) {
 	function compare(targetSkills, userSkills) {
 		let result = 0;
 		if (targetSkills && userSkills) {
-			targetSkills.forEach(
-				(skill) => (result += userSkills.includes(skill) ? 1 : 0)
-			);
+			targetSkills.forEach((skill) => {
+				if (userSkills.includes(skill)) result++;
+			});
 		}
 		return result;
 	}

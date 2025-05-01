@@ -4,6 +4,7 @@ import { createContext, useContext, useState } from "react";
 import usersData from "../lib/data/users.json";
 import connectionsData from "../lib/data/connections.json";
 
+
 const DataContext = createContext();
 
 export function DataProvider({ children }) {
@@ -57,39 +58,46 @@ export function DataProvider({ children }) {
   const getFilteredUsers = (currentUserId) => {
     let filtered = users.filter((user) => user.id !== currentUserId); // Exclude self
 
-    // const currentUser = users.find((user) => user.id === currentUserId);
-    // if (!currentUser) return [];
+    const { skillsToTeach, skillsToLearn } = filters;
+    /// if filters are empty, return the default list 
+    if (skillsToTeach.length === 0 && skillsToLearn.length === 0) {
+      return filtered;
+    }
 
-    // // Determine which skills to use
-    // const baseSkillsToTeach =
-    //   filters.skillsToTeach.length > 0
-    //     ? filters.skillsToTeach
-    //     : currentUser.skillsToTeach;
-    // const baseSkillsToLearn =
-    //   filters.skillsToLearn.length > 0
-    //     ? filters.skillsToLearn
-    //     : currentUser.skillsToLearn;
+    const currentUser = users.find((user) => user.id === currentUserId);
+    if (!currentUser) return [];
 
-    // // Filter by skills
-    // filtered = filtered.filter((user) => {
-    //   const teachesMatch = user.skillsToTeach.some((skill) =>
-    //     baseSkillsToLearn.includes(skill)
-    //   );
-    //   const learnsMatch = user.skillsToLearn.some((skill) =>
-    //     baseSkillsToTeach.includes(skill)
-    //   );
-    //   return teachesMatch || learnsMatch;
-    // });
+    // Determine which skills to use
+    const baseSkillsToTeach =
+      filters.skillsToTeach.length > 0
+        ? filters.skillsToTeach
+        : currentUser.skillsToTeach;
+    const baseSkillsToLearn =
+      filters.skillsToLearn.length > 0
+        ? filters.skillsToLearn
+        : currentUser.skillsToLearn;
 
-    // // Filter by search keyword
-    // if (searchKeyword.trim() !== "") {
-    //   const keyword = searchKeyword.toLowerCase();
-    //   filtered = filtered.filter(
-    //     (user) =>
-    //       user.name.toLowerCase().includes(keyword) ||
-    //       user.username.toLowerCase().includes(keyword)
-    //   );
-    // }
+
+    // Filter by skills
+    filtered = filtered.filter((user) => {
+      const teachesMatch = user.skillsToTeach.some((skill) =>
+        baseSkillsToLearn.includes(skill)
+      );
+      const learnsMatch = user.skillsToLearn.some((skill) =>
+        baseSkillsToTeach.includes(skill)
+      );
+      return teachesMatch || learnsMatch;
+    });
+
+    // Filter by search keyword
+    if (searchKeyword.trim() !== "") {
+      const keyword = searchKeyword.toLowerCase();
+      filtered = filtered.filter(
+        (user) =>
+          user.name.toLowerCase().includes(keyword) ||
+          user.username.toLowerCase().includes(keyword)
+      );
+    }
 
     return filtered;
   };

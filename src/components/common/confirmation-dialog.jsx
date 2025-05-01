@@ -38,12 +38,12 @@ export default function ConfirmationDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-sm p-4 rounded-lg bg-white dark:bg-ss-black-444 border-none shadow-md">
+      <DialogContent className="w-sm p-5 rounded-lg bg-white dark:bg-ss-black-444 border-none shadow-md">
         <DialogTitle className="sr-only">Confirmation Dialog</DialogTitle>
-        <p className="text-sm text-center mb-4 text-ss-black-222 dark:text-ss-light-555">
+        <p className="text-sm text-center mb-2 text-ss-black-222 dark:text-ss-light-555">
           {dialogText} <span className="font-semibold">@{username}</span>?
         </p>
-        <div className="flex justify-center gap-4 mt-2">
+        <div className="flex justify-center gap-4">
           <DialogClose asChild>
             <Button className="w-24 h-10 rounded-4xl bg-ss-light-555 border-2 border-ss-light-222 text-ss-black-444 hover:bg-ss-light-222 dark:bg-ss-black-444 dark:hover:bg-ss-black-555 dark:border-ss-black-666 dark:text-ss-light-555">
               Back

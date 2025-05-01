@@ -3,200 +3,220 @@
     "id": 1,
     "fullname": "Alex Johnson",
     "username": "alexj",
-    "teach": ["JavaScript", "HTML", "CSS"],
-    "learn": ["UI/UX Design", "React"],
+    "skillsToTeach": ["JavaScript", "HTML", "CSS"],
+    "skillsToLearn": ["UI/UX Design", "React"],
     "bio": "Frontend developer who loves clean code.",
     "dob": "1994-06-15",
-    "job": "Frontend Developer"
+    "job": "Frontend Developer",
+    "pfp": "/pfp/1.jpeg"
   },
   {
     "id": 2,
     "fullname": "Bella Martinez",
     "username": "bella.design",
-    "teach": ["UI/UX Design"],
-    "learn": ["JavaScript"],
+    "skillsToTeach": ["UI/UX Design"],
+    "skillsToLearn": ["JavaScript"],
     "bio": "Designer curious about frontend dev.",
     "dob": "1996-11-03",
-    "job": "UI/UX Designer"
+    "job": "UI/UX Designer",
+    "pfp": "/pfp/2.jpeg"
   },
   {
     "id": 3,
     "fullname": "Chris Lee",
     "username": "clee_dev",
-    "teach": ["React"],
-    "learn": ["TypeScript"],
+    "skillsToTeach": ["React"],
+    "skillsToLearn": ["TypeScript"],
     "bio": "Self-taught developer transitioning to TS.",
     "dob": "1992-03-22",
-    "job": "Frontend Developer"
+    "job": "Frontend Developer",
+    "pfp": "/pfp/3.jpeg"
   },
   {
     "id": 4,
     "fullname": "Dana Kim",
     "username": "dana.codes",
-    "teach": ["TypeScript", "JavaScript"],
-    "learn": ["React", "GraphQL"],
+    "skillsToTeach": ["TypeScript", "JavaScript"],
+    "skillsToLearn": ["React", "GraphQL"],
     "bio": "Always learning. TypeScript advocate.",
     "dob": "1995-09-30",
-    "job": "Fullstack Developer"
+    "job": "Fullstack Developer",
+    "pfp": "/pfp/4.jpeg"
   },
   {
     "id": 5,
     "fullname": "Ethan Rivera",
     "username": "ethan.r",
-    "teach": ["HTML/CSS", "Figma"],
-    "learn": ["JavaScript"],
+    "skillsToTeach": ["HTML/CSS", "Figma"],
+    "skillsToLearn": ["JavaScript"],
     "bio": "Building beautiful UIs with simple code.",
     "dob": "1997-01-14",
-    "job": "Frontend Developer"
+    "job": "Frontend Developer",
+    "pfp": "/pfp/5.jpeg"
   },
   {
     "id": 6,
     "fullname": "Fatima Noor",
     "username": "fatimanoor",
-    "teach": ["Python", "Pandas", "NumPy"],
-    "learn": ["Frontend Development", "React"],
+    "skillsToTeach": ["Python", "Pandas", "NumPy"],
+    "skillsToLearn": ["Frontend Development", "React"],
     "bio": "Data nerd diving into web apps.",
     "dob": "1993-07-18",
-    "job": "Data Analyst"
+    "job": "Data Analyst",
+    "pfp": "/pfp/6.jpeg"
   },
   {
     "id": 7,
     "fullname": "George Smith",
     "username": "george_smith",
-    "teach": ["Vue.js"],
-    "learn": ["React", "Next.js"],
+    "skillsToTeach": ["Vue.js"],
+    "skillsToLearn": ["React", "Next.js"],
     "bio": "Fullstack engineer switching to React.",
     "dob": "1989-04-27",
-    "job": "Fullstack Developer"
+    "job": "Fullstack Developer",
+    "pfp": "/pfp/7.jpeg"
   },
   {
     "id": 8,
     "fullname": "Hannah Liu",
     "username": "hannahl.dev",
-    "teach": ["TypeScript", "React"],
-    "learn": ["Python", "Django"],
+    "skillsToTeach": ["TypeScript", "React"],
+    "skillsToLearn": ["Python", "Django"],
     "bio": "Strong on frontend, learning backend now.",
     "dob": "1998-12-09",
-    "job": "Frontend Developer"
+    "job": "Frontend Developer",
+    "pfp": "/pfp/8.jpeg"
   },
   {
     "id": 9,
     "fullname": "Ian Wright",
     "username": "wright.codes",
-    "teach": ["Node.js", "Express.js"],
-    "learn": ["UI/UX Design"],
+    "skillsToTeach": ["Node.js", "Express.js"],
+    "skillsToLearn": ["UI/UX Design"],
     "bio": "API guy with interest in design thinking.",
     "dob": "1990-08-06",
-    "job": "Backend Developer"
+    "job": "Backend Developer",
+    "pfp": "/pfp/9.jpeg"
   },
   {
     "id": 10,
     "fullname": "Julia Park",
     "username": "julia.p",
-    "teach": ["Python", "Flask"],
-    "learn": ["React"],
+    "skillsToTeach": ["Python", "Flask"],
+    "skillsToLearn": ["React"],
     "bio": "Machine learning enthusiast entering web dev.",
     "dob": "1995-10-21",
-    "job": "Machine Learning Engineer"
+    "job": "Machine Learning Engineer",
+    "pfp": "/pfp/10.jpeg"
   },
   {
     "id": 11,
     "fullname": "Kevin Patel",
     "username": "kev.p",
-    "teach": ["MongoDB", "PostgreSQL"],
-    "learn": ["TypeScript"],
+    "skillsToTeach": ["MongoDB", "PostgreSQL"],
+    "skillsToLearn": ["TypeScript"],
     "bio": "NoSQL fan exploring typed JS.",
     "dob": "1991-05-12",
-    "job": "Database Engineer"
+    "job": "Database Engineer",
+    "pfp": "/pfp/1.jpeg"
   },
   {
     "id": 12,
     "fullname": "Lara Nguyen",
     "username": "lara.codes",
-    "teach": ["HTML/CSS", "Bootstrap"],
-    "learn": ["JavaScript", "React"],
+    "skillsToTeach": ["HTML/CSS", "Bootstrap"],
+    "skillsToLearn": ["JavaScript", "React"],
     "bio": "Design-to-code specialist.",
     "dob": "1999-02-03",
-    "job": "Frontend Developer"
+    "job": "Frontend Developer",
+    "pfp": "/pfp/2.jpeg"
   },
   {
     "id": 13,
     "fullname": "Marcus Allen",
     "username": "marcusall",
-    "teach": ["Express.js", "Node.js"],
-    "learn": ["Next.js", "Docker"],
+    "skillsToTeach": ["Express.js", "Node.js"],
+    "skillsToLearn": ["Next.js", "Docker"],
     "bio": "Backend dev diving into fullstack.",
     "dob": "1993-07-29",
-    "job": "Backend Developer"
+    "job": "Backend Developer",
+    "pfp": "/pfp/3.jpeg"
   },
   {
     "id": 14,
     "fullname": "Nina Gupta",
     "username": "nina.frontend",
-    "teach": ["UI/UX Design", "Figma"],
-    "learn": ["TypeScript", "React"],
+    "skillsToTeach": ["UI/UX Design", "Figma"],
+    "skillsToLearn": ["TypeScript", "React"],
     "bio": "UI specialist exploring interactive UIs.",
     "dob": "1996-12-17",
-    "job": "UI/UX Designer"
+    "job": "UI/UX Designer",
+    "pfp": "/pfp/4.jpeg"
   },
   {
     "id": 15,
     "fullname": "Oscar Blake",
     "username": "oblake",
-    "teach": ["Next.js", "React", "Vite"],
-    "learn": ["Express.js"],
+    "skillsToTeach": ["Next.js", "React", "Vite"],
+    "skillsToLearn": ["Express.js"],
     "bio": "React lover stepping into SSR.",
     "dob": "1994-02-25",
-    "job": "Frontend Developer"
+    "job": "Frontend Developer",
+    "pfp": "/pfp/5.jpeg"
   },
   {
     "id": 16,
     "fullname": "Priya Shah",
     "username": "priya.codes",
-    "teach": ["JavaScript", "HTML"],
-    "learn": ["MongoDB"],
+    "skillsToTeach": ["JavaScript", "HTML"],
+    "skillsToLearn": ["MongoDB"],
     "bio": "Frontend dev learning databases.",
     "dob": "1998-06-01",
-    "job": "Frontend Developer"
+    "job": "Frontend Developer",
+    "pfp": "/pfp/6.jpeg"
   },
   {
     "id": 17,
     "fullname": "Quentin Torres",
     "username": "qtorres",
-    "teach": ["Python"],
-    "learn": ["Vue.js", "Tailwind CSS"],
+    "skillsToTeach": ["Python"],
+    "skillsToLearn": ["Vue.js", "Tailwind CSS"],
     "bio": "Data analyst trying frontend frameworks.",
     "dob": "1992-09-08",
-    "job": "Data Analyst"
+    "job": "Data Analyst",
+    "pfp": "/pfp/7.jpeg"
   },
   {
     "id": 18,
     "fullname": "Rosa Delgado",
     "username": "rosadelgado",
-    "teach": ["UI/UX Design", "Prototyping", "Design Systems"],
-    "learn": ["JavaScript"],
+    "skillsToTeach": ["UI/UX Design", "Prototyping", "Design Systems"],
+    "skillsToLearn": ["JavaScript"],
     "bio": "UX researcher turned visual designer.",
     "dob": "1991-03-17",
-    "job": "UX Designer"
+    "job": "UX Designer",
+    "pfp": "/pfp/8.jpeg"
   },
   {
     "id": 19,
     "fullname": "Samir Khan",
     "username": "samirk",
-    "teach": ["React", "Redux"],
-    "learn": ["Node.js", "GraphQL"],
+    "skillsToTeach": ["React", "Redux"],
+    "skillsToLearn": ["Node.js", "GraphQL"],
     "bio": "Frontend pro going fullstack.",
     "dob": "1993-11-26",
-    "job": "Frontend Developer"
+    "job": "Frontend Developer",
+    "pfp": "/pfp/9.jpeg"
   },
   {
     "id": 20,
     "fullname": "Tina Miles",
     "username": "tinam",
-    "teach": ["Node.js", "REST APIs", "TypeScript"],
-    "learn": ["UI/UX Design"],
+    "skillsToTeach": ["Node.js", "REST APIs", "TypeScript"],
+    "skillsToLearn": ["UI/UX Design"],
     "bio": "Backend brain curious about design.",
     "dob": "1990-01-30",
-    "job": "Backend Developer"
+    "job": "Backend Developer",
+    "pfp": "/pfp/10.jpeg"
   }
 ]

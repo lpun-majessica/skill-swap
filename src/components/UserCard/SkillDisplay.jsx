@@ -6,13 +6,21 @@ import {
 
 import { SkillBadge } from "../common/SkillBadge";
 
-export function SkillDisplay({ fullname, header, skills }) {
-	const containerWidth = 254;
+export function SkillDisplay({ fullname, header, skills, currentUserSkills }) {
+	const containerWidth = 260;
 	const paddingWidth = 5;
 	const wordWidth = 10;
 	let maxSkillDisplay = 0;
 
-	skills.reduce((currentWidth, skill) => {
+	const sortedSkills = skills
+		.map((skill) => [skill, currentUserSkills.includes(skill)])
+		.sort(([_skillA, isMatchSkillA], [_skillB, isMatchSkillB]) => {
+			const matchA = isMatchSkillA ? 1 : 0;
+			const matchB = isMatchSkillB ? 1 : 0;
+			return matchA > matchB ? -1 : 1;
+		});
+
+	sortedSkills.reduce((currentWidth, [skill]) => {
 		let addedWidth = 0;
 		if (
 			currentWidth + paddingWidth + skill.length * wordWidth <=
@@ -26,10 +34,7 @@ export function SkillDisplay({ fullname, header, skills }) {
 	}, 0);
 
 	function displaySkill(cutOff) {
-		return skills.slice(0, cutOff).map((skill) => {
-			// TUDU: define isMatch
-			let isMatch = false;
-
+		return sortedSkills.slice(0, cutOff).map(([skill, isMatch]) => {
 			return <SkillBadge key={skill} isMatch={isMatch} skill={skill} />;
 		});
 	}
@@ -40,7 +45,7 @@ export function SkillDisplay({ fullname, header, skills }) {
 				{header}
 			</p>
 			<Popover>
-				<div className="flex flex-row gap-1 h-xs">
+				<div className="flex flex-row gap-1 h-6">
 					{displaySkill(maxSkillDisplay)}
 					{skills.length > maxSkillDisplay && (
 						<PopoverTrigger asChild className="ml-auto">

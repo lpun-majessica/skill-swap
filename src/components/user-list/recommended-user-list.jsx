@@ -28,7 +28,7 @@ export function RecommendedUserList() {
 }
 
 function countSimilarSkills(teach, learn) {
-	return compare(teach, currentUser.learn) + compare(learn, currentUser.teach);
+	return compare(teach, currentUser.skillsToLearn) + compare(learn, currentUser.skillsToTeach);
 
 	function compare(targetSkills, userSkills) {
 		let result = 0;

@@ -42,10 +42,10 @@ export default function Filter() {
 	useEffect(() => {
 		const matched = USERS.filter((user) => {
 			const matchesTeach = selectedTeach.some((skill) =>
-				user.teach.includes(skill)
+				user.skillsToTeach.includes(skill)
 			);
 			const matchesLearn = selectedLearn.some((skill) =>
-				user.learn.includes(skill)
+				user.skillsToTeach.includes(skill)
 			);
 			return matchesTeach || matchesLearn;
 		}).map((user) => user.id);

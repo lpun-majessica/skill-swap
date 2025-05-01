@@ -77,14 +77,14 @@ export default function UserCard({
 						fullname={fullname}
 						header="Teaching"
 						skills={teach}
-						currentUserSkills={currentUser.learn}
+						currentUserSkills={currentUser.skillsToLearn}
 					/>
 					<hr className="mt-3 mb-1 border-ss-light-333 dark:border-ss-black-444" />
 					<SkillDisplay
 						fullname={fullname}
 						header="Learning"
 						skills={learn}
-						currentUserSkills={currentUser.teach}
+						currentUserSkills={currentUser.skillsToTeach}
 					/>
 				</CardContent>
 

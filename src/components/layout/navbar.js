@@ -177,7 +177,8 @@ export default function Navbar() {
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuItem asChild>
                     <Link href="/settings" className="cursor-pointer">
-                      My Profile
+                      My Profile: {currentUser?.username}
+                      {/* add username for easy checking */}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />

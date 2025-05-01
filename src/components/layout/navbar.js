@@ -176,7 +176,7 @@ export default function Navbar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuItem asChild>
-                    <Link href="/profile" className="cursor-pointer">
+                    <Link href="/settings" className="cursor-pointer">
                       My Profile
                     </Link>
                   </DropdownMenuItem>

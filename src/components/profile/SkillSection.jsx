@@ -6,53 +6,11 @@ import './profile.css';
 import { Checkbox } from '../ui/checkbox';
 
 const SkillSection = ({ title, skillKey, userSkills = [] }) => {
-  const localStorageKey = `selectedSkills_${skillKey}`;
-
-  const [selectedSkills, setSelectedSkills] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem(localStorageKey);
-      return stored ? JSON.parse(stored) : userSkills;
-    }
-    return userSkills;
-  });
-
   const [openDropdown, setOpenDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [displayedSkills, setDisplayedSkills] = useState(SKILLS); // manage skill list on dropdown-menu
 
   const dropdownRef = useRef(null);
-
-  // Đồng bộ localStorage khi selectedSkills thay đổi
-  useEffect(() => {
-    localStorage.setItem(localStorageKey, JSON.stringify(selectedSkills));
-  }, [selectedSkills, localStorageKey]);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(localStorageKey);
-    if (stored) {
-      const parsedSkills = JSON.parse(stored);
-      if (JSON.stringify(parsedSkills) !== JSON.stringify(selectedSkills)) {
-        setSelectedSkills(parsedSkills);
-      }
-    } else {
-      // Nếu không có giá trị trong localStorage, lưu vào localStorage và set state
-      if (JSON.stringify(userSkills) !== JSON.stringify(selectedSkills)) {
-        setSelectedSkills(userSkills);
-        localStorage.setItem(localStorageKey, JSON.stringify(userSkills));
-      }
-    }
-  }, [userSkills, localStorageKey, selectedSkills]);  // Thêm selectedSkills vào dependency
-  
-  useEffect(() => {
-    const stored = localStorage.getItem(localStorageKey);
-    if (stored) {
-      const parsedSkills = JSON.parse(stored);
-      if (!selectedSkills.length || !selectedSkills.some(skill => parsedSkills.includes(skill))) {
-        setSelectedSkills(parsedSkills);
-      }
-    }
-  }, [selectedSkills, localStorageKey]);
-  
 
   // Handle click outside
   useEffect(() => {
@@ -76,16 +34,42 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
     }
   }, [searchTerm, openDropdown]);
 
+  const [selectedSkills, setSelectedSkills] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const userObj = JSON.parse(storedUser);
+        return userObj[skillKey] || [];
+      }
+    }
+    return userSkills;
+  });
+  
+
+  const updateUserSkillsInLocalStorage = (skills) => {
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const userObj = JSON.parse(storedUser);
+        userObj[skillKey] = skills; 
+        localStorage.setItem("user", JSON.stringify(userObj));
+      }
+    }
+  };
+
   const handleCheckboxChange = (skill) => {
-    setSelectedSkills((prev) =>
-      prev.includes(skill)
-        ? prev.filter((s) => s !== skill)
-        : [...prev, skill]
-    );
+    const newSkills = selectedSkills.includes(skill)
+      ? selectedSkills.filter((s) => s !== skill)
+      : [...selectedSkills, skill];
+  
+    setSelectedSkills(newSkills);
+    updateUserSkillsInLocalStorage(newSkills);
   };
 
   const handleRemoveSkill = (skill) => {
-    setSelectedSkills((prev) => prev.filter((s) => s !== skill));
+    const newSkills = selectedSkills.filter((s) => s !== skill);
+    setSelectedSkills(newSkills);
+    updateUserSkillsInLocalStorage(newSkills);
   };
 
   const handleDropdownToggle = () => {
@@ -102,7 +86,7 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
       skill.toLowerCase().includes(term.toLowerCase())
     );
 
-    const selectedSet = new Set(selectedSkills); // dùng selectedSkills hiện tại
+    const selectedSet = new Set(selectedSkills); 
 
     const selectedFirst = [
       ...filteredSkills.filter(skill => selectedSet.has(skill)),

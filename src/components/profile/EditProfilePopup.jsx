@@ -1,25 +1,45 @@
 "use client";
+
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input"
 import { DatePickerDemo } from "../ui/datepicker";
-import { useState } from "react";
+import { useAuthContext } from "@/contexts/auth-context";
+import { useDataContext } from "@/contexts/data-context";
 
 
-const EditProfilePopup = ({ userData, onSave, onClose }) => {
-  const [dob, setDob] = useState(userData.dob);
+const EditProfilePopup = ({ onClose }) => {
+  const { currentUser } = useAuthContext();
+  const { users, updateUser } = useDataContext();
+  const [userData, setUserData] = useState(null);
+  const [dob, setDob] = useState("");
+
+  useEffect(() => {
+    if (currentUser) {
+      const user = users.find((u) => u.id === currentUser.id);
+      if (user) {
+        setUserData(user);
+        setDob(user.dob);
+      }
+    }
+  }, [currentUser, users]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+
     const updatedUser = {
       ...userData,
       fullname: formData.get("fullname"),
-      // username: formData.get("username"),
-      dob: dob,
       job: formData.get("job"),
+      dob: dob,
       bio: formData.get("bio"),
     };
-    onSave(updatedUser);
+
+    updateUser(updatedUser.id, updatedUser); // Update via context
+    onClose(); // Close popup
   };
+
+  if (!userData) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[4px] z-50">
@@ -33,13 +53,6 @@ const EditProfilePopup = ({ userData, onSave, onClose }) => {
             defaultValue={userData.fullname}
             required
           />
-          {/* <Input
-            type="text"
-            name="username"
-            placeholder="Username"
-            defaultValue={userData.username}
-            required
-          /> */}
 
           <DatePickerDemo dob={dob} onChangeDob={setDob}/>
 

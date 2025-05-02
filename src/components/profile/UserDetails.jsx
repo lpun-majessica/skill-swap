@@ -19,12 +19,14 @@ const UserDetails = ({ user, isEditable = true }) => {
 
   useEffect(() => {
     if (currentUser) {
-      const matchedUser = users.find((u) => u.id === currentUser.id);
-      if (matchedUser) {
-        setUserData(matchedUser);
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUserData(JSON.parse(storedUser));
+      } else {
+        setUserData(currentUser); 
       }
     }
-  }, [currentUser, users]);
+  }, [currentUser]);
 
   const handleEditClick = () => setShowPopup(true);
   const handleClosePopup = () => setShowPopup(false);
@@ -36,7 +38,7 @@ const UserDetails = ({ user, isEditable = true }) => {
   };
 
   if (!userData) return null;
-  
+
   return (
     <div className=" mx-5 md:mx-0 w-sm lg:w-lg md:w-md sm:w-md bg-white dark:bg-ss-black-929 rounded-2xl shadow-lg inset-shadow-2xs p-6 flex flex-col items-center h-fit">
       <Image src={`/pfp/${userData.id}.jpeg`} alt="Avatar" width={160} height={160} className="rounded-full" />
@@ -87,8 +89,6 @@ const UserDetails = ({ user, isEditable = true }) => {
       {/* Popup */}
       {showPopup && (
         <EditProfilePopup
-          userData={userData}
-          onSave={handleSave}
           onClose={handleClosePopup}
         />
       )}

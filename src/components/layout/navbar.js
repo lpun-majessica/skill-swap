@@ -223,7 +223,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden px-4 pb-4 bg-white dark:bg-black text-black dark:text-white shadow-lg">
+        <div className="md:hidden px-4 pb-4 bg-white dark:bg-ss-black-717 text-black dark:text-white shadow-lg">
           <div className="w-full pt-2" />
 
           {/* Main navigation items */}

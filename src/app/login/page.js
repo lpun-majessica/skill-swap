@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { login } from "../../utils/auth";
 import { ModeToggle } from "@/components/common/mode-toggle";
 import { useAuthContext } from "@/contexts/auth-context";
-import Image from "next/image";
 
 export default function LoginPage() {
 	const [username, setUsername] = useState("");
@@ -32,7 +31,7 @@ export default function LoginPage() {
 					<p className="text-xl w-full">Time to enhance your tech skills</p>
 				</div>
 				<div className="relative h-96 overflow-visible">
-					<Image
+					<img
 						src="/pfp/login-1.svg"
 						alt="Pending card"
 						className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[300%] h-auto object-contain "

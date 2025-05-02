@@ -28,6 +28,7 @@
 	background: var(--color-ss-black-131); /* nền track tối lại */
 }
 
-html {
+html,
+body {
 	overflow-y: auto !important;
 }

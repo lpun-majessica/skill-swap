@@ -88,7 +88,6 @@ export default function Navbar() {
 							) : (
 								<Logo />
 							)
-
 						) : isDarkMode ? (
 							<Logo />
 						) : (
@@ -165,7 +164,7 @@ export default function Navbar() {
 							</Link>
 
 							{/* Profile dropdown - desktop */}
-							<DropdownMenu>
+							<DropdownMenu modal={false}>
 								<DropdownMenuTrigger asChild>
 									<button className="w-8 h-8 hover:cursor-pointer rounded-full overflow-hidden focus:outline-none">
 										{currentUser?.pfp ? (

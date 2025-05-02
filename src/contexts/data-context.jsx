@@ -12,22 +12,11 @@ export function DataProvider({ children }) {
 
   // User
   const updateUser = (id, updatedFields) => {
-    const storedUser = localStorage.getItem('user');
-    if (!storedUser) return;
-  
-    const currentUser = JSON.parse(storedUser);
-  
-    if (currentUser.id === id) {
-      const updatedUser = { ...currentUser, ...updatedFields };
-  
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-  
-      setUsers((prev) =>
-        prev.map((user) =>
-          user.id === id ? updatedUser : user
-        )
-      );
-    }
+    setUsers((prev) =>
+      prev.map((user) =>
+        user.id === id ? { ...user, ...updatedFields } : user
+      )
+    );
   };
 
   // CRUD Connection

@@ -30,7 +30,10 @@ export function UserList({ users, tab }) {
 					setCurrentPage={setCurrentPage}
 				/>
 				<NextButton
-					disabled={currentPage === Math.floor(users.length / pageSize)}
+					disabled={
+						users.length === 0 ||
+						currentPage === Math.floor((users.length - 1) / pageSize)
+					}
 					setCurrentPage={setCurrentPage}
 				/>
 			</div>

@@ -54,6 +54,11 @@ export function DataProvider({ children }) {
 
   const [searchKeyword, setSearchKeyword] = useState("");
 
+  const getUserById = (id) => {
+    return users.find((user) => user.id === id);
+  };
+  
+
   const getFilteredUsers = (currentUserId) => {
     let filtered = users.filter((user) => user.id !== currentUserId); // Exclude self
 
@@ -151,6 +156,7 @@ export function DataProvider({ children }) {
         setFilters,
         searchKeyword,
         setSearchKeyword,
+        getUserById,
         getFilteredUsers,
         getUsersByStatus,
       }}

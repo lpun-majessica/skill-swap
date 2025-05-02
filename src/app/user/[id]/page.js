@@ -1,16 +1,20 @@
-import userData from '@/lib/data/users.json';
-import SkillDisplay from '@/components/profile/SkillDisplay';
+'use client';
+
+import { useParams } from 'next/navigation';
+import { useAuthContext } from "@/contexts/auth-context";
+import SkillDetails from '@/components/profile/SkillDetails';
 import UserDetails from '@/components/profile/UserDetails';
+import { useDataContext } from '@/contexts/data-context';
 
-function formatDate(dateStr) {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('en-GB');
-}
 
-export default async function UserProfile(props) { //Nextjs 15 yêu cầu
-  const params = await props.params;
+export default function UserProfile() {
+  const params = useParams();
   const userId = parseInt(params.id);
-  const user = userData.find((u) => u.id === userId);
+  const { getUserById } = useDataContext();
+  const user = getUserById(userId);
+
+
+  const { currentUser } = useAuthContext();
 
   if (!user) {
     return <div className="text-center mt-10 text-red-600">User not found</div>;
@@ -23,8 +27,16 @@ export default async function UserProfile(props) { //Nextjs 15 yêu cầu
 
       {/* Right: skills */}
       <div className="flex flex-col gap-6 items-center">
-        <SkillDisplay title="Skills to Teach" skills={user.skillsToTeach} />
-        <SkillDisplay title="Skills to Learn" skills={user.skillsToLearn} />
+        <SkillDetails
+          title="Skills to Teach"
+          skills={user.skillsToTeach}
+          currentUserSkills={currentUser?.skillsToLearn}
+        />
+        <SkillDetails
+          title="Skills to Learn"
+          skills={user.skillsToLearn}
+          currentUserSkills={currentUser?.skillsToTeach}
+        />
       </div>
     </div>
   );

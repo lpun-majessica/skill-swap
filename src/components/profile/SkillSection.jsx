@@ -1,11 +1,14 @@
 'use client';
+
 import { X } from 'lucide-react';
 import React, { useEffect, useState, useRef } from 'react';
 import { SKILLS } from '@/lib/constant';
 import './profile.css';
 import { Checkbox } from '../ui/checkbox';
+import { useAuthContext } from "@/contexts/auth-context";
 
 const SkillSection = ({ title, skillKey, userSkills = [] }) => {
+  const { currentUser, updateCurrentUser } = useAuthContext();
   const [openDropdown, setOpenDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [displayedSkills, setDisplayedSkills] = useState(SKILLS); // manage skill list on dropdown-menu
@@ -34,42 +37,28 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
     }
   }, [searchTerm, openDropdown]);
 
-  const [selectedSkills, setSelectedSkills] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        const userObj = JSON.parse(storedUser);
-        return userObj[skillKey] || [];
-      }
-    }
-    return userSkills;
-  });
-  
+  const [selectedSkills, setSelectedSkills] = useState([]);
 
-  const updateUserSkillsInLocalStorage = (skills) => {
-    if (typeof window !== "undefined") {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        const userObj = JSON.parse(storedUser);
-        userObj[skillKey] = skills; 
-        localStorage.setItem("user", JSON.stringify(userObj));
-      }
+  useEffect(() => {
+    if (currentUser && currentUser[skillKey]) {
+      setSelectedSkills(currentUser[skillKey]);
     }
-  };
+  }, [currentUser, skillKey]);
 
   const handleCheckboxChange = (skill) => {
     const newSkills = selectedSkills.includes(skill)
       ? selectedSkills.filter((s) => s !== skill)
       : [...selectedSkills, skill];
-  
+
     setSelectedSkills(newSkills);
-    updateUserSkillsInLocalStorage(newSkills);
+    updateCurrentUser({ [skillKey]: newSkills });
+
   };
 
   const handleRemoveSkill = (skill) => {
     const newSkills = selectedSkills.filter((s) => s !== skill);
     setSelectedSkills(newSkills);
-    updateUserSkillsInLocalStorage(newSkills);
+    updateCurrentUser({ [skillKey]: newSkills });
   };
 
   const handleDropdownToggle = () => {
@@ -86,7 +75,7 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
       skill.toLowerCase().includes(term.toLowerCase())
     );
 
-    const selectedSet = new Set(selectedSkills); 
+    const selectedSet = new Set(selectedSkills);
 
     const selectedFirst = [
       ...filteredSkills.filter(skill => selectedSet.has(skill)),
@@ -120,7 +109,7 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
                 <span>{skill}</span>
                 <Checkbox
                   checked={selectedSkills.includes(skill)}
-                  onCheckedChange={(checked) => handleCheckboxChange(skill)}                
+                  onCheckedChange={(checked) => handleCheckboxChange(skill)}
                 />
               </label>
             ))}

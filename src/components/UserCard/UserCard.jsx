@@ -34,6 +34,7 @@ export default function UserCard({
 	skillsToTeach,
 	skillsToLearn,
 	bio,
+	connections: propConnections,
 }) {
 	const connection = useDataContext().connections.filter(
 		(conn) =>

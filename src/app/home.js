@@ -1,4 +1,8 @@
+"use client";
+
 import React from "react";
+import { UserCardDemo } from "@/components/UserCard/UserCardDemo.jsx";
+import mockUsers from "@/lib/data/users.json";
 
 export default function HomePage() {
   return (
@@ -92,7 +96,7 @@ export default function HomePage() {
       {/* === 3. What You Can Do === */}
       <section className="w-full bg-background px-6 py-16">
         <div className="max-w-6xl mx-auto bg-red-600 rounded-2xl overflow-hidden p-6 md:p-10 flex flex-col md:flex-row gap-8 items-center"
-         style={{ backgroundImage: "url('/lpp/grid.svg')", backgroundSize: "cover" }}>
+          style={{ backgroundImage: "url('/lpp/grid.svg')", backgroundSize: "cover" }}>
 
           {/* Image side */}
           <div className="w-full md:w-1/2">
@@ -131,52 +135,33 @@ export default function HomePage() {
 
 
       {/* === 4. Featured Profiles === */}
-      <section className="w-full bg-[#F7F7F7] dark:bg-[#292929] px-6 py-16 min-h-[10px] mt-20">
-        <div className="max-w-6xl mx-auto text-center space-y-10">
-
+      <section className="w-full bg-[#F7F7F7] dark:bg-[#292929] min-h-[10px] mt-20">
+        <div className="max-w-6xl mx-auto space-y-10">
           {/* Banner Text */}
-          <div className="flex items-center justify-center space-x-2 mt-1 mb-5">
+          <div className="flex items-center justify-center space-x-2 mt-10 m8b-5">
             <span className="bg-red-600 text-white px-6 py-3 rounded-full text-sm md:text-base font-semibold">
               Start connecting, sharing, and leveling up together
             </span>
             <img src="/lpp/logo.svg" alt="Logo" className="w-10 h-10 inline-block" />
           </div>
 
-          {/* Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 justify-center">
-            {Array.from({ length: 4 }).map((_, index) => (
-              <div
-                key={index}
-                className="bg-white p-4 scale-95 rounded-xl shadow-md text-center w-[275px] mx-auto"
-              >
-                <div className="w-20 h-20 mx-auto bg-gray-300 rounded-full" />
-                <h4 className="font-semibold text-gray-800 mt-2 text-sm">userName</h4>
-                <p className="text-xs text-gray-500 -mt-1 mb-3">Tell me about yourself...</p>
-
-                <div className="text-left text-xs text-gray-700 space-y-2">
-                  <div>
-                    <p className="font-medium text-gray-900">Teaching</p>
-                    <div className="flex flex-wrap items-center gap-1">
-                      <span className="bg-red-100 border border-red-400 px-2 py-0.5 rounded-full">JavaScript</span>
-                      <span className="bg-gray-200 px-2 py-0.5 rounded-full">React</span>
-                      <span className="bg-gray-200 px-2 py-0.5 rounded-full">Front-end</span>
-                      <span className="text-gray-400 pl-1">+2 skills</span>
-                    </div>
-                  </div>
-                  <div className="border-t border-gray-200 pt-2">
-                    <p className="font-medium text-gray-900">Learning</p>
-                    <div className="flex flex-wrap items-center gap-1">
-                      <span className="bg-red-100 text-red-600 px-2 py-0.5 rounded-full">Python</span>
-                      <span className="bg-gray-200 px-2 py-0.5 rounded-full">SQL</span>
-                    </div>
-                  </div>
-                </div>
-
-                <button className="mt-4 px-4 py-1 bg-red-500 text-white text-sm rounded-full hover:bg-red-600 transition-all">
-                  Connect +
-                </button>
-              </div>
-            ))}
+          {/* User Card Demo 1, 13, 16, 17*/}
+          <div className="w-full max-w-7xl mx-auto mb-15">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 place-items-center">
+              {mockUsers
+                .filter((user) => [1, 2, 3, 4].includes(user.id))
+                .map((user) => (
+                  <UserCardDemo
+                    key={user.id}
+                    id={user.id}
+                    fullname={user.fullname}
+                    username={user.username}
+                    skillsToTeach={user.skillsToTeach}
+                    skillsToLearn={user.skillsToLearn}
+                    bio={user.bio}
+                  />
+                ))}
+            </div>
           </div>
         </div>
       </section>
@@ -184,39 +169,43 @@ export default function HomePage() {
 
       {/* === 5. Testimonial Banner === */}
       <section
-        className="relative w-full h-[220px] bg-cover bg-center text-white mt-20"
+        className="relative w-full h-[270px] bg-cover bg-center text-white mt-20"
         style={{ backgroundImage: "url('/lpp/hand.jpg')" }}
       >
         {/* Overlay blur */}
         <div className="absolute inset-0 bg-white/10 backdrop-blur-sm" />
 
-        <div className="relative z-10 max-w-6xl mx-auto flex items-center justify-between h-full px-6">
+        <div className="relative z-10 max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-start h-full px-10 gap-6 text-center lg:text-left">
           {/* Left - Logo and Text */}
-          <div className="flex items-start gap-4 text-[25px] font-regular">
-            <img src="/lpp/logo.svg" alt="Logo" className="w-18 h-18" /> {/* tăng từ w-12 h-12 → w-16 h-16 */}
+          <div className="flex items-start gap-4 text-[25px] font-regular py-10">
+            <img src="/lpp/logo.svg" alt="Logo" className="w-16 h-16" />
             <div className="text-lg leading-relaxed text-black">
               <p>
-                SkillSwap gives everyone — from beginners to experts — a space <br></br> to share and grow through skill exchange.<br></br>No classes, no fees. Just people helping people.
+                SkillSwap gives everyone — from beginners to experts — a space <br />
+                to share and grow through skill exchange.<br />
+                No classes, no fees. Just people helping people.
               </p>
             </div>
           </div>
 
-          {/* Right - Box with avatars + badge */}
-          <div className="absolute bottom-4 right-6 flex flex-col items-end gap-2">
-            <p className="text-white/80 text-sm mr-2 font-bold">More than 2K+ users</p>
+          {/* Right - User count */}
+          <div className="flex items-center gap-2 absolute bottom-4 right-6">
+            <p className="text-white/80 text-sm font-bold whitespace-nowrap">More than 2K+ users</p>
 
-            <div className="bg-red-600 rounded-full px-5 py-3 flex items-center gap-[-8px] shadow-lg">
+            <div className="bg-red-600 rounded-full px-3 py-2 flex items-center shadow-lg">
               <div className="flex -space-x-2">
                 <img src="/lpp/avatar (1).png" className="w-8 h-8 rounded-full" />
                 <img src="/lpp/avatar (2).png" className="w-8 h-8 rounded-full" />
                 <img src="/lpp/avatar (3).png" className="w-8 h-8 rounded-full" />
               </div>
-              <span className="text-white text-sm font-semibold ml-3">2K+</span>
+              <span className="text-white text-sm font-bold ml-3">2K+</span>
             </div>
           </div>
         </div>
+
       </section>
 
+      {/* === 6. Universe === */}
       <section className="relative w-full text-center overflow-hidden mt-20 h-[600px]">
         {/* Light and dark background images */}
         <img

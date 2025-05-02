@@ -1,5 +1,4 @@
 "use client";
-
 import { createContext, useContext, useState } from "react";
 import usersData from "../lib/data/users.json";
 import connectionsData from "../lib/data/connections.json";
@@ -7,165 +6,209 @@ import connectionsData from "../lib/data/connections.json";
 const DataContext = createContext();
 
 export function DataProvider({ children }) {
-	const [users, setUsers] = useState(usersData);
-	const [connections, setConnections] = useState(connectionsData);
+  const [users, setUsers] = useState(usersData);
+  const [connections, setConnections] = useState(connectionsData);
+  const [filters, setFilters] = useState({
+    skillsToTeach: [],
+    skillsToLearn: [],
+  });
+  const [searchKeyword, setSearchKeyword] = useState("");
 
-	// User
-	const updateUser = (id, updatedFields) => {
-		setUsers((prev) =>
-			prev.map((user) =>
-				user.id === id ? { ...user, ...updatedFields } : user
-			)
-		);
-	};
+  // User
+  const updateUser = (id, updatedFields) => {
+    setUsers((prev) =>
+      prev.map((user) =>
+        user.id === id ? { ...user, ...updatedFields } : user
+      )
+    );
+  };
 
-	// CRUD Connection
-	const createConnection = (senderId, receiverId) => {
-		const newConnection = {
-			id: Date.now(), // fake id
-			sender_id: senderId,
-			receiver_id: receiverId,
-			isAccepted: false,
-		};
-		setConnections((prev) => [...prev, newConnection]);
-	};
+  // CRUD Connection
+  const createConnection = (senderId, receiverId) => {
+    const newConnection = {
+      id: Date.now(), // fake id
+      sender_id: senderId,
+      receiver_id: receiverId,
+      isAccepted: false,
+    };
+    setConnections((prev) => [...prev, newConnection]);
+  };
 
-	const acceptConnection = (connectionId) => {
-		setConnections((prev) =>
-			prev.map((conn) =>
-				conn.id === connectionId ? { ...conn, isAccepted: true } : conn
-			)
-		);
-	};
+  const acceptConnection = (connectionId) => {
+    setConnections((prev) =>
+      prev.map((conn) =>
+        conn.id === connectionId ? { ...conn, isAccepted: true } : conn
+      )
+    );
+  };
 
-	const rejectConnection = (connectionId) => {
-		setConnections((prev) => prev.filter((conn) => conn.id !== connectionId));
-	};
+  const rejectConnection = (connectionId) => {
+    setConnections((prev) => prev.filter((conn) => conn.id !== connectionId));
+  };
 
-	const removeConnection = (connectionId) => {
-		setConnections((prev) => prev.filter((conn) => conn.id !== connectionId));
-	};
+  const removeConnection = (connectionId) => {
+    setConnections((prev) => prev.filter((conn) => conn.id !== connectionId));
+  };
 
-	// Filtered list
-	const [filters, setFilters] = useState({
-		skillsToTeach: [],
-		skillsToLearn: [],
-	});
+  // Helper function to count similar skills between users
+  const countSimilarSkills = (user, currentUser) => {
+    const compareSkills = (targetSkills, userSkills) => {
+      let count = 0;
+      if (targetSkills && userSkills) {
+        targetSkills.forEach(
+          (skill) => (count += userSkills.includes(skill) ? 1 : 0)
+        );
+      }
+      return count;
+    };
 
-	const [searchKeyword, setSearchKeyword] = useState("");
+    return (
+      compareSkills(user.skillsToTeach, currentUser.skillsToLearn) +
+      compareSkills(user.skillsToLearn, currentUser.skillsToTeach)
+    );
+  };
 
-	const getFilteredUsers = (currentUserId) => {
-		let filtered = users.filter((user) => user.id !== currentUserId); // Exclude self
+  // Get recommended users based on skill matching
+  const getRecommendedUsers = (currentUserId) => {
+    const currentUser = users.find((user) => user.id === currentUserId);
+    if (!currentUser) return [];
 
-		const currentUser = users.find((user) => user.id === currentUserId);
-		if (!currentUser) return [];
+    return users
+      .filter((user) => user.id !== currentUserId) // Exclude self
+      .filter((user) => {
+        // Must have at least one matching skill
+        const teachesMatch = user.skillsToTeach.some((skill) =>
+          currentUser.skillsToLearn.includes(skill)
+        );
+        const learnsMatch = user.skillsToLearn.some((skill) =>
+          currentUser.skillsToTeach.includes(skill)
+        );
+        return teachesMatch || learnsMatch;
+      })
+      .sort(
+        (userA, userB) =>
+          countSimilarSkills(userB, currentUser) -
+          countSimilarSkills(userA, currentUser)
+      );
+  };
 
-		// Determine which skills to use
-		const baseSkillsToTeach =
-			filters.skillsToTeach.length > 0
-				? filters.skillsToTeach
-				: currentUser.skillsToTeach;
-		const baseSkillsToLearn =
-			filters.skillsToLearn.length > 0
-				? filters.skillsToLearn
-				: currentUser.skillsToLearn;
+  // Get users based on filters and search
+  const getFilteredUsers = (currentUserId) => {
+    const currentUser = users.find((user) => user.id === currentUserId);
+    if (!currentUser) return [];
 
-		// Filter by skills
-		filtered = filtered.filter((user) => {
-			const teachesMatch = user.skillsToTeach.some((skill) =>
-				baseSkillsToLearn.includes(skill)
-			);
-			const learnsMatch = user.skillsToLearn.some((skill) =>
-				baseSkillsToTeach.includes(skill)
-			);
-			return teachesMatch || learnsMatch;
-		});
+    // Check if filters or search are active
+    const hasActiveFilters =
+      filters.skillsToTeach.length > 0 || filters.skillsToLearn.length > 0;
+    const hasActiveSearch = searchKeyword.trim() !== "";
 
-		// Filter by search keyword
-		if (searchKeyword.trim() !== "") {
-			const keyword = searchKeyword.toLowerCase();
-			filtered = filtered.filter(
-				(user) =>
-					user.name.toLowerCase().includes(keyword) ||
-					user.username.toLowerCase().includes(keyword)
-			);
-		}
+    // If no filters or search, return recommended users
+    if (!hasActiveFilters && !hasActiveSearch) {
+      return getRecommendedUsers(currentUserId);
+    }
 
-		return filtered;
-	};
+    // Start with all users except current user
+    let filtered = users.filter((user) => user.id !== currentUserId);
 
-	// Get the list of users based on connection status
-	const getConnectionLists = (currentUserId) => {
-		const accepted = connections
-			.filter(
-				(conn) =>
-					conn.isAccepted &&
-					(conn.sender_id === currentUserId ||
-						conn.receiver_id === currentUserId)
-			)
-			.map((conn) =>
-				conn.sender_id === currentUserId ? conn.receiver_id : conn.sender_id
-			);
+    // Apply skill filters if any
+    if (hasActiveFilters) {
+      filtered = filtered.filter((user) => {
+        const teachesMatch =
+          filters.skillsToLearn.length === 0 ||
+          user.skillsToTeach.some((skill) =>
+            filters.skillsToLearn.includes(skill)
+          );
+        const learnsMatch =
+          filters.skillsToTeach.length === 0 ||
+          user.skillsToLearn.some((skill) =>
+            filters.skillsToTeach.includes(skill)
+          );
+        return teachesMatch || learnsMatch;
+      });
+    }
 
-		const pendingSent = connections
-			.filter((conn) => !conn.isAccepted && conn.sender_id === currentUserId)
-			.map((conn) => conn.receiver_id);
+    // Apply search filter if any
+    if (hasActiveSearch) {
+      const keyword = searchKeyword.toLowerCase();
+      filtered = filtered.filter(
+        (user) =>
+          (user.name?.toLowerCase().includes(keyword) ?? false) ||
+          (user.username?.toLowerCase().includes(keyword) ?? false)
+      );
+    }
 
-		const pendingReceived = connections
-			.filter((conn) => !conn.isAccepted && conn.receiver_id === currentUserId)
-			.map((conn) => conn.sender_id);
+    return filtered;
+  };
 
-		return { accepted, pendingSent, pendingReceived };
-	};
+  // Get the list of users based on connection status
+  const getConnectionLists = (currentUserId) => {
+    const accepted = connections
+      .filter(
+        (conn) =>
+          conn.isAccepted &&
+          (conn.sender_id === currentUserId ||
+            conn.receiver_id === currentUserId)
+      )
+      .map((conn) =>
+        conn.sender_id === currentUserId ? conn.receiver_id : conn.sender_id
+      );
+    const pendingSent = connections
+      .filter((conn) => !conn.isAccepted && conn.sender_id === currentUserId)
+      .map((conn) => conn.receiver_id);
+    const pendingReceived = connections
+      .filter((conn) => !conn.isAccepted && conn.receiver_id === currentUserId)
+      .map((conn) => conn.sender_id);
+    return { accepted, pendingSent, pendingReceived };
+  };
 
-	// Get users by type
-	const getUsersByStatus = (currentUserId, type) => {
-		const { accepted, pendingSent, pendingReceived } =
-			getConnectionLists(currentUserId);
+  // Get users by type
+  const getUsersByStatus = (currentUserId, type) => {
+    const { accepted, pendingSent, pendingReceived } =
+      getConnectionLists(currentUserId);
+    switch (type) {
+      case "all":
+        return users.filter((user) =>
+          [...accepted, ...pendingSent, ...pendingReceived].includes(user.id)
+        );
+      case "connections":
+        return users.filter((user) => accepted.includes(user.id));
+      case "pending":
+        return users.filter((user) => pendingSent.includes(user.id));
+      case "requests":
+        return users.filter((user) => pendingReceived.includes(user.id));
+      default:
+        return [];
+    }
+  };
 
-		switch (type) {
-			case "all":
-				return users.filter((user) =>
-					[...accepted, ...pendingSent, ...pendingReceived].includes(user.id)
-				);
-			case "connections":
-				return users.filter((user) => accepted.includes(user.id));
-			case "pending":
-				return users.filter((user) => pendingSent.includes(user.id));
-			case "requests":
-				return users.filter((user) => pendingReceived.includes(user.id));
-			default:
-				return [];
-		}
-	};
-
-	return (
-		<DataContext.Provider
-			value={{
-				users,
-				connections,
-				updateUser,
-				createConnection,
-				acceptConnection,
-				rejectConnection,
-				removeConnection,
-				filters,
-				setFilters,
-				searchKeyword,
-				setSearchKeyword,
-				getFilteredUsers,
-				getUsersByStatus,
-			}}
-		>
-			{children}
-		</DataContext.Provider>
-	);
+  return (
+    <DataContext.Provider
+      value={{
+        users,
+        connections,
+        updateUser,
+        createConnection,
+        acceptConnection,
+        rejectConnection,
+        removeConnection,
+        filters,
+        setFilters,
+        searchKeyword,
+        setSearchKeyword,
+        getFilteredUsers,
+        getRecommendedUsers,
+        getUsersByStatus,
+      }}
+    >
+      {children}
+    </DataContext.Provider>
+  );
 }
 
 export function useDataContext() {
-	const context = useContext(DataContext);
-	if (!context) {
-		throw new Error("useDataContext must be used within a DataProvider");
-	}
-	return context;
+  const context = useContext(DataContext);
+  if (!context) {
+    throw new Error("useDataContext must be used within a DataProvider");
+  }
+  return context;
 }

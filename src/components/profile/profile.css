@@ -27,7 +27,3 @@
 .dark .dropdown-scroll::-webkit-scrollbar-track {
 	background: var(--color-ss-black-131); /* nền track tối lại */
 }
-
-html {
-	overflow-y: auto !important;
-}

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { UserCardDemo } from "@/components/UserCard/UserCardDemo.jsx";
+
 import mockUsers from "@/lib/data/users.json";
 
 export default function HomePage() {

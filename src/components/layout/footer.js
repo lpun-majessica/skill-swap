@@ -40,7 +40,6 @@ export default function Footer() {
 						</Link>
 					</div>
 
-					{/* Copyright */}
 					<div className="text-sm">© 2025 SkillSwap. All rights reserved.</div>
 				</div>
 			</div>

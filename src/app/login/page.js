@@ -2,16 +2,17 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { login } from '../../utils/auth';
+import { useAuthContext } from '@/contexts/auth-context'; 
 import { ModeToggle } from "@/components/common/mode-toggle";
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const router = useRouter();
+  const { login } = useAuthContext(); 
 
   const handleLogin = (e) => {
-    e.preventDefault(); // prevent reload
-    if (login(username)) {
+    e.preventDefault(); 
+    if (login(username)) { 
       router.push('/explore');
     } else {
       alert('username or password is invalid!');

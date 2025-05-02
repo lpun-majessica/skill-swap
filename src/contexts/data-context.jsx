@@ -68,7 +68,34 @@ export function DataProvider({ children }) {
     );
   };
 
-  // Get recommended users based on skill matching
+  // Get the connection status between two users
+  const getConnectionStatus = (currentUserId, otherUserId) => {
+    const connection = connections.find(
+      conn => 
+        (conn.sender_id === currentUserId && conn.receiver_id === otherUserId) ||
+        (conn.receiver_id === currentUserId && conn.sender_id === otherUserId)
+    );
+    
+    if (!connection) return "not_connected";
+    
+    if (connection.isAccepted) return "connected";
+    
+    // If not accepted, check if it's pending sent or received
+    return connection.sender_id === currentUserId ? "pending_sent" : "pending_received";
+  };
+
+  // Helper function to get a numeric priority for connection status
+  const getConnectionPriority = (status) => {
+    switch (status) {
+      case "not_connected": return 0; // Highest priority - not connected
+      case "pending_sent": 
+      case "pending_received": return 1; // Medium priority - pending
+      case "connected": return 2; // Lowest priority - already connected
+      default: return 3;
+    }
+  };
+
+  // Get recommended users based on skill matching with improved sorting
   const getRecommendedUsers = (currentUserId) => {
     const currentUser = users.find((user) => user.id === currentUserId);
     if (!currentUser) return [];
@@ -85,14 +112,23 @@ export function DataProvider({ children }) {
         );
         return teachesMatch || learnsMatch;
       })
-      .sort(
-        (userA, userB) =>
-          countSimilarSkills(userB, currentUser) -
-          countSimilarSkills(userA, currentUser)
-      );
+      .sort((userA, userB) => {
+        // First, sort by connection status
+        const statusA = getConnectionStatus(currentUserId, userA.id);
+        const statusB = getConnectionStatus(currentUserId, userB.id);
+        const priorityA = getConnectionPriority(statusA);
+        const priorityB = getConnectionPriority(statusB);
+        
+        if (priorityA !== priorityB) {
+          return priorityA - priorityB;
+        }
+        
+        // If same connection status, sort by skill match count (higher first)
+        return countSimilarSkills(userB, currentUser) - countSimilarSkills(userA, currentUser);
+      });
   };
 
-  // Get users based on filters and search
+  // Get users based on filters and search with improved sorting
   const getFilteredUsers = (currentUserId) => {
     const currentUser = users.find((user) => user.id === currentUserId);
     if (!currentUser) return [];
@@ -137,7 +173,21 @@ export function DataProvider({ children }) {
       );
     }
 
-    return filtered;
+    // Apply the same sorting logic as in getRecommendedUsers
+    return filtered.sort((userA, userB) => {
+      // First, sort by connection status
+      const statusA = getConnectionStatus(currentUserId, userA.id);
+      const statusB = getConnectionStatus(currentUserId, userB.id);
+      const priorityA = getConnectionPriority(statusA);
+      const priorityB = getConnectionPriority(statusB);
+      
+      if (priorityA !== priorityB) {
+        return priorityA - priorityB;
+      }
+      
+      // If same connection status, sort by skill match count (higher first)
+      return countSimilarSkills(userB, currentUser) - countSimilarSkills(userA, currentUser);
+    });
   };
 
   // Get the list of users based on connection status

@@ -1,15 +1,18 @@
 "use client";
-
 import { createContext, useContext, useState } from "react";
 import usersData from "../lib/data/users.json";
 import connectionsData from "../lib/data/connections.json";
-
 
 const DataContext = createContext();
 
 export function DataProvider({ children }) {
   const [users, setUsers] = useState(usersData);
   const [connections, setConnections] = useState(connectionsData);
+  const [filters, setFilters] = useState({
+    skillsToTeach: [],
+    skillsToLearn: [],
+  });
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   // User
   const updateUser = (id, updatedFields) => {
@@ -47,58 +50,96 @@ export function DataProvider({ children }) {
     setConnections((prev) => prev.filter((conn) => conn.id !== connectionId));
   };
 
-  // Filtered list
-  const [filters, setFilters] = useState({
-    skillsToTeach: [],
-    skillsToLearn: [],
-  });
+  // Helper function to count similar skills between users
+  const countSimilarSkills = (user, currentUser) => {
+    const compareSkills = (targetSkills, userSkills) => {
+      let count = 0;
+      if (targetSkills && userSkills) {
+        targetSkills.forEach(
+          (skill) => (count += userSkills.includes(skill) ? 1 : 0)
+        );
+      }
+      return count;
+    };
 
-  const [searchKeyword, setSearchKeyword] = useState("");
+    return (
+      compareSkills(user.skillsToTeach, currentUser.skillsToLearn) +
+      compareSkills(user.skillsToLearn, currentUser.skillsToTeach)
+    );
+  };
 
-  const getFilteredUsers = (currentUserId) => {
-    let filtered = users.filter((user) => user.id !== currentUserId); // Exclude self
-
-    const { skillsToTeach, skillsToLearn } = filters;
-    /// if filters are empty, return the default list 
-    if (skillsToTeach.length === 0 && skillsToLearn.length === 0) {
-      return filtered;
-    }
-
+  // Get recommended users based on skill matching
+  const getRecommendedUsers = (currentUserId) => {
     const currentUser = users.find((user) => user.id === currentUserId);
     if (!currentUser) return [];
 
-    // Determine which skills to use
-    const baseSkillsToTeach =
-      filters.skillsToTeach.length > 0
-        ? filters.skillsToTeach
-        : currentUser.skillsToTeach;
-    const baseSkillsToLearn =
-      filters.skillsToLearn.length > 0
-        ? filters.skillsToLearn
-        : currentUser.skillsToLearn;
-
-
-    // Filter by skills
-    filtered = filtered.filter((user) => {
-      const teachesMatch = user.skillsToTeach.some((skill) =>
-        baseSkillsToLearn.includes(skill)
+    return users
+      .filter((user) => user.id !== currentUserId) // Exclude self
+      .filter((user) => {
+        // Must have at least one matching skill
+        const teachesMatch = user.skillsToTeach.some((skill) =>
+          currentUser.skillsToLearn.includes(skill)
+        );
+        const learnsMatch = user.skillsToLearn.some((skill) =>
+          currentUser.skillsToTeach.includes(skill)
+        );
+        return teachesMatch || learnsMatch;
+      })
+      .sort(
+        (userA, userB) =>
+          countSimilarSkills(userB, currentUser) -
+          countSimilarSkills(userA, currentUser)
       );
-      const learnsMatch = user.skillsToLearn.some((skill) =>
-        baseSkillsToTeach.includes(skill)
-      );
-      return teachesMatch || learnsMatch;
-    });
+  };
 
-    // Filter by search keyword
-    if (searchKeyword.trim() !== "") {
+  // Get users based on filters and search
+  const getFilteredUsers = (currentUserId) => {
+    const currentUser = users.find((user) => user.id === currentUserId);
+    if (!currentUser) return [];
+  
+    // Check if filters or search are active
+    const hasActiveFilters =
+      filters.skillsToTeach.length > 0 || filters.skillsToLearn.length > 0;
+    const hasActiveSearch = searchKeyword.trim() !== "";
+  
+    // If no filters or search, return recommended users
+    if (!hasActiveFilters && !hasActiveSearch) {
+      return getRecommendedUsers(currentUserId);
+    }
+  
+    // Start with all users except current user
+    let filtered = users.filter((user) => user.id !== currentUserId);
+  
+    // Apply skill filters if any
+    if (hasActiveFilters) {
+      filtered = filtered.filter((user) => {
+        const teachesMatch =
+          filters.skillsToTeach.length > 0 &&
+          user.skillsToTeach.some((skill) =>
+            filters.skillsToTeach.includes(skill)
+          );
+  
+        const learnsMatch =
+          filters.skillsToLearn.length > 0 &&
+          user.skillsToLearn.some((skill) =>
+            filters.skillsToLearn.includes(skill)
+          );
+  
+        // Return true if either Teach or Learn match
+        return teachesMatch || learnsMatch;
+      });
+    }
+  
+    // Apply search filter if any
+    if (hasActiveSearch) {
       const keyword = searchKeyword.toLowerCase();
       filtered = filtered.filter(
         (user) =>
-          user.name.toLowerCase().includes(keyword) ||
-          user.username.toLowerCase().includes(keyword)
+          (user.name?.toLowerCase().includes(keyword) ?? false) ||
+          (user.username?.toLowerCase().includes(keyword) ?? false)
       );
     }
-
+  
     return filtered;
   };
 
@@ -114,15 +155,12 @@ export function DataProvider({ children }) {
       .map((conn) =>
         conn.sender_id === currentUserId ? conn.receiver_id : conn.sender_id
       );
-
     const pendingSent = connections
       .filter((conn) => !conn.isAccepted && conn.sender_id === currentUserId)
       .map((conn) => conn.receiver_id);
-
     const pendingReceived = connections
       .filter((conn) => !conn.isAccepted && conn.receiver_id === currentUserId)
       .map((conn) => conn.sender_id);
-
     return { accepted, pendingSent, pendingReceived };
   };
 
@@ -130,10 +168,11 @@ export function DataProvider({ children }) {
   const getUsersByStatus = (currentUserId, type) => {
     const { accepted, pendingSent, pendingReceived } =
       getConnectionLists(currentUserId);
-
     switch (type) {
       case "all":
-        return getFilteredUsers(currentUserId);
+        return users.filter((user) =>
+          [...accepted, ...pendingSent, ...pendingReceived].includes(user.id)
+        );
       case "connections":
         return users.filter((user) => accepted.includes(user.id));
       case "pending":
@@ -160,6 +199,7 @@ export function DataProvider({ children }) {
         searchKeyword,
         setSearchKeyword,
         getFilteredUsers,
+        getRecommendedUsers,
         getUsersByStatus,
       }}
     >

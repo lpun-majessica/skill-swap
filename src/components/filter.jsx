@@ -41,12 +41,6 @@ export default function Filter() {
       skillsToLearn: updatedLearn,
     });
   
-    // Get matched users and extract IDs
-    if (currentUserId) {
-      const matchedUsers = getFilteredUsers(currentUserId);
-      const matchedUserIds = matchedUsers.map((user) => user.id);
-      console.log("Matched User IDs:", matchedUserIds);
-    }  
   };
 
   const handleClearAll = () => {
@@ -128,7 +122,7 @@ export default function Filter() {
           <div className="mt-auto grid grid-cols-2 gap-2 pt-4">
             <button
               onClick={handleClearAll}
-              className="text-sm py-1 px-10 flex items-center justify-center bg-ss-light-222 dark:bg-ss-black-444 dark:text-white text-black rounded-md font-semibold hover:bg-gray-100 dark:hover:bg-ss-black-44 transition-colors"
+              className="text-sm py-1 px-10 flex items-center justify-center bg-ss-light-222 dark:bg-ss-black-444 dark:text-white text-black rounded-md font-semibold hover:bg-gray-100 dark:hover:bg-ss-black-444 transition-colors"
             >
               Clear all
             </button>
@@ -205,7 +199,7 @@ function FilterBody({
         {sortedSkills.map((skill) => (
           <div
             key={skill}
-            className="grid grid-cols-[3.5fr_1fr_1fr] gap-1 sm:gap-2 px-1 sm:px-2 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-300 transition-colors duration-300"
+            className="grid grid-cols-[3.5fr_1fr_1fr] gap-1 sm:gap-2 px-1 sm:px-2 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-ss-black-444 transition-colors duration-300"
           >
             <div className="flex justify-start items-center">
               <span className="bg-ss-light-222 dark:bg-ss-black-444 whitespace-nowrap rounded-full px-2 py-0.5 text-[12px] sm:text-[11px] md:text-[11px] font-medium text-black dark:text-white">

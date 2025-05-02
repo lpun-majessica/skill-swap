@@ -91,7 +91,6 @@ export function DataProvider({ children }) {
           countSimilarSkills(userA, currentUser)
       );
   };
-
   // Get users based on filters and search
   const getFilteredUsers = (currentUserId) => {
     const currentUser = users.find((user) => user.id === currentUserId);

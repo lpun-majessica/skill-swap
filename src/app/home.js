@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
-import UserCard from "@/components/UserCard/UserCard.jsx";
+import { UserCardDemo } from "@/components/UserCard/UserCardDemo.jsx";
+
 import mockUsers from "@/lib/data/users.json";
 
 export default function HomePage() {
@@ -143,19 +146,22 @@ export default function HomePage() {
             <img src="/lpp/logo.svg" alt="Logo" className="w-10 h-10 inline-block" />
           </div>
 
-          {/* User Card Demo*/}
+          {/* User Card Demo 1, 13, 16, 17*/}
           <div className="w-full max-w-7xl mx-auto mb-15">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 place-items-center">
-              {mockUsers.filter((user) => [1, 13, 16, 17].includes(user.id)).map((user) => (
-                <UserCard
-                  key={user.id}
-                  id={user.id}
-                  fullname={user.fullname}
-                  username={user.username}
-                  skillsToTeach={user.skillsToTeach}
-                  skillsToLearn={user.skillsToLearn}
-                  bio={user.bio}
-                />))}
+              {mockUsers
+                .filter((user) => [1, 2, 3, 4].includes(user.id))
+                .map((user) => (
+                  <UserCardDemo
+                    key={user.id}
+                    id={user.id}
+                    fullname={user.fullname}
+                    username={user.username}
+                    skillsToTeach={user.skillsToTeach}
+                    skillsToLearn={user.skillsToLearn}
+                    bio={user.bio}
+                  />
+                ))}
             </div>
           </div>
         </div>
@@ -164,7 +170,7 @@ export default function HomePage() {
 
       {/* === 5. Testimonial Banner === */}
       <section
-        className="relative w-full h-[250px] bg-cover bg-center text-white mt-20"
+        className="relative w-full h-[270px] bg-cover bg-center text-white mt-20"
         style={{ backgroundImage: "url('/lpp/hand.jpg')" }}
       >
         {/* Overlay blur */}

@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/contexts/auth-context'; 
 import { ModeToggle } from "@/components/common/mode-toggle";
-import { useAuthContext } from "@/contexts/auth-context";
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');

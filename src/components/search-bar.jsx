@@ -4,7 +4,7 @@ import { Search, X } from "lucide-react";
 import { useDataContext } from "@/contexts/data-context";
 import { Input } from "./ui/input";
 
-export function SearchBar({ placeholder = "Search username" }) {
+export function SearchBar() {
   const { searchKeyword, setSearchKeyword } = useDataContext();
 
   const handleSearchChange = (e) => {
@@ -19,10 +19,10 @@ export function SearchBar({ placeholder = "Search username" }) {
         </div>
         <Input
           type="text"
-          placeholder={placeholder}
+          placeholder="Search name or username"
           value={searchKeyword}
           onChange={handleSearchChange}
-          className="pl-10 pr-4 py-2 rounded-full bg-ss-light-777 dark:bg-ss-black-131 focus:outline-none w-full"
+          className="pl-10 pr-4 py-2 rounded-full bg-ss-light-777 dark:bg-ss-black-131 focus:outline-none w-64"
         />
         {searchKeyword && (
           <X

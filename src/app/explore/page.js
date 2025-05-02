@@ -16,7 +16,7 @@ export default function ExplorePage() {
 			</h1>
   
 			<div className="mt-4">
-			  <SearchBar placeholder="Search username" />
+			  <SearchBar/>
 			</div>
 		  </div>
   

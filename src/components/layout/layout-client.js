@@ -7,11 +7,14 @@ import Footer from "@/components/layout/footer";
 export default function LayoutClient({ children }) {
   const pathname = usePathname();
   const hideLayout = pathname === "/login";
+  const isHomePage = pathname === "/";
 
   return (
     <>
       {!hideLayout && <Navbar />}
-      {children}
+      <main className={!hideLayout && !isHomePage ? "pt-16" : ""}>
+        {children}
+      </main>
       {!hideLayout && <Footer />}
     </>
   );

@@ -49,7 +49,20 @@ export default function Navbar() {
 	};
 
 	const { resolvedTheme } = useTheme();
-	const isDarkMode = resolvedTheme === "dark";
+	let isDarkMode;
+	switch (resolvedTheme) {
+		case "light": {
+			isDarkMode = false;
+			break;
+		}
+		case "dark": {
+			isDarkMode = true;
+			break;
+		}
+		default: {
+			isDarkMode = false;
+		}
+	}
 
 	const isHomePage = pathname === "/";
 
@@ -75,7 +88,8 @@ export default function Navbar() {
 							) : (
 								<Logo />
 							)
-						) : !isDarkMode ? (
+
+						) : isDarkMode ? (
 							<Logo />
 						) : (
 							<Logo variant="dark" />
@@ -151,7 +165,7 @@ export default function Navbar() {
 							</Link>
 
 							{/* Profile dropdown - desktop */}
-							<DropdownMenu modal={false}>
+							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<button className="w-8 h-8 hover:cursor-pointer rounded-full overflow-hidden focus:outline-none">
 										{currentUser?.pfp ? (
@@ -223,7 +237,7 @@ export default function Navbar() {
 
 			{/* Mobile menu */}
 			{menuOpen && (
-				<div className="md:hidden px-4 pb-4 bg-white dark:bg-black text-black dark:text-white shadow-lg">
+				<div className="md:hidden px-4 pb-4 bg-white dark:bg-ss-black-717 text-black dark:text-white shadow-lg">
 					<div className="w-full pt-2" />
 
 					{/* Main navigation items */}

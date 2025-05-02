@@ -1,43 +1,57 @@
 "use client";
 
-const { createContext, useState, useEffect, useContext } = require("react");
+
+import { createContext, useState, useEffect, useContext } from "react";
 import {
-	login as loginUser,
-	logout as logoutUser,
-	getUser,
+  login as loginUser,
+  logout as logoutUser,
+  getUser,
 } from "@/utils/auth";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-	const storedUser = getUser();
-	const [currentUser, setCurrentUser] = useState(storedUser);
+  const [currentUser, setCurrentUser] = useState(null);
 
-	const login = (username) => {
-		const success = loginUser(username);
-		if (success) {
-			const loggedInUser = getUser();
-			setCurrentUser(loggedInUser);
-		}
-		return success;
-	};
+  useEffect(() => {
+    setCurrentUser(getUser());
 
-	const logout = () => {
-		logoutUser();
-		setCurrentUser(null);
-	};
+    const handleStorageChange = () => {
+      setCurrentUser(getUser());
+    };
 
-	return (
-		<AuthContext.Provider value={{ currentUser, login, logout }}>
-			{children}
-		</AuthContext.Provider>
-	);
+    // Listen for our custom storage events
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const login = (username) => {
+    const success = loginUser(username);
+    if (success) {
+      setCurrentUser(getUser());
+    }
+    return success;
+  };
+
+  const logout = () => {
+    logoutUser();
+    setCurrentUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ currentUser, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuthContext() {
-	const context = useContext(AuthContext);
-	if (!context) {
-		throw new Error("useAuthContext must be used within an AuthProvider");
-	}
-	return context;
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuthContext must be used within an AuthProvider");
+  }
+  return context;
 }

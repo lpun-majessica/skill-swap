@@ -9,10 +9,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Button, PopUpButton } from "@/components/common/Buttons";
 import { SkillDisplay } from "./SkillDisplay";
-import { UserRoundPlus } from "lucide-react";
 import Link from "next/link";
+
+import { ConnectionsButtons } from "./connection-buttons";
 
 import { useDataContext } from "@/contexts/data-context";
 import { useAuthContext } from "@/contexts/auth-context";
@@ -24,8 +24,6 @@ export default function UserCard({
 	skillsToTeach,
 	skillsToLearn,
 	bio,
-	_dob,
-	_job,
 	pfp,
 }) {
 	const currentUser = useAuthContext().currentUser ?? {
@@ -83,37 +81,11 @@ export default function UserCard({
 				</CardContent>
 
 				<CardFooter className="flex flex-row -mb-1 lg:mb-0 flex-wrap justify-center gap-2">
-					<ConnectionsButtons
-						connection={connection}
-						username={username}
-						currentUserId={currentUser.id}
-					/>
+					<ConnectionsButtons connection={connection} cardUserId={id} />
 				</CardFooter>
 			</Card>
 		</>
 	);
-}
-
-function ConnectionsButtons({ connection, username, currentUserId }) {
-	console.assert(connection.length <= 1);
-	if (connection.length === 0) {
-		return (
-			<Button text="Connect" username={username}>
-				<UserRoundPlus />
-			</Button>
-		);
-	} else if (connection[0].isAccepted) {
-		return <PopUpButton variant="connected" username={username} />;
-	} else if (connection[0].sender_id === currentUserId) {
-		return <PopUpButton variant="pending" username={username} />;
-	} else if (connection[0].receiver_id === currentUserId) {
-		return (
-			<>
-				<Button text="Decline" username={username} />
-				<Button text="Accept" username={username} />
-			</>
-		);
-	}
 }
 
 function shortenBio(bio, maxLength = 50) {

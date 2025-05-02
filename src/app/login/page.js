@@ -1,40 +1,41 @@
-'use client';
+"use client";
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { login } from '../../utils/auth';
+import { useAuthContext } from '@/contexts/auth-context'; 
 import { ModeToggle } from "@/components/common/mode-toggle";
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const router = useRouter();
+  const { login } = useAuthContext(); 
 
   const handleLogin = (e) => {
-    e.preventDefault(); // prevent reload
-    if (login(username)) {
+    e.preventDefault(); 
+    if (login(username)) { 
       router.push('/explore');
     } else {
       alert('username or password is invalid!');
     }
   };
 
-  return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-5 font-sans">
-      {/* Left Side: Hidden on Mobile */}
-      <div className="bg-red-600 text-white justify-center relative col-span-2 md:block hidden">
-        <div className="p-9 text-lg font-bold">SkillSwap</div>
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4 w-full">Welcome back!</h1>
-          <p className="text-xl w-full">Time to enhance your tech skills</p>
-        </div>
-        <div className="relative h-96 overflow-visible">
-          <img
-            src="/pfp/login-1.svg"
-            alt="Pending card"
-            className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[300%] h-auto object-contain "
-          />
-        </div>
-      </div>
+	return (
+		<div className="min-h-screen grid grid-cols-1 md:grid-cols-5 font-sans">
+			{/* Left Side: Hidden on Mobile */}
+			<div className="bg-red-600 text-white justify-center relative col-span-2 md:block hidden">
+				<div className="p-9 text-lg font-bold">SkillSwap</div>
+				<div className="text-center">
+					<h1 className="text-2xl font-bold mb-4 w-full">Welcome back!</h1>
+					<p className="text-xl w-full">Time to enhance your tech skills</p>
+				</div>
+				<div className="relative h-96 overflow-visible">
+					<img
+						src="/pfp/login-1.svg"
+						alt="Pending card"
+						className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[300%] h-auto object-contain "
+					/>
+				</div>
+			</div>
 
       {/* Right Side */}
       <div className="bg-white flex justify-center relative col-span-3 md:col-span-3 dark dark:bg-[oklch(0.145_0_0)]">        

@@ -88,6 +88,7 @@ export default function Navbar() {
 							) : (
 								<Logo />
 							)
+
 						) : isDarkMode ? (
 							<Logo />
 						) : (

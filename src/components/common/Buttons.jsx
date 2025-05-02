@@ -46,7 +46,7 @@ export function Button({ text, handleClick, children, username }) {
 	);
 }
 
-export function PopUpButton({ variant, username }) {
+export function PopUpButton({ variant, username, handleClick }) {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 	const buttonConfig = {
@@ -74,6 +74,7 @@ export function PopUpButton({ variant, username }) {
 
 	const handleConfirm = () => {
 		console.log(`${variant} action confirmed for @${username}`);
+		handleClick();
 	};
 
 	return (

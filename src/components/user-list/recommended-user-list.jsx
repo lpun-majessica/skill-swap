@@ -5,13 +5,13 @@ import { useAuthContext } from "@/contexts/auth-context";
 import { UserList } from "./user-list";
 
 export function RecommendedUserList() {
-	const currentUser = useAuthContext().currentUser;
-	const dataContext = useDataContext();
+	const { currentUser } = useAuthContext();
+	const { getFilteredUsers } = useDataContext();
 
-	if (!currentUser) return <UserList users={dataContext.users} />;
+	if (!currentUser) return null;
 
-	const users = dataContext.users.filter((user) => user.id !== currentUser.id);
-	const displayUsers = users.sort(
+	const filteredUsers = getFilteredUsers(currentUser.id);
+	const displayUsers = filteredUsers.sort(
 		(userA, userB) =>
 			countSimilarSkills(userB.skillsToTeach, userB.skillsToLearn) -
 			countSimilarSkills(userA.skillsToTeach, userA.skillsToLearn)

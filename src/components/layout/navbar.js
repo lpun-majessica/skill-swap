@@ -61,6 +61,7 @@ export default function Navbar() {
 		}
 		default: {
 			isDarkMode = false;
+			break;
 		}
 	}
 
@@ -164,7 +165,7 @@ export default function Navbar() {
 							</Link>
 
 							{/* Profile dropdown - desktop */}
-							<DropdownMenu modal={false}>
+							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<button className="w-8 h-8 hover:cursor-pointer rounded-full overflow-hidden focus:outline-none">
 										{currentUser?.pfp ? (
@@ -276,7 +277,7 @@ export default function Navbar() {
 									)}
 									onClick={() => setMenuOpen(false)}
 								>
-									<span>My Connection</span>
+									<span>My Network</span>
 								</Link>
 							</div>
 

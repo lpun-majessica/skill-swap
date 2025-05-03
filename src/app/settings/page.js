@@ -8,7 +8,7 @@ export default function SettingsPage() {
   if (!currentUser) return <div className="flex justify-center my-30 items-center font-semibold text-2xl">Login to your account</div>;
 
   return (
-    <div className="flex justify-center mt-28 mb-10">
+    <div className="flex justify-center mt-12 mb-10">
       <div className="flex flex-col lg:flex-row gap-10">
         <UserDetails isEditable={true}/>
         <div className="flex flex-col gap-6 ">

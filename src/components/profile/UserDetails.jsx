@@ -5,36 +5,12 @@ import { useAuthContext } from "@/contexts/auth-context";
 import { useDataContext } from "@/contexts/data-context";
 import Image from "next/image";
 import EditProfilePopup from "./EditProfilePopup";
-import { Button, PopUpButton } from "@/components/common/Buttons";
-import { UserRoundPlus } from "lucide-react";
+import { ConnectionsButtons } from "@/components/UserCard/connection-buttons";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-GB");
 };
-
-function ConnectionsButtons({ connection, username }) {
-  const { currentUser} = useAuthContext();
-	if (connection.length === 0) {
-		return (
-			<Button text="Connect" username={username}>
-				<UserRoundPlus />
-			</Button>
-		);
-	} else if (connection[connection.length - 1].isAccepted) {
-		return <PopUpButton variant="connected" username={username} />;
-	} else if (connection[connection.length - 1].sender_id === currentUser.id) {
-		return <PopUpButton variant="pending" username={username} />;
-	} else if (connection[connection.length - 1].receiver_id === currentUser.id) {
-		return (
-			<>
-				<Button text="Decline" username={username} />
-				<Button text="Accept" username={username} />
-			</>
-		);
-	}
-}
-
 
 const UserDetails = ({ isEditable = true, user = null }) => {
   const { currentUser, updateCurrentUser } = useAuthContext();
@@ -71,7 +47,7 @@ const UserDetails = ({ isEditable = true, user = null }) => {
       <h2 className="text-xl font-bold mt-4">{userData.fullname}</h2>
       <h4 className="text-ss-red-444 text-base mt-1 mb-3">{userData.job}</h4>
       {!isEditable && (
-        <ConnectionsButtons connection={connection} username={userData.username} />
+        <ConnectionsButtons connection={connection} cardUserId={user.id} />
       )}
       <div className="w-78 px-5 border border-gray-300 dark:border-ss-black-131 rounded-2xl py-4 sm:px-6 flex flex-col items-center my-4 sm:w-90">
         <div className="flex flex-col gap-4 w-full">

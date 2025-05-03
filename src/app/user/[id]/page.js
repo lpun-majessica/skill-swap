@@ -21,7 +21,7 @@ export default function UserProfile() {
   }
 
   return (
-    <div className="flex justify-center gap-10 mt-25 mx-10 flex-wrap bg-ss-light-FFF dark:bg-ss-black-121 mb-10">
+    <div className="flex justify-center gap-10 mt-12 mx-10 flex-wrap bg-ss-light-FFF dark:bg-ss-black-121 mb-10">
       {/* Left: user details */}
       <UserDetails user={user} isEditable={false} />
 

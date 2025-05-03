@@ -1,19 +1,20 @@
 "use client";
-
 import React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
 
-export function ModeToggle({ isHomePage, scrolled }) {
+export function ModeToggle({ isHomePage, scrolled, isLoginPage = false }) {
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
-  const iconColor = isHomePage && !scrolled
+  const iconColor = isLoginPage
+    ? "" // Default styling for login page
+    : isHomePage && !scrolled
     ? "text-white hover:text-white"
     : "text-black dark:text-white";
 

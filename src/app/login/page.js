@@ -1,34 +1,36 @@
 "use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuthContext } from '@/contexts/auth-context'; 
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/contexts/auth-context";
 import { ModeToggle } from "@/components/common/mode-toggle";
 import { toast } from "sonner";
 import Logo from "@/components/layout/logo";
+import { useTheme } from "next-themes";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
   const router = useRouter();
-  const { login } = useAuthContext(); 
+  const { login } = useAuthContext();
 
   const handleLogin = (e) => {
-    e.preventDefault(); 
-    if (login(username)) { 
-      router.push('/explore');
+    e.preventDefault();
+    if (login(username)) {
+      router.push("/explore");
     } else {
-      toast.error(
-        <span>Username or password is invalid!</span>
-      );
+      toast.error(<span>Username or password is invalid!</span>);
     }
   };
+
+  const { resolvedTheme } = useTheme();
+  let isDarkMode = resolvedTheme === "dark";
 
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-5 font-sans relative overflow-hidden">
       {/* Left Side: Hidden on Mobile */}
       <div className="bg-red-600 text-white relative col-span-2 md:block hidden overflow-visible">
         <div className="p-9 text-lg font-bold flex items-center gap-2">
-          <Logo />
+          <Logo variant="light" />
           <span>SkillSwap</span>
         </div>
 
@@ -38,24 +40,24 @@ export default function LoginPage() {
         </div>
 
         <div className="absolute inset-x-0 bottom-0 h-full pointer-events-none z-50 overflow-visible">
-  <img
-    src="/pfp/login-1.svg"
-    alt="Pending card"
-    className="absolute bottom-[-70px] left-1/2 translate-x-[-50%] w-[120%] max-w-none h-auto object-contain"
-  />
-</div>
+          <img
+            src="/pfp/login-1.svg"
+            alt="Pending card"
+            className="absolute bottom-[-70px] left-1/2 translate-x-[-50%] w-[120%] max-w-none h-auto object-contain"
+          />
+        </div>
       </div>
       {/* Right Side */}
-      <div className="bg-white flex justify-center relative col-span-3 md:col-span-3 dark dark:bg-[oklch(0.145_0_0)] z-0">
+      <div className="bg-white flex justify-center relative col-span-3 md:col-span-3 dark:bg-[oklch(0.145_0_0)] z-0">
         <div className="absolute right-5 p-10 z-10 flex justify-between items-center w-full">
           <div className="text-left">
             <div className="p-9 font-bold md:hidden visible text-left flex items-center gap-2">
-              <Logo />
+              <Logo variant={isDarkMode ? "light" : "dark"} />
               <span>SkillSwap</span>
             </div>
           </div>
           <div className="text-right">
-            <ModeToggle />
+            <ModeToggle isLoginPage={true} />
           </div>
         </div>
 
@@ -67,7 +69,7 @@ export default function LoginPage() {
               type="username"
               placeholder="your username"
               className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-full focus:outline-none"
-              onChange={e => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
             />
             <label htmlFor="password">Password</label>
             <input
@@ -82,7 +84,9 @@ export default function LoginPage() {
               Sign In
             </button>
             <p className="text-sm mt-4 text-center">
-              <a href="#" className="text-red-600 underline">Forgot password?</a>
+              <a href="#" className="text-red-600 underline">
+                Forgot password?
+              </a>
             </p>
           </form>
         </div>

@@ -5,7 +5,7 @@ import UserCard from "@/components/UserCard/UserCard";
 
 import { useEffect, useState } from "react";
 
-export function UserList({ users, tab }) {
+export function UserList({ users }) {
 	const pageSize = 8;
 	const [currentPage, setCurrentPage] = useState(0);
 
@@ -13,20 +13,18 @@ export function UserList({ users, tab }) {
 		window.scrollTo(0, 0);
 	}, [currentPage]);
 
-	useEffect(() => setCurrentPage(0), [tab]);
+	useEffect(() => setCurrentPage(0), [users]);
 
 	return (
 		<>
-			<div className="grid grid-cols-1 min-[900px]:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 mx-auto gap-4">
+			<div className="grid grid-cols-1 min-[900px]:grid-cols-2 min-[1180px]:grid-cols-3 min-[1500px]:grid-cols-4 mx-auto gap-4">
 				{users
 					.slice(currentPage * pageSize, (currentPage + 1) * pageSize)
 					.map((user) => {
 						return (
-							<UserCard
-								className="last-of-type:after:w-2xs"
-								key={user.id}
-								{...user}
-							/>
+							<div key={user.id} className="flex justify-center items-center">
+								<UserCard className="last-of-type:after:w-2xs" {...user} />
+							</div>
 						);
 					})}
 			</div>

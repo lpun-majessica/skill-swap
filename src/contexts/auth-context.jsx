@@ -1,16 +1,13 @@
-"use client";
+'use client';
 
-import { createContext, useState, useEffect, useContext } from "react";
-import {
-	login as loginUser,
-	logout as logoutUser,
-	getUser,
-} from "@/utils/auth";
+const { createContext, useState, useEffect, useContext } = require("react");
+import { login as loginUser, logout as logoutUser, getUser } from '@/utils/auth';
 
 const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
+export function AuthProvider({children}){
     const [currentUser, setCurrentUser] = useState(getUser());
+	const [isLoading, setIsLoading] = useState(true);
 
 
     const updateCurrentUser = (updatedFields) => {
@@ -24,32 +21,31 @@ export function AuthProvider({ children }) {
     };
 
 	useEffect(() => {
-		// setCurrentUser();
+		const user = getUser();
+		setCurrentUser(user);
+		setIsLoading(false);
 
 		const handleStorageChange = () => {
 			setCurrentUser(getUser());
 		};
 
-		// Listen for our custom storage events
 		window.addEventListener("storage", handleStorageChange);
-
-		return () => {
-			window.removeEventListener("storage", handleStorageChange);
-		};
+		return () => window.removeEventListener("storage", handleStorageChange);
 	}, []);
 
-	const login = (username) => {
-		const success = loginUser(username);
-		if (success) {
-			setCurrentUser(getUser());
-		}
-		return success;
-	};
+    const login = (username) => {
+        const success = loginUser(username);
+        if(success){
+            const loggedInUser = getUser();
+            setCurrentUser(loggedInUser);
+        }
+        return success;
+    };
 
-	const logout = () => {
-		logoutUser();
-		setCurrentUser(null);
-	};
+    const logout = () => {
+        logoutUser();
+        setCurrentUser(null);
+    };
 
 	return (
 		<AuthContext.Provider value={{ currentUser, updateCurrentUser, login, logout }}>
@@ -57,11 +53,11 @@ export function AuthProvider({ children }) {
 		</AuthContext.Provider>
 	);
 }
-
+ 
 export function useAuthContext() {
-	const context = useContext(AuthContext);
-	if (!context) {
-		throw new Error("useAuthContext must be used within an AuthProvider");
-	}
-	return context;
-}
+    const context = useContext(AuthContext);
+    if (!context) {
+      throw new Error('useAuthContext must be used within an AuthProvider');
+    }
+    return context;
+  }

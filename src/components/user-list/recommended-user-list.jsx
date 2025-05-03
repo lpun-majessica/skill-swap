@@ -3,36 +3,31 @@
 import { useDataContext } from "@/contexts/data-context";
 import { useAuthContext } from "@/contexts/auth-context";
 import { UserList } from "./user-list";
+import { SearchBar } from "@/components/search-bar";
 
 export function RecommendedUserList() {
-	const currentUser = useAuthContext().currentUser;
-	const dataContext = useDataContext();
+	const { currentUser } = useAuthContext();
+	const { getFilteredUsers, users } = useDataContext();
 
-	if (!currentUser) return <UserList users={dataContext.users} />;
+	if (!currentUser) return <UserList users={users} />;
 
-	const users = dataContext.users.filter((user) => user.id !== currentUser.id);
-	const displayUsers = users.sort(
-		(userA, userB) =>
-			countSimilarSkills(userB.skillsToTeach, userB.skillsToLearn) -
-			countSimilarSkills(userA.skillsToTeach, userA.skillsToLearn)
+	// recommended users by default
+	// or filtered users when filters or search are applied
+	const displayUsers = getFilteredUsers(currentUser.id);
+
+	return (
+		<>
+			<div className="flex flex-col-reverse min-[900px]:flex-row justify-center items-center min-[900px]:justify-start mb-6 mt-4 gap-3 h-20 min-[900px]:h-15">
+				<h1 className="text-2xl min-[1180px]:text-3xl font-bold text-ss-black-717 dark:text-ss-light-555">
+					Recommended for you
+				</h1>
+
+				<div className="min-[900px]:ml-auto">
+					<SearchBar />
+				</div>
+			</div>
+
+			<UserList users={displayUsers} />
+		</>
 	);
-
-	return <UserList users={displayUsers} />;
-
-	function countSimilarSkills(skillsToTeach, skillsToLearn) {
-		return (
-			compare(skillsToTeach, currentUser.skillsToLearn) +
-			compare(skillsToLearn, currentUser.skillsToTeach)
-		);
-
-		function compare(targetSkills, userSkills) {
-			let result = 0;
-			if (targetSkills && userSkills) {
-				targetSkills.forEach(
-					(skill) => (result += userSkills.includes(skill) ? 1 : 0)
-				);
-			}
-			return result;
-		}
-	}
 }

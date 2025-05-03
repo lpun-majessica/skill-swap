@@ -22,12 +22,8 @@ export function UserList({ users }) {
 					.slice(currentPage * pageSize, (currentPage + 1) * pageSize)
 					.map((user) => {
 						return (
-							<div className="flex justify-center items-center">
-								<UserCard
-									className="last-of-type:after:w-2xs"
-									key={user.id}
-									{...user}
-								/>
+							<div key={user.id} className="flex justify-center items-center">
+								<UserCard className="last-of-type:after:w-2xs" {...user} />
 							</div>
 						);
 					})}

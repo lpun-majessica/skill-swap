@@ -132,37 +132,40 @@ export function DataProvider({ children }) {
   const getFilteredUsers = (currentUserId) => {
     const currentUser = users.find((user) => user.id === currentUserId);
     if (!currentUser) return [];
-
+  
     // Check if filters or search are active
     const hasActiveFilters =
       filters.skillsToTeach.length > 0 || filters.skillsToLearn.length > 0;
     const hasActiveSearch = searchKeyword.trim() !== "";
-
+  
     // If no filters or search, return recommended users
     if (!hasActiveFilters && !hasActiveSearch) {
       return getRecommendedUsers(currentUserId);
     }
-
+  
     // Start with all users except current user
     let filtered = users.filter((user) => user.id !== currentUserId);
-
+  
     // Apply skill filters if any
     if (hasActiveFilters) {
       filtered = filtered.filter((user) => {
         const teachesMatch =
-          filters.skillsToLearn.length === 0 ||
+          filters.skillsToTeach.length > 0 &&
           user.skillsToTeach.some((skill) =>
-            filters.skillsToLearn.includes(skill)
-          );
-        const learnsMatch =
-          filters.skillsToTeach.length === 0 ||
-          user.skillsToLearn.some((skill) =>
             filters.skillsToTeach.includes(skill)
           );
+  
+        const learnsMatch =
+          filters.skillsToLearn.length > 0 &&
+          user.skillsToLearn.some((skill) =>
+            filters.skillsToLearn.includes(skill)
+          );
+  
+        // Return true if either Teach or Learn match
         return teachesMatch || learnsMatch;
       });
     }
-
+  
     // Apply search filter if any
     if (hasActiveSearch) {
       const keyword = searchKeyword.toLowerCase();

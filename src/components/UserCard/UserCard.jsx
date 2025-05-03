@@ -23,7 +23,7 @@ export default function UserCard({
 	username,
 	skillsToTeach,
 	skillsToLearn,
-	bio,
+	job,
 	pfp,
 }) {
 	const currentUser = useAuthContext().currentUser ?? {
@@ -44,7 +44,7 @@ export default function UserCard({
 
 	return (
 		<>
-			<Card className="relative w-3xs lg:w-2xs bg-ss-light-777 dark:bg-ss-black-131">
+			<Card className="relative w-3xs min-[800px]:w-64 min-[1280px]:w-67 min-[1545px]:w-2xs bg-ss-light-777 dark:bg-ss-black-131">
 				<Link href={`/user/${id}`} className="absolute inset-0" />
 				<Avatar className="-mt-1 lg:mt-0 size-16 lg:size-18 mx-auto">
 					<AvatarImage className="size-fit" src={pfp} alt={"@" + username} />
@@ -59,7 +59,7 @@ export default function UserCard({
 					</CardTitle>
 					<CardDescription className="w-[95cqw] m-auto">
 						<p className="truncate text-center text-xs text-ss-black-929 dark:text-ss-light-222">
-							{shortenBio(bio)}
+							{job}
 						</p>
 					</CardDescription>
 				</CardHeader>
@@ -86,8 +86,4 @@ export default function UserCard({
 			</Card>
 		</>
 	);
-}
-
-function shortenBio(bio, maxLength = 50) {
-	return bio.length <= maxLength ? bio : bio.slice(0, maxLength) + "...";
 }

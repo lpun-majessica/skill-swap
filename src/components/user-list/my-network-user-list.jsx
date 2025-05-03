@@ -18,11 +18,7 @@ export function MyNetWorkUserList() {
 	const [activeButton, setActiveButton] = useState(0);
 	const filterUsers = useDataContext().getUsersByStatus;
 
-	if (isLoading) {
-		return <div>Loading...</div>;
-	}
-
-	if (!currentUser) {
+	if (isLoading || !currentUser) {
 		return <div>Loading...</div>;
 	}
 

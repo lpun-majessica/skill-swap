@@ -1,3 +1,5 @@
+"use client"
+
 import Filter from "@/components/filter";
 import { MyNetWorkUserList } from "@/components/user-list/my-network-user-list";
 

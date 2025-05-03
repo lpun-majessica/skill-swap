@@ -14,9 +14,17 @@ const filterText = {
 };
 
 export function MyNetWorkUserList() {
-	const currentUser = useAuthContext().currentUser;
+	const { currentUser, isLoading } = useAuthContext();
 	const [activeButton, setActiveButton] = useState(0);
 	const filterUsers = useDataContext().getUsersByStatus;
+
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
+
+	if (!currentUser) {
+		return <div>Loading...</div>;
+	}
 
 	const displayUsers = filterUsers(
 		currentUser.id,

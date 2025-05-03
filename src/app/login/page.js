@@ -6,6 +6,7 @@ import { useAuthContext } from "@/contexts/auth-context";
 import { ModeToggle } from "@/components/common/mode-toggle";
 import { toast } from "sonner";
 import Logo from "@/components/layout/logo";
+import { useTheme } from "next-themes";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -21,12 +22,15 @@ export default function LoginPage() {
     }
   };
 
+  const { resolvedTheme } = useTheme();
+  let isDarkMode = resolvedTheme === "dark";
+
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-5 font-sans relative overflow-hidden">
       {/* Left Side: Hidden on Mobile */}
       <div className="bg-red-600 text-white relative col-span-2 md:block hidden overflow-visible">
         <div className="p-9 text-lg font-bold flex items-center gap-2">
-          <Logo />
+          <Logo variant="light" />
           <span>SkillSwap</span>
         </div>
 
@@ -48,7 +52,7 @@ export default function LoginPage() {
         <div className="absolute right-5 p-10 z-10 flex justify-between items-center w-full">
           <div className="text-left">
             <div className="p-9 font-bold md:hidden visible text-left flex items-center gap-2">
-              <Logo />
+              <Logo variant={isDarkMode ? "light" : "dark"} />
               <span>SkillSwap</span>
             </div>
           </div>

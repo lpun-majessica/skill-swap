@@ -108,8 +108,8 @@ export default function Filter() {
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
             sortedSkills={sortedSkills}
-            // selectedTeach={selectedTeach}
-            // selectedLearn={selectedLearn}
+            selectedTeach={selectedTeach}
+            selectedLearn={selectedLearn}
             handleCheckboxChange={handleCheckboxChange}
           />
 
@@ -123,9 +123,12 @@ export default function Filter() {
             </button>
 
             <button
-              onClick={() => setIsMobileFilterOpen(true)}
+              onClick={() => {
+              setIsMobileFilterOpen(false);
+              getFilteredUsers();
+            }}
               className="text-sm py-1 px-10 flex items-center justify-center gap-1 bg-ss-light-222 dark:bg-ss-black-444 text-black dark:text-white rounded-md font-semibold hover:bg-gray-100 dark:hover:bg-ss-black-444 transition-colors"
-            >
+           >
               Filter
             </button>
           </div>

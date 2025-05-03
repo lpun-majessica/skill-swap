@@ -53,13 +53,8 @@ export default function Filter() {
 	const filteredSkills = SKILLS.filter((skill) =>
 		skill.toLowerCase().includes(searchTerm.toLowerCase())
 	);
-  
-  if (currentUserId) {
-    const matchedUsers = getFilteredUsers(currentUserId);
-    const matchedUserIds = matchedUsers.map((user) => user.id);
-  }
 
-	const sortedSkills = [...filteredSkills].sort((a, b) => {
+  const sortedSkills = [...filteredSkills].sort((a, b) => {
 		const isASelected = selectedTeach.includes(a) || selectedLearn.includes(a);
 		const isBSelected = selectedTeach.includes(b) || selectedLearn.includes(b);
 		if (isASelected && !isBSelected) return -1;

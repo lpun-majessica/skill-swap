@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { login } from '../../utils/auth';
+import { useAuthContext } from '@/contexts/auth-context'; 
 import { ModeToggle } from "@/components/common/mode-toggle";
 import { toast } from "sonner";
 import Logo from "@/components/layout/logo";
@@ -10,10 +10,11 @@ import Logo from "@/components/layout/logo";
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const router = useRouter();
+  const { login } = useAuthContext(); 
 
   const handleLogin = (e) => {
-    e.preventDefault();
-    if (login(username)) {
+    e.preventDefault(); 
+    if (login(username)) { 
       router.push('/explore');
     } else {
       toast.error(
@@ -44,7 +45,6 @@ export default function LoginPage() {
   />
 </div>
       </div>
-
       {/* Right Side */}
       <div className="bg-white flex justify-center relative col-span-3 md:col-span-3 dark dark:bg-[oklch(0.145_0_0)] z-0">
         <div className="absolute right-5 p-10 z-10 flex justify-between items-center w-full">

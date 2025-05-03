@@ -102,56 +102,15 @@ export function DataProvider({ children }) {
     }
   };
 
-  // Get recommended users based on skill matching with improved sorting
-  const getRecommendedUsers = (currentUserId) => {
-    const currentUser = users.find((user) => user.id === currentUserId);
-    if (!currentUser) return [];
-
-    return users
-      .filter((user) => user.id !== currentUserId) // Exclude self
-      .filter((user) => {
-        // Must have at least one matching skill
-        const teachesMatch = user.skillsToTeach.some((skill) =>
-          currentUser.skillsToLearn.includes(skill)
-        );
-        const learnsMatch = user.skillsToLearn.some((skill) =>
-          currentUser.skillsToTeach.includes(skill)
-        );
-        return teachesMatch || learnsMatch;
-      })
-      .sort((userA, userB) => {
-        // First, sort by connection status
-        const statusA = getConnectionStatus(currentUserId, userA.id);
-        const statusB = getConnectionStatus(currentUserId, userB.id);
-        const priorityA = getConnectionPriority(statusA);
-        const priorityB = getConnectionPriority(statusB);
-
-        if (priorityA !== priorityB) {
-          return priorityA - priorityB;
-        }
-
-        // If same connection status, sort by skill match count (higher first)
-        return (
-          countSimilarSkills(userB, currentUser) -
-          countSimilarSkills(userA, currentUser)
-        );
-      });
-  };
-
   // Get users based on filters and search with improved sorting
   const getFilteredUsers = (currentUserId) => {
     const currentUser = users.find((user) => user.id === currentUserId);
-    if (!currentUser) return [];
+    if (!currentUser) return users;
 
     // Check if filters or search are active
     const hasActiveFilters =
       filters.skillsToTeach.length > 0 || filters.skillsToLearn.length > 0;
     const hasActiveSearch = searchKeyword.trim() !== "";
-
-    // If no filters or search, return recommended users
-    if (!hasActiveFilters && !hasActiveSearch) {
-      return getRecommendedUsers(currentUserId);
-    }
 
     // Start with all users except current user
     let filtered = users.filter((user) => user.id !== currentUserId);
@@ -186,7 +145,7 @@ export function DataProvider({ children }) {
       );
     }
 
-    // Apply the same sorting logic as in getRecommendedUsers
+    // Sort users by connection status and skill match count
     return filtered.sort((userA, userB) => {
       // First, sort by connection status
       const statusA = getConnectionStatus(currentUserId, userA.id);
@@ -282,7 +241,6 @@ export function DataProvider({ children }) {
         searchKeyword,
         setSearchKeyword,
         getFilteredUsers,
-        getRecommendedUsers,
         getUsersByStatus,
       }}
     >

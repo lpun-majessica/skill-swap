@@ -33,11 +33,11 @@ export function AuthProvider({children}){
 
     const logout = () => {
         logoutUser();
-        setCurrentUser(null);
+        setCurrentUser(null);        
     };
 
     return (
-        <AuthContext.Provider value={{currentUser, login, logout}}>
+        <AuthContext.Provider value={{currentUser, login, logout, isLoading}}>
             {children}
         </AuthContext.Provider>
     )

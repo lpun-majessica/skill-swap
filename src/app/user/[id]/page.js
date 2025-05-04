@@ -1,6 +1,7 @@
 import userData from '@/lib/data/users.json';
 import SkillDisplay from '@/components/profile/SkillDisplay';
 import UserDetails from '@/components/profile/UserDetails';
+import AuthGuard from '@/components/auth/AuthGuard';
 
 function formatDate(dateStr) {
   const date = new Date(dateStr);
@@ -17,15 +18,17 @@ export default async function UserProfile(props) { //Nextjs 15 yêu cầu
   }
 
   return (
-    <div className="flex justify-center gap-10 mt-25 mx-10 flex-wrap bg-ss-light-FFF dark:bg-ss-black-121 mb-10">
-      {/* Left: user details */}
-      <UserDetails user={user} isEditable={false} />
+    <AuthGuard>
+      <div className="flex justify-center gap-10 mt-25 mx-10 flex-wrap bg-ss-light-FFF dark:bg-ss-black-121 mb-10">
+        {/* Left: user details */}
+        <UserDetails user={user} isEditable={false} />
 
-      {/* Right: skills */}
-      <div className="flex flex-col gap-6 items-center">
-        <SkillDisplay title="Skills to Teach" skills={user.skillsToTeach} />
-        <SkillDisplay title="Skills to Learn" skills={user.skillsToLearn} />
+        {/* Right: skills */}
+        <div className="flex flex-col gap-6 items-center">
+          <SkillDisplay title="Skills to Teach" skills={user.skillsToTeach} />
+          <SkillDisplay title="Skills to Learn" skills={user.skillsToLearn} />
+        </div>
       </div>
-    </div>
+    </AuthGuard>
   );
 }

@@ -2,10 +2,18 @@
 import { useAuthContext } from "@/contexts/auth-context";
 import UserDetails from '@/components/profile/UserDetails';
 import SkillSection from '@/components/profile/SkillSection';
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function SettingsPage() {
   const { currentUser } = useAuthContext();
-  if (!currentUser) return <div className="flex justify-center my-30 items-center font-semibold text-2xl">Login to your account</div>;
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!currentUser) {
+      router.push("/login");
+    }
+  }, [currentUser]);
 
   return (
     <div className="flex justify-center mt-12 mb-10">

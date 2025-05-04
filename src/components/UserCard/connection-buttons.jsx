@@ -47,7 +47,7 @@ export function ConnectionsButtons({ connection, cardUserId }) {
 			<PopUpButton
 				variant="pending"
 				username={cardUsername}
-				handleClick={() => removeConnection(currConnection)}
+				handleClick={() => removeConnection(currConnection.id)}
 			/>
 		);
 	} else if (currConnection.receiver_id === currentUser.id) {

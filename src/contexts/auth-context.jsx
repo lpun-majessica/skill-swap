@@ -9,7 +9,7 @@ export function AuthProvider({children}){
     const [currentUser, setCurrentUser] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 
-	useEffect(() => {
+    useEffect(() => {
 		const user = getUser();
 		setCurrentUser(user);
 		setIsLoading(false);
@@ -21,6 +21,16 @@ export function AuthProvider({children}){
 		window.addEventListener("storage", handleStorageChange);
 		return () => window.removeEventListener("storage", handleStorageChange);
 	}, []);
+
+    const updateCurrentUser = (updatedFields) => {
+        const storedUser = getUser();
+        if (!storedUser) return;
+    
+        const updatedUser = { ...storedUser, ...updatedFields };
+    
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        setCurrentUser(updatedUser);
+    };
 
     const login = (username) => {
         const success = loginUser(username);
@@ -36,11 +46,11 @@ export function AuthProvider({children}){
         setCurrentUser(null);
     };
 
-    return (
-        <AuthContext.Provider value={{currentUser, login, logout}}>
-            {children}
-        </AuthContext.Provider>
-    )
+	return (
+		<AuthContext.Provider value={{ currentUser, updateCurrentUser, login, logout }}>
+			{children}
+		</AuthContext.Provider>
+	);
 }
  
 export function useAuthContext() {

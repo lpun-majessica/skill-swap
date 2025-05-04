@@ -1,29 +1,29 @@
-'use client';
-
-import { useEffect, useState } from 'react';
+"use client"
+import { useAuthContext } from "@/contexts/auth-context";
 import UserDetails from '@/components/profile/UserDetails';
 import SkillSection from '@/components/profile/SkillSection';
-import users from '@/lib/data/users.json';
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function SettingsPage() {
-  const [user, setUser] = useState(null);
+  const { currentUser } = useAuthContext();
+  const router = useRouter();
 
   useEffect(() => {
-    //id = 1
-    setUser(users[0]);
-  }, []);
-
-  if (!user) return <div>Loading...</div>;
+    if (!currentUser) {
+      router.push("/login");
+    }
+  }, [currentUser]);
 
   return (
-    <div className="flex justify-center mt-28 mb-10">
+    <div className="flex justify-center mt-12 mb-10">
       <div className="flex flex-col lg:flex-row gap-10">
-        <UserDetails user={user} isEditable={true}/>
+        <UserDetails currentUser={currentUser} isEditable={true}/>
         <div className="flex flex-col gap-6 ">
-          {user && (
+          {currentUser && (
             <>
-              <SkillSection title="Teach" skillKey="teach" userSkills={user.skillsToTeach} />
-              <SkillSection title="Learn" skillKey="learn" userSkills={user.skillsToLearn} />
+              <SkillSection title="Teach" skillKey="skillsToTeach" userSkills={currentUser.skillsToTeach} />
+              <SkillSection title="Learn" skillKey="skillsToLearn" userSkills={currentUser.skillsToLearn} />
             </>
           )}
         </div>

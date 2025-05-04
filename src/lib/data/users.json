@@ -59,7 +59,7 @@
     "fullname": "Fatima Noor",
     "username": "fatimanoor",
     "skillsToTeach": ["Python", "Pandas", "NumPy"],
-    "skillsToLearn": ["Frontend Development", "React"],
+    "skillsToLearn": ["JavaScript", "React"],
     "bio": "Data nerd diving into web apps.",
     "dob": "1993-07-18",
     "job": "Data Analyst",

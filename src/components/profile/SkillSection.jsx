@@ -1,58 +1,19 @@
 'use client';
+
 import { X } from 'lucide-react';
 import React, { useEffect, useState, useRef } from 'react';
 import { SKILLS } from '@/lib/constant';
 import './profile.css';
 import { Checkbox } from '../ui/checkbox';
+import { useAuthContext } from "@/contexts/auth-context";
 
 const SkillSection = ({ title, skillKey, userSkills = [] }) => {
-  const localStorageKey = `selectedSkills_${skillKey}`;
-
-  const [selectedSkills, setSelectedSkills] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem(localStorageKey);
-      return stored ? JSON.parse(stored) : userSkills;
-    }
-    return userSkills;
-  });
-
+  const { currentUser, updateCurrentUser } = useAuthContext();
   const [openDropdown, setOpenDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [displayedSkills, setDisplayedSkills] = useState(SKILLS); // manage skill list on dropdown-menu
 
   const dropdownRef = useRef(null);
-
-  // Đồng bộ localStorage khi selectedSkills thay đổi
-  useEffect(() => {
-    localStorage.setItem(localStorageKey, JSON.stringify(selectedSkills));
-  }, [selectedSkills, localStorageKey]);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(localStorageKey);
-    if (stored) {
-      const parsedSkills = JSON.parse(stored);
-      if (JSON.stringify(parsedSkills) !== JSON.stringify(selectedSkills)) {
-        setSelectedSkills(parsedSkills);
-      }
-    } else {
-      // Nếu không có giá trị trong localStorage, lưu vào localStorage và set state
-      if (JSON.stringify(userSkills) !== JSON.stringify(selectedSkills)) {
-        setSelectedSkills(userSkills);
-        localStorage.setItem(localStorageKey, JSON.stringify(userSkills));
-      }
-    }
-  }, [userSkills, localStorageKey, selectedSkills]);  // Thêm selectedSkills vào dependency
-  
-  useEffect(() => {
-    const stored = localStorage.getItem(localStorageKey);
-    if (stored) {
-      const parsedSkills = JSON.parse(stored);
-      if (!selectedSkills.length || !selectedSkills.some(skill => parsedSkills.includes(skill))) {
-        setSelectedSkills(parsedSkills);
-      }
-    }
-  }, [selectedSkills, localStorageKey]);
-  
 
   // Handle click outside
   useEffect(() => {
@@ -76,16 +37,34 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
     }
   }, [searchTerm, openDropdown]);
 
+  const [selectedSkills, setSelectedSkills] = useState([]);
+
+  useEffect(() => {
+    if (currentUser && currentUser[skillKey]) {
+      setSelectedSkills(currentUser[skillKey]);
+    }
+  }, [currentUser, skillKey]);
+
   const handleCheckboxChange = (skill) => {
-    setSelectedSkills((prev) =>
-      prev.includes(skill)
-        ? prev.filter((s) => s !== skill)
-        : [...prev, skill]
-    );
+    const newSkills = selectedSkills.includes(skill)
+      ? selectedSkills.filter((s) => s !== skill)
+      : [...selectedSkills, skill];
+
+    setSelectedSkills(newSkills);
+    updateCurrentUser({
+      ...currentUser,
+      [skillKey]: newSkills,
+    });
+
   };
 
   const handleRemoveSkill = (skill) => {
-    setSelectedSkills((prev) => prev.filter((s) => s !== skill));
+    const newSkills = selectedSkills.filter((s) => s !== skill);
+    setSelectedSkills(newSkills);
+    updateCurrentUser({
+      ...currentUser,
+      [skillKey]: newSkills,
+    });
   };
 
   const handleDropdownToggle = () => {
@@ -102,7 +81,7 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
       skill.toLowerCase().includes(term.toLowerCase())
     );
 
-    const selectedSet = new Set(selectedSkills); // dùng selectedSkills hiện tại
+    const selectedSet = new Set(selectedSkills);
 
     const selectedFirst = [
       ...filteredSkills.filter(skill => selectedSet.has(skill)),
@@ -136,7 +115,7 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
                 <span>{skill}</span>
                 <Checkbox
                   checked={selectedSkills.includes(skill)}
-                  onCheckedChange={(checked) => handleCheckboxChange(skill)}                
+                  onCheckedChange={(checked) => handleCheckboxChange(skill)}
                 />
               </label>
             ))}
@@ -148,7 +127,7 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
         {selectedSkills.map((skill) => (
           <div
             key={skill}
-            className="group flex items-center bg-gray-200 text-sm px-3 py-1 rounded-full hover:bg-ss-red-404 hover:text-ss-light-FFF dark:bg-ss-black-444 dark:hover:bg-ss-red-666"
+            className="group flex items-center bg-gray-200 text-sm px-3 py-1 rounded-full hover:bg-ss-red-404 hover:text-ss-light-FFF dark:bg-ss-black-444 dark:hover:bg-ss-red-404"
           >
             <span>{skill}</span>
             <button

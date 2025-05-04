@@ -68,84 +68,58 @@ export function DataProvider({ children }) {
     );
   };
 
+  const getCurrentUser = (currentUserId) => {
+    const currentUser = users.find((user) => user.id === currentUserId);
+    // if not logged in, returns dummy data to remains searchable
+    return currentUser ?? { id: 0, skillsToLearn: [], skillsToTeach: [] };
+  };
+
   // Get the connection status between two users
   const getConnectionStatus = (currentUserId, otherUserId) => {
     const connection = connections.find(
-      conn => 
-        (conn.sender_id === currentUserId && conn.receiver_id === otherUserId) ||
+      (conn) =>
+        (conn.sender_id === currentUserId &&
+          conn.receiver_id === otherUserId) ||
         (conn.receiver_id === currentUserId && conn.sender_id === otherUserId)
     );
-    
+
     if (!connection) return "not_connected";
-    
+
     if (connection.isAccepted) return "connected";
-    
+
     // If not accepted, check if it's pending sent or received
-    return connection.sender_id === currentUserId ? "pending_sent" : "pending_received";
+    return connection.sender_id === currentUserId
+      ? "pending_sent"
+      : "pending_received";
   };
 
   // Helper function to get a numeric priority for connection status
   const getConnectionPriority = (status) => {
     switch (status) {
-      case "not_connected": return 0; // Highest priority - not connected
-      case "pending_sent": 
-      case "pending_received": return 1; // Medium priority - pending
-      case "connected": return 2; // Lowest priority - already connected
-      default: return 3;
+      case "not_connected":
+        return 0; // Highest priority - not connected
+      case "pending_sent":
+      case "pending_received":
+        return 1; // Medium priority - pending
+      case "connected":
+        return 2; // Lowest priority - already connected
+      default:
+        return 3;
     }
-  };
-
-  // Get recommended users based on skill matching with improved sorting
-  const getRecommendedUsers = (currentUserId) => {
-    const currentUser = users.find((user) => user.id === currentUserId);
-    if (!currentUser) return [];
-
-    return users
-      .filter((user) => user.id !== currentUserId) // Exclude self
-      .filter((user) => {
-        // Must have at least one matching skill
-        const teachesMatch = user.skillsToTeach.some((skill) =>
-          currentUser.skillsToLearn.includes(skill)
-        );
-        const learnsMatch = user.skillsToLearn.some((skill) =>
-          currentUser.skillsToTeach.includes(skill)
-        );
-        return teachesMatch || learnsMatch;
-      })
-      .sort((userA, userB) => {
-        // First, sort by connection status
-        const statusA = getConnectionStatus(currentUserId, userA.id);
-        const statusB = getConnectionStatus(currentUserId, userB.id);
-        const priorityA = getConnectionPriority(statusA);
-        const priorityB = getConnectionPriority(statusB);
-        
-        if (priorityA !== priorityB) {
-          return priorityA - priorityB;
-        }
-        
-        // If same connection status, sort by skill match count (higher first)
-        return countSimilarSkills(userB, currentUser) - countSimilarSkills(userA, currentUser);
-      });
   };
 
   // Get users based on filters and search with improved sorting
   const getFilteredUsers = (currentUserId) => {
-    const currentUser = users.find((user) => user.id === currentUserId);
-    if (!currentUser) return [];
-  
+    const currentUser = getCurrentUser(currentUserId);
+
     // Check if filters or search are active
     const hasActiveFilters =
       filters.skillsToTeach.length > 0 || filters.skillsToLearn.length > 0;
     const hasActiveSearch = searchKeyword.trim() !== "";
-  
-    // If no filters or search, return recommended users
-    if (!hasActiveFilters && !hasActiveSearch) {
-      return getRecommendedUsers(currentUserId);
-    }
-  
+
     // Start with all users except current user
     let filtered = users.filter((user) => user.id !== currentUserId);
-  
+
     // Apply skill filters if any
     if (hasActiveFilters) {
       filtered = filtered.filter((user) => {
@@ -154,18 +128,18 @@ export function DataProvider({ children }) {
           user.skillsToTeach.some((skill) =>
             filters.skillsToTeach.includes(skill)
           );
-  
+
         const learnsMatch =
           filters.skillsToLearn.length > 0 &&
           user.skillsToLearn.some((skill) =>
             filters.skillsToLearn.includes(skill)
           );
-  
+
         // Return true if either Teach or Learn match
         return teachesMatch || learnsMatch;
       });
     }
-  
+
     // Apply search filter if any
     if (hasActiveSearch) {
       const keyword = searchKeyword.toLowerCase();
@@ -176,20 +150,23 @@ export function DataProvider({ children }) {
       );
     }
 
-    // Apply the same sorting logic as in getRecommendedUsers
+    // Sort users by connection status and skill match count
     return filtered.sort((userA, userB) => {
       // First, sort by connection status
       const statusA = getConnectionStatus(currentUserId, userA.id);
       const statusB = getConnectionStatus(currentUserId, userB.id);
       const priorityA = getConnectionPriority(statusA);
       const priorityB = getConnectionPriority(statusB);
-      
+
       if (priorityA !== priorityB) {
         return priorityA - priorityB;
       }
-      
+
       // If same connection status, sort by skill match count (higher first)
-      return countSimilarSkills(userB, currentUser) - countSimilarSkills(userA, currentUser);
+      return (
+        countSimilarSkills(userB, currentUser) -
+        countSimilarSkills(userA, currentUser)
+      );
     });
   };
 
@@ -218,20 +195,63 @@ export function DataProvider({ children }) {
   const getUsersByStatus = (currentUserId, type) => {
     const { accepted, pendingSent, pendingReceived } =
       getConnectionLists(currentUserId);
+    let filteredUsers;
+
     switch (type) {
       case "all":
-        return users.filter((user) =>
+        filteredUsers = users.filter((user) =>
           [...accepted, ...pendingSent, ...pendingReceived].includes(user.id)
         );
+        break;
       case "connections":
-        return users.filter((user) => accepted.includes(user.id));
+        filteredUsers = users.filter((user) => accepted.includes(user.id));
+        break;
       case "pending":
-        return users.filter((user) => pendingSent.includes(user.id));
+        filteredUsers = users.filter((user) => pendingSent.includes(user.id));
+        break;
       case "requests":
-        return users.filter((user) => pendingReceived.includes(user.id));
+        filteredUsers = users.filter((user) =>
+          pendingReceived.includes(user.id)
+        );
+        break;
       default:
-        return [];
+        filteredUsers = [];
     }
+
+    // Apply skill filters if any are active
+    const hasActiveFilters =
+      filters.skillsToTeach.length > 0 || filters.skillsToLearn.length > 0;
+
+    if (hasActiveFilters) {
+      filteredUsers = filteredUsers.filter((user) => {
+        const teachesMatch =
+          filters.skillsToTeach.length > 0 &&
+          user.skillsToTeach.some((skill) =>
+            filters.skillsToTeach.includes(skill)
+          );
+
+        const learnsMatch =
+          filters.skillsToLearn.length > 0 &&
+          user.skillsToLearn.some((skill) =>
+            filters.skillsToLearn.includes(skill)
+          );
+
+        // Return true if either Teach or Learn match
+        return teachesMatch || learnsMatch;
+      });
+    }
+
+    // Apply search filter if any
+    if (searchKeyword.trim() !== "") {
+      const keyword = searchKeyword.toLowerCase();
+      filteredUsers = filteredUsers.filter(
+        (user) =>
+          (user.name?.toLowerCase().includes(keyword) ?? false) ||
+          (user.username?.toLowerCase().includes(keyword) ?? false)
+      );
+    }
+
+    return filteredUsers;
   };
 
   return (
@@ -249,7 +269,6 @@ export function DataProvider({ children }) {
         searchKeyword,
         setSearchKeyword,
         getFilteredUsers,
-        getRecommendedUsers,
         getUsersByStatus,
       }}
     >

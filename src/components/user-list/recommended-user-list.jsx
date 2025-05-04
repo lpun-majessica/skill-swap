@@ -7,11 +7,11 @@ import { SearchBar } from "@/components/search-bar";
 
 export function RecommendedUserList() {
 	const { currentUser } = useAuthContext();
-	const { getFilteredUsers, users } = useDataContext();
+	const { getFilteredUsers } = useDataContext();
 
 	// recommended users by default
 	// or filtered users when filters or search are applied
-	const displayUsers = getFilteredUsers(currentUser ? currentUser.id : 0);
+	const displayUsers = getFilteredUsers(currentUser?.id);
 
 	return (
 		<>

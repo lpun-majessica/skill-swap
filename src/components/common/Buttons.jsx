@@ -5,16 +5,26 @@ import { Button as ButtonTemplate } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import ConfirmationDialog from "@/components/common/confirmation-dialog";
+import { useAuthContext } from "@/contexts/auth-context";
+import { useRouter } from "next/navigation";
 
 const sharedClass =
-	"relative text-xs lg:text-sm w-24 h-8 lg:w-28 lg:h-10 rounded-4xl hover:cursor-pointer";
+	"relative text-xs lg:text-[13px] xl:text-sm w-22 h-8 md:w-24 lg:h-9 xl:w-26 xl:h-10 2xl:w-28 rounded-4xl hover:cursor-pointer";
 const redButton = `${sharedClass} bg-ss-red-505 text-ss-light-555 hover:bg-ss-red-404 active:bg-ss-red-404/70 dark:bg-ss-red-404 dark:hover:bg-ss-red-404/70 dark:active:bg-ss-red-404/50 dark:text-ss-light-222`;
 const grayButton = `${sharedClass} flex flex-row justify-center items-center gap-1 bg-ss-light-555 border-2 border-ss-light-222 text-ss-black-444 hover:bg-ss-light-222 dark:bg-ss-black-131 dark:hover:bg-ss-black-444 dark:border-ss-black-444 dark:text-ss-light-555`;
 
 export function Button({ text, handleClick, children, username }) {
+	const router = useRouter();
+	const { currentUser } = useAuthContext();
+
 	const className = text !== "Decline" ? redButton : grayButton;
 
 	const showToast = () => {
+		if (!currentUser) {
+			router.push("/login");
+			return;
+		}
+
 		if (text === "Accept") {
 			toast.success(
 				<span>
@@ -80,7 +90,7 @@ export function PopUpButton({ variant, username, handleClick }) {
 	return (
 		<>
 			<ButtonTemplate className={grayButton} onClick={handleOpenDialog}>
-				{buttonText} <ChevronDown className="size-4" />
+				{buttonText} <ChevronDown className="size-3 lg:size-4" />
 			</ButtonTemplate>
 
 			<ConfirmationDialog

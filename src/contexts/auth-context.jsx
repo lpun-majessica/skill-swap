@@ -6,21 +6,10 @@ import { login as loginUser, logout as logoutUser, getUser } from '@/utils/auth'
 const AuthContext = createContext();
 
 export function AuthProvider({children}){
-    const [currentUser, setCurrentUser] = useState(getUser());
+    const [currentUser, setCurrentUser] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 
-
-    const updateCurrentUser = (updatedFields) => {
-        const storedUser = getUser();
-        if (!storedUser) return;
-    
-        const updatedUser = { ...storedUser, ...updatedFields };
-    
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-        setCurrentUser(updatedUser);
-    };
-
-	useEffect(() => {
+    useEffect(() => {
 		const user = getUser();
 		setCurrentUser(user);
 		setIsLoading(false);
@@ -32,6 +21,16 @@ export function AuthProvider({children}){
 		window.addEventListener("storage", handleStorageChange);
 		return () => window.removeEventListener("storage", handleStorageChange);
 	}, []);
+
+    const updateCurrentUser = (updatedFields) => {
+        const storedUser = getUser();
+        if (!storedUser) return;
+    
+        const updatedUser = { ...storedUser, ...updatedFields };
+    
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        setCurrentUser(updatedUser);
+    };
 
     const login = (username) => {
         const success = loginUser(username);

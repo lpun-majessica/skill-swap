@@ -1,11 +1,12 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import React from "react";
 import { UserCardDemo } from "@/components/UserCard/UserCardDemo.jsx";
 
 import mockUsers from "@/lib/data/users.json";
 
 export default function HomePage() {
+	const router = useRouter();
 	return (
 		<div className="flex flex-col items-center w-full overflow-x-hidden font-inter">
 			{/* === 1. Hero Section === */}
@@ -33,7 +34,8 @@ export default function HomePage() {
 						<br />
 						Share What You Know, Learn What You Love.
 					</p>
-					<button className="mt-6 px-6 py-3 bg-red-600 hover:bg-red-700 rounded-full text-white font-bold font-inter">
+					<button className="mt-6 px-6 py-3 bg-red-600 hover:bg-red-700 rounded-full text-white font-bold font-inter"
+					onClick={() => router.push("/login")}>
 						Get Started
 					</button>
 				</div>
@@ -279,10 +281,12 @@ export default function HomePage() {
 						learning community!
 					</p>
 					<div className="flex justify-center gap-4">
-						<button className="px-6 py-2 bg-[#DA0505] text-white rounded-full hover:bg-red-700 transition font-bold">
+						<button className="px-6 py-2 bg-[#DA0505] text-white rounded-full hover:bg-red-700 transition font-bold"
+						onClick={() => router.push("/login")}>
 							Get Started
 						</button>
-						<button className="px-6 py-2 border border-[#DA0505] text-red-600 rounded-full hover:bg-red-600 hover:text-white transition font-semibold">
+						<button className="px-6 py-2 border border-[#DA0505] text-red-600 rounded-full hover:bg-red-600 hover:text-white transition font-semibold"
+						onClick={() => router.push("/explore")}>
 							Explore Users
 						</button>
 					</div>

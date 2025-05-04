@@ -182,14 +182,20 @@ export function DataProvider({ children }) {
       .map((conn) =>
         conn.sender_id === currentUserId ? conn.receiver_id : conn.sender_id
       );
+
     const pendingSent = connections
       .filter((conn) => !conn.isAccepted && conn.sender_id === currentUserId)
       .map((conn) => conn.receiver_id);
+
     const pendingReceived = connections
       .filter((conn) => !conn.isAccepted && conn.receiver_id === currentUserId)
       .map((conn) => conn.sender_id);
+
     return { accepted, pendingSent, pendingReceived };
   };
+
+    const getUserById = (id) => {
+    return users.find((user) => user.id === id);}
 
   // Get users by type
   const getUsersByStatus = (currentUserId, type) => {
@@ -254,6 +260,25 @@ export function DataProvider({ children }) {
     return filteredUsers;
   };
 
+  // Function to check if two users have compatible skills
+  const hasCompatibleSkills = (userId, currentUser) => {
+    const user = users.find((user) => user.id === userId);
+
+    if (!user || !currentUser) return false;
+
+    // Check if user has at least one skill to learn that current user can teach
+    const userCanLearnFromCurrent = user.skillsToLearn.some((skill) =>
+      currentUser.skillsToTeach.includes(skill)
+    );
+
+    // Check if current user has at least one skill to learn that user can teach
+    const currentCanLearnFromUser = currentUser.skillsToLearn.some((skill) =>
+      user.skillsToTeach.includes(skill)
+    );
+
+    return userCanLearnFromCurrent && currentCanLearnFromUser;
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -268,8 +293,10 @@ export function DataProvider({ children }) {
         setFilters,
         searchKeyword,
         setSearchKeyword,
+        getUserById,
         getFilteredUsers,
         getUsersByStatus,
+        hasCompatibleSkills,
       }}
     >
       {children}

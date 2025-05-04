@@ -1,45 +1,90 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useAuthContext } from "@/contexts/auth-context";
+import { useDataContext } from "@/contexts/data-context";
 import Image from "next/image";
 import EditProfilePopup from "./EditProfilePopup";
+import { ConnectionsButtons } from "@/components/UserCard/connection-buttons";
+import { DynaPuff } from 'next/font/google';
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-GB");
 };
 
-const UserDetails = ({ user, isEditable = true }) => {
-  const [userData, setUserData] = useState(user);
-  const [showPopup, setShowPopup] = useState(false);
+const dynapuff = DynaPuff({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+});
 
-  useEffect(() => {
-    if (isEditable) {
-      const savedUser = localStorage.getItem("userProfile");
-      if (savedUser) {
-        setUserData(JSON.parse(savedUser));
-      }
-    }
-  }, [isEditable]);
+const UserDetails = ({ currentUser, user = null, isEditable = true }) => {
+  const { updateCurrentUser } = useAuthContext();
+  const [showPopup, setShowPopup] = useState(false);
+  const { hasCompatibleSkills } = useDataContext();
+
+  // const connection = useDataContext().connections.filter(
+  //     (conn) =>
+  //       (conn.sender_id === user.id && conn.receiver_id === currentUser.id) ||
+  //       (conn.sender_id === currentUser.id && conn.receiver_id === user.id)
+  //   );
+  const connection = useDataContext().connections.filter(
+    (conn) =>
+      currentUser &&
+      user &&
+      ((conn.sender_id === user.id && conn.receiver_id === currentUser.id) ||
+        (conn.sender_id === currentUser.id && conn.receiver_id === user.id))
+  );
 
   const handleEditClick = () => setShowPopup(true);
   const handleClosePopup = () => setShowPopup(false);
 
   const handleSave = (updatedUser) => {
-    setUserData(updatedUser);
-    localStorage.setItem("userProfile", JSON.stringify(updatedUser));
+    updateCurrentUser(updatedUser);
     setShowPopup(false);
   };
 
+  const [isMatch, setIsMatch] = useState(false);
+
+  useEffect(() => {
+    if (
+      !isEditable &&
+      user &&
+      currentUser &&
+      Array.isArray(currentUser.skillsToTeach) &&
+      Array.isArray(currentUser.skillsToLearn)
+    ) {
+      setIsMatch(hasCompatibleSkills(user.id, currentUser));
+    }
+  }, [user?.id, currentUser, isEditable]);
+
+  const userData = isEditable ? currentUser : user;
+
+  if (!userData) return null;
+
   return (
-    <div className=" mx-5 md:mx-0 w-sm lg:w-lg md:w-md sm:w-md bg-white dark:bg-ss-black-929 rounded-2xl shadow-lg inset-shadow-2xs p-6 flex flex-col items-center h-fit">
-      <Image src={`/pfp/${userData.id}.jpeg`} alt="Avatar" width={160} height={160} className="rounded-full" />
+    <div className={`mx-5 md:mx-0 w-sm lg:w-lg md:w-md sm:w-md bg-white dark:bg-ss-black-929 rounded-2xl p-6 flex
+       flex-col items-center h-fit ${isMatch ? "shadow-[0_0px_10px_rgba(218,_5,_5,_0.3)] dark:shadow-[0_0px_10px_rgba(255,_111,_111,_0.4)] dark:ring-ss-red-666 dark:ring-1" : "shadow-lg inset-shadow-2xs"
+      }`}>
+      <div className="relative w-full">
+        <span
+          className={`${dynapuff.className} absolute left-0 top-1 text-sm text-ss-red-666 
+      ${!isEditable && isMatch ? "visible" : "invisible"}`}
+        >
+          Potential match
+        </span>
+
+        <div className="w-full flex justify-center">
+          <Image src={userData.pfp} alt="Avatar" width={160} height={160} sizes="(max-width: 640px) 96px, 160px"
+            className="rounded-full w-[96px] sm:w-[160px] h-auto"
+          />
+        </div>
+      </div>
       <h2 className="text-xl font-bold mt-4">{userData.fullname}</h2>
-      <h4 className="text-ss-red-444 text-base mt-1">{userData.job}</h4>
+      <h4 className="text-ss-red-444 text-base mt-1 mb-3">{userData.job}</h4>
       {!isEditable && (
-        <button className="font-semibold text-ss-light-FFF mt-4 px-6 py-2 bg-ss-red-404 rounded-full hover:bg-ss-light-777 hover:text-ss-black-717">
-          Connect
-        </button>
+        <ConnectionsButtons connection={connection} cardUserId={user.id} />
       )}
       <div className="w-78 px-5 border border-gray-300 dark:border-ss-black-131 rounded-2xl py-4 sm:px-6 flex flex-col items-center my-4 sm:w-90">
         <div className="flex flex-col gap-4 w-full">
@@ -81,7 +126,6 @@ const UserDetails = ({ user, isEditable = true }) => {
       {/* Popup */}
       {showPopup && (
         <EditProfilePopup
-          userData={userData}
           onSave={handleSave}
           onClose={handleClosePopup}
         />

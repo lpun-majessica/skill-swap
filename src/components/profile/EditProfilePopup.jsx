@@ -1,25 +1,38 @@
 "use client";
+
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input"
 import { DatePickerDemo } from "../ui/datepicker";
-import { useState } from "react";
+import { useAuthContext } from "@/contexts/auth-context";
 
 
-const EditProfilePopup = ({ userData, onSave, onClose }) => {
-  const [dob, setDob] = useState(userData.dob);
+const EditProfilePopup = ({ onClose }) => {
+  const { currentUser, updateCurrentUser } = useAuthContext();
+  const [dob, setDob] = useState("");
+
+  useEffect(() => {
+    if (currentUser) {
+      setDob(currentUser.dob);
+    }
+  }, [currentUser]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+
     const updatedUser = {
-      ...userData,
+      ...currentUser,
       fullname: formData.get("fullname"),
-      // username: formData.get("username"),
-      dob: dob,
       job: formData.get("job"),
+      dob: dob,
       bio: formData.get("bio"),
     };
-    onSave(updatedUser);
+
+    updateCurrentUser(updatedUser); // Update via context
+    onClose(); // Close popup
   };
+
+  if (!currentUser) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[4px] z-50">
@@ -30,16 +43,9 @@ const EditProfilePopup = ({ userData, onSave, onClose }) => {
             type="text"
             name="fullname"
             placeholder="Full Name"
-            defaultValue={userData.fullname}
+            defaultValue={currentUser.fullname}
             required
           />
-          {/* <Input
-            type="text"
-            name="username"
-            placeholder="Username"
-            defaultValue={userData.username}
-            required
-          /> */}
 
           <DatePickerDemo dob={dob} onChangeDob={setDob}/>
 
@@ -47,13 +53,13 @@ const EditProfilePopup = ({ userData, onSave, onClose }) => {
             type="text"
             name="job"
             placeholder="Position"
-            defaultValue={userData.job}
+            defaultValue={currentUser.job}
             required
           />
           <textarea
             name="bio"
             placeholder="Bio"
-            defaultValue={userData.bio}
+            defaultValue={currentUser.bio}
             className="border rounded-md px-3 py-2 shadow-xs dark:bg-input/30 "
             rows={3}
           />

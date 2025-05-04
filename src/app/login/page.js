@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/auth-context";
 import { ModeToggle } from "@/components/common/mode-toggle";
 import { toast } from "sonner";
-import Logo from "@/components/layout/logo";
+import Logo, { WhiteLogo } from "@/components/layout/logo";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -40,7 +41,7 @@ export default function LoginPage() {
       {/* Left Side: Hidden on Mobile */}
       <div className="bg-red-600 text-white relative col-span-2 md:block hidden overflow-visible">
         <div className="p-9 text-lg font-bold flex items-center gap-2">
-          <Logo variant="light" />
+          <WhiteLogo />
           <span>SkillSwap</span>
         </div>
 
@@ -61,10 +62,13 @@ export default function LoginPage() {
       <div className="bg-white flex justify-center relative col-span-3 md:col-span-3 dark:bg-[oklch(0.145_0_0)] z-0">
         <div className="absolute right-5 p-10 z-10 flex justify-between items-center w-full">
           <div className="text-left">
-            <div className="p-9 font-bold md:hidden visible text-left flex items-center gap-2">
-              <Logo variant={isDarkMode ? "light" : "dark"} />
+            <Link
+              href="/"
+              className="p-9 font-bold md:hidden visible text-left flex items-center gap-2"
+            >
+              <Logo />
               <span>SkillSwap</span>
-            </div>
+            </Link>
           </div>
           <div className="text-right">
             <ModeToggle isLoginPage={true} />

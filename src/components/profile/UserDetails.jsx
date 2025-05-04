@@ -65,14 +65,14 @@ const UserDetails = ({ currentUser, user = null, isEditable = true }) => {
 
   return (
     <div className={`mx-5 md:mx-0 w-sm lg:w-lg md:w-md sm:w-md bg-white dark:bg-ss-black-929 rounded-2xl p-6 flex
-       flex-col items-center h-fit ${isMatch ? "shadow-[0_0px_10px_rgba(218,_5,_5,_0.3)] dark:shadow-[0_0px_10px_rgba(255,_111,_111,_0.4)] dark:ring-ss-red-666 dark:ring-1" : "shadow-lg inset-shadow-2xs"
+       flex-col items-center h-fit ${isMatch ? "shadow-[0_0px_7px_rgba(218,_5,_5,_0.3)] dark:shadow-[0_0px_7px_rgba(255,_111,_111,_0.4)] ring-ss-red-666 dark:ring-[#864C4C] ring-1" : "shadow-lg inset-shadow-2xs"
       }`}>
       <div className="relative w-full">
         <span
           className={`${dynapuff.className} absolute left-0 top-1 text-sm text-ss-red-666 
       ${!isEditable && isMatch ? "visible" : "invisible"}`}
         >
-          Potential match
+          Potential match!
         </span>
 
         <div className="w-full flex justify-center">

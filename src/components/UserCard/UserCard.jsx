@@ -16,6 +16,7 @@ import { ConnectionsButtons } from "./connection-buttons";
 
 import { useDataContext } from "@/contexts/data-context";
 import { useAuthContext } from "@/contexts/auth-context";
+import { useState, useEffect } from "react";
 
 export default function UserCard({
 	id,
@@ -42,9 +43,25 @@ export default function UserCard({
 		.map((word) => word[0].toUpperCase())
 		.join("");
 
+
+	const { hasCompatibleSkills } = useDataContext();
+
+	const [isMatch, setIsMatch] = useState(false);
+
+	useEffect(() => {
+		if (
+			currentUser &&
+			Array.isArray(currentUser.skillsToTeach) &&
+			Array.isArray(currentUser.skillsToLearn)
+		) {
+			setIsMatch(hasCompatibleSkills(id, currentUser));
+		}
+	}, [id, currentUser]);
+
 	return (
 		<>
-			<Card className="relative w-3xs min-[800px]:w-64 min-[1280px]:w-67 min-[1545px]:w-2xs bg-ss-light-777 dark:bg-ss-black-131">
+			<Card className={`relative w-3xs min-[800px]:w-64 min-[1280px]:w-67 min-[1545px]:w-2xs bg-ss-light-777 dark:bg-ss-black-131
+				${isMatch ? "shadow-[0_0px_6px_rgba(218,_5,_5,_0.3)] dark:shadow-[0_0px_4px_rgba(255,_111,_111,_0.4)] ring-[#FF9595] dark:ring-ss-red-666 ring-1" : "shadow-lg inset-shadow-2xs"}`}>
 				<Link href={`/user/${id}`} className="absolute inset-0" />
 				<Avatar className="-mt-1 lg:mt-0 size-16 lg:size-18 mx-auto">
 					<AvatarImage className="size-fit" src={pfp} alt={"@" + username} />

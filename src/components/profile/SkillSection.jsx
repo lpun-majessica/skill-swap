@@ -127,7 +127,7 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
         {selectedSkills.map((skill) => (
           <div
             key={skill}
-            className="group flex items-center bg-gray-200 text-sm px-3 py-1 rounded-full hover:bg-ss-red-404 hover:text-ss-light-FFF dark:bg-ss-black-444 dark:hover:bg-ss-red-666"
+            className="group flex items-center bg-gray-200 text-sm px-3 py-1 rounded-full hover:bg-ss-red-404 hover:text-ss-light-FFF dark:bg-ss-black-444 dark:hover:bg-ss-red-404"
           >
             <span>{skill}</span>
             <button

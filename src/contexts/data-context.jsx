@@ -75,12 +75,12 @@ export function DataProvider({ children }) {
   };
 
   // Get the connection status between two users
-  const getConnectionStatus = (currentUserId, otherUserId) => {
+  const getConnectionStatus = (currentUser, otherUserId) => {
     const connection = connections.find(
       (conn) =>
-        (conn.sender_id === currentUserId &&
+        (conn.sender_id === currentUser &&
           conn.receiver_id === otherUserId) ||
-        (conn.receiver_id === currentUserId && conn.sender_id === otherUserId)
+        (conn.receiver_id === currentUser && conn.sender_id === otherUserId)
     );
 
     if (!connection) return "not_connected";
@@ -88,7 +88,7 @@ export function DataProvider({ children }) {
     if (connection.isAccepted) return "connected";
 
     // If not accepted, check if it's pending sent or received
-    return connection.sender_id === currentUserId
+    return connection.sender_id === currentUser
       ? "pending_sent"
       : "pending_received";
   };
@@ -109,16 +109,16 @@ export function DataProvider({ children }) {
   };
 
   // Get users based on filters and search with improved sorting
-  const getFilteredUsers = (currentUserId) => {
-    const currentUser = getCurrentUser(currentUserId);
-
+  const getFilteredUsers = (currentUser) => {
     // Check if filters or search are active
     const hasActiveFilters =
       filters.skillsToTeach.length > 0 || filters.skillsToLearn.length > 0;
     const hasActiveSearch = searchKeyword.trim() !== "";
 
-    // Start with all users except current user
-    let filtered = users.filter((user) => user.id !== currentUserId);
+    // Start with all users (exclude currentUser if exists)
+    let filtered = users.filter(
+      (user) => !currentUser || user.id !== currentUser.id
+    );
 
     // Apply skill filters if any
     if (hasActiveFilters) {
@@ -135,7 +135,6 @@ export function DataProvider({ children }) {
             filters.skillsToLearn.includes(skill)
           );
 
-        // Return true if either Teach or Learn match
         return teachesMatch || learnsMatch;
       });
     }
@@ -150,24 +149,26 @@ export function DataProvider({ children }) {
       );
     }
 
-    // Sort users by connection status and skill match count
-    return filtered.sort((userA, userB) => {
-      // First, sort by connection status
-      const statusA = getConnectionStatus(currentUserId, userA.id);
-      const statusB = getConnectionStatus(currentUserId, userB.id);
-      const priorityA = getConnectionPriority(statusA);
-      const priorityB = getConnectionPriority(statusB);
+    // Sort only if currentUser exists
+    if (currentUser && currentUser.id) {
+      filtered = filtered.sort((userA, userB) => {
+        const statusA = getConnectionStatus(currentUser.id, userA.id);
+        const statusB = getConnectionStatus(currentUser.id, userB.id);
+        const priorityA = getConnectionPriority(statusA);
+        const priorityB = getConnectionPriority(statusB);
 
-      if (priorityA !== priorityB) {
-        return priorityA - priorityB;
-      }
+        if (priorityA !== priorityB) {
+          return priorityA - priorityB;
+        }
 
-      // If same connection status, sort by skill match count (higher first)
-      return (
-        countSimilarSkills(userB, currentUser) -
-        countSimilarSkills(userA, currentUser)
-      );
-    });
+        return (
+          countSimilarSkills(userB, currentUser) -
+          countSimilarSkills(userA, currentUser)
+        );
+      });
+    }
+
+    return filtered;
   };
 
   // Get the list of users based on connection status
@@ -194,8 +195,9 @@ export function DataProvider({ children }) {
     return { accepted, pendingSent, pendingReceived };
   };
 
-    const getUserById = (id) => {
-    return users.find((user) => user.id === id);}
+  const getUserById = (id) => {
+    return users.find((user) => user.id === id);
+  }
 
   // Get users by type
   const getUsersByStatus = (currentUserId, type) => {

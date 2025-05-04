@@ -23,7 +23,7 @@ export default function UserProfile() {
   return (
     <div className="flex justify-center gap-10 mt-12 mx-10 flex-wrap bg-ss-light-FFF dark:bg-ss-black-121 mb-10">
       {/* Left: user details */}
-      <UserDetails user={user} isEditable={false} />
+      <UserDetails currentUser={currentUser} user={user} isEditable={false} />
 
       {/* Right: skills */}
       <div className="flex flex-col gap-6 items-center">

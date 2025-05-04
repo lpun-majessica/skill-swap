@@ -10,7 +10,7 @@ export default function SettingsPage() {
   return (
     <div className="flex justify-center mt-12 mb-10">
       <div className="flex flex-col lg:flex-row gap-10">
-        <UserDetails isEditable={true}/>
+        <UserDetails currentUser={currentUser} isEditable={true}/>
         <div className="flex flex-col gap-6 ">
           {currentUser && (
             <>

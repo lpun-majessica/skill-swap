@@ -6,15 +6,23 @@ import { useDataContext } from "@/contexts/data-context";
 import Image from "next/image";
 import EditProfilePopup from "./EditProfilePopup";
 import { ConnectionsButtons } from "@/components/UserCard/connection-buttons";
+import { DynaPuff } from 'next/font/google';
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-GB");
 };
 
-const UserDetails = ({ isEditable = true, user = null }) => {
-  const { currentUser, updateCurrentUser } = useAuthContext();
+const dynapuff = DynaPuff({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const UserDetails = ({ currentUser, user = null, isEditable = true }) => {
+  const { updateCurrentUser } = useAuthContext();
   const [showPopup, setShowPopup] = useState(false);
+  const { hasCompatibleSkills } = useDataContext();
 
   // const connection = useDataContext().connections.filter(
   //     (conn) =>
@@ -26,7 +34,7 @@ const UserDetails = ({ isEditable = true, user = null }) => {
       currentUser &&
       user &&
       ((conn.sender_id === user.id && conn.receiver_id === currentUser.id) ||
-       (conn.sender_id === currentUser.id && conn.receiver_id === user.id))
+        (conn.sender_id === currentUser.id && conn.receiver_id === user.id))
   );
 
   const handleEditClick = () => setShowPopup(true);
@@ -37,13 +45,42 @@ const UserDetails = ({ isEditable = true, user = null }) => {
     setShowPopup(false);
   };
 
+  const [isMatch, setIsMatch] = useState(false);
+
+  useEffect(() => {
+    if (
+      !isEditable &&
+      user &&
+      currentUser &&
+      Array.isArray(currentUser.skillsToTeach) &&
+      Array.isArray(currentUser.skillsToLearn)
+    ) {
+      setIsMatch(hasCompatibleSkills(user.id, currentUser));
+    }
+  }, [user?.id, currentUser, isEditable]);
+
   const userData = isEditable ? currentUser : user;
 
   if (!userData) return null;
 
   return (
-    <div className=" mx-5 md:mx-0 w-sm lg:w-lg md:w-md sm:w-md bg-white dark:bg-ss-black-929 rounded-2xl shadow-lg inset-shadow-2xs p-6 flex flex-col items-center h-fit">
-      <Image src={userData.pfp} alt="Avatar" width={160} height={160} className="rounded-full" />
+    <div className={`mx-5 md:mx-0 w-sm lg:w-lg md:w-md sm:w-md bg-white dark:bg-ss-black-929 rounded-2xl p-6 flex
+       flex-col items-center h-fit ${isMatch ? "shadow-[0_0px_10px_rgba(218,_5,_5,_0.3)]" : "shadow-lg inset-shadow-2xs"
+      }`}>
+      <div className="relative w-full">
+        <span
+          className={`${dynapuff.className} absolute left-0 top-1 text-sm text-ss-red-666 
+      ${!isEditable && isMatch ? "visible" : "invisible"}`}
+        >
+          Potential match
+        </span>
+
+        <div className="w-full flex justify-center">
+          <Image src={userData.pfp} alt="Avatar" width={160} height={160} sizes="(max-width: 640px) 96px, 160px"
+            className="rounded-full w-[96px] sm:w-[160px] h-auto"
+          />
+        </div>
+      </div>
       <h2 className="text-xl font-bold mt-4">{userData.fullname}</h2>
       <h4 className="text-ss-red-444 text-base mt-1 mb-3">{userData.job}</h4>
       {!isEditable && (

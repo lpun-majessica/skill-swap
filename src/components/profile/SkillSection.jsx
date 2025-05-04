@@ -51,14 +51,20 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
       : [...selectedSkills, skill];
 
     setSelectedSkills(newSkills);
-    updateCurrentUser({ [skillKey]: newSkills });
+    updateCurrentUser({
+      ...currentUser,
+      [skillKey]: newSkills,
+    });
 
   };
 
   const handleRemoveSkill = (skill) => {
     const newSkills = selectedSkills.filter((s) => s !== skill);
     setSelectedSkills(newSkills);
-    updateCurrentUser({ [skillKey]: newSkills });
+    updateCurrentUser({
+      ...currentUser,
+      [skillKey]: newSkills,
+    });
   };
 
   const handleDropdownToggle = () => {

@@ -166,6 +166,9 @@ export function DataProvider({ children }) {
     return { accepted, pendingSent, pendingReceived };
   };
 
+    const getUserById = (id) => {
+    return users.find((user) => user.id === id);}
+
   // Get users by type
   const getUsersByStatus = (currentUserId, type) => {
     const { accepted, pendingSent, pendingReceived } =
@@ -188,9 +191,8 @@ export function DataProvider({ children }) {
   };
 
   // Function to check if two users have compatible skills
-  const hasCompatibleSkills = (userId, currentUserId) => {
+  const hasCompatibleSkills = (userId, currentUser) => {
     const user = users.find((user) => user.id === userId);
-    const currentUser = users.find((user) => user.id === currentUserId);
 
     if (!user || !currentUser) return false;
 

@@ -26,11 +26,15 @@ export const logout = () => {
 };
 
 export const getUser = () => {
-	try {
-		const user = localStorage.getItem("user");
-		return user ? JSON.parse(user) : null;
-	} catch (err) {
-		console.error("Failed to parse user from localStorage", err);
-		return null;
-	}
-}
+  try {
+    if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+      const user = localStorage.getItem("user");
+      return user ? JSON.parse(user) : null;
+    }
+    return null;
+  } catch (err) {
+    console.error("Failed to parse user from localStorage", err);
+    return null;
+  }
+};
+

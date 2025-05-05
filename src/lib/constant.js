@@ -26,21 +26,9 @@ export const SKILLS = [
   "Prototyping",
   "Design Systems",
   "HTML/CSS",
-  "Machine Learning",
-  "C++",
-  "Java",
-  "Ruby",
-  "Go",
-  "Swift",
-  "Kotlin",
-  "Rust",
-  "PHP",
-  "SQL",
-  "Scala",
 ];
 
-export  const navItems = [
+export const navItems = [
   { label: "Home", href: "/" },
   { label: "Explore", href: "/explore" },
-  { label: "About us", href: "/about" },
 ];

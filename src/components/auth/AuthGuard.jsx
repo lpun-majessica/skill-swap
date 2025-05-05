@@ -1,21 +1,22 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getUser } from '../../utils/auth';
+import { useAuthContext } from '@/contexts/auth-context';
 
 export default function AuthGuard({ children }) {
+  const { currentUser, isLoading } = useAuthContext();
   const router = useRouter();
-  const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    const user = getUser();
-    if (!user) {
-      router.push('/login');
-    } else {
-      setChecking(false);
+    if (!isLoading && !currentUser) {
+      router.replace('/login');
     }
-  }, []);
+  }, [isLoading, currentUser, router]);
 
-  if (checking) return <p>Loading...</p>;
+  if (isLoading || !currentUser) {
+    return null;
+  }
 
   return children;
 }

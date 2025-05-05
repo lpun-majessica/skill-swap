@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { SKILLS } from "@/lib/constant";
 import { Input } from "@/components/ui/input";
 import { Filter as FilterIcon, X } from "lucide-react";
-import { useDataContext } from "@/contexts/data-context"; // Import context
-import { useAuthContext } from "@/contexts/auth-context";
+import { useDataContext } from "@/contexts/data-context"; 
 
 export default function Filter() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,9 +14,13 @@ export default function Filter() {
 
   // Use context to get filters and set them
   const { setFilters, getFilteredUsers } = useDataContext();
-  const { currentUser } = useAuthContext(); // Get current user from context
-  // get current user ID from context
-  const currentUserId = currentUser?.id;
+
+  // Clear filters when component unmounts
+  useEffect(() => {
+    return () => {
+      setFilters({ skillsToTeach: [], skillsToLearn: [] });
+    };
+  }, [setFilters]);
 
   const handleCheckboxChange = (skill, type) => {
     let updatedTeach = [...selectedTeach];

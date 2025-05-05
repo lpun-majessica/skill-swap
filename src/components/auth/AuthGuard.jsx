@@ -1,22 +1,26 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuthContext } from '@/contexts/auth-context';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/contexts/auth-context";
 
 export default function AuthGuard({ children }) {
-  const { currentUser, isLoading } = useAuthContext();
-  const router = useRouter();
+	const { currentUser, isLoading } = useAuthContext();
+	const router = useRouter();
 
-  useEffect(() => {
-    if (!isLoading && !currentUser) {
-      router.replace('/login');
-    }
-  }, [isLoading, currentUser, router]);
+	useEffect(() => {
+		if (!isLoading && !currentUser) {
+			router.replace("/login");
+		}
+	}, [isLoading, currentUser, router]);
 
-  if (isLoading || !currentUser) {
-    return null;
-  }
+	if (isLoading || !currentUser) {
+		return (
+			<div className="flex justify-center items-center text-3xl min-h-95 border-4 border-red-500">
+				Loading ...
+			</div>
+		);
+	}
 
-  return children;
+	return children;
 }

@@ -58,15 +58,17 @@ Use the following usernames to log in:
 ### Landing Page
 
 - Public welcome page with a call-to-action for login/signup.
-![Homepage](/demo/homepage-light.jpeg)
-![Homepage](/demo/homepage-dark.jpeg)
+
+<img src="public/demo/homepage-light.jpeg" alt="Homepage Light" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="public/demo/homepage-dark.jpeg" alt="Homepage Dark" width="45%" style="display:inline-block;">
 
 ### Login Page
 
-- Enter a test account username (`alexj`, `bella.design`).
+- Enter a test account username.
 - Saves the current user to `localStorage` for session persistence.
-![Login](/demo/login-page-light.jpeg)
-![Login](/demo/login-page-dark.jpeg)
+
+<img src="public/demo/login-page-light.jpeg" alt="Login Light" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="public/demo/login-page-dark.jpeg" alt="Login Dark" width="45%" style="display:inline-block;">
 
 ### Explore Page
 
@@ -81,8 +83,8 @@ Use the following usernames to log in:
   - Accept/reject invitations.
   - Cancel sent requests.
 
-![Explore](/demo/explore-light.jpeg)
-![Explore](/demo/explore-dark.jpeg)
+<img src="public/demo/explore-light.jpeg" alt="Explore Light" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="public/demo/explore-dark.jpeg" alt="Explore Dark" width="45%" style="display:inline-block;">
 
 ### My Network Page
 
@@ -91,8 +93,9 @@ Use the following usernames to log in:
   - Pending Requests (sent)
   - Invitations (received)
 - Supports filters and search.
-  ![My Network](/demo/my-network-light.jpeg)
-  ![My Network](/demo/my-network-dark.jpeg)
+
+<img src="public/demo/my-network-light.jpeg" alt="My Network Light" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="public/demo/my-network-dark.jpeg" alt="My Network Dark" width="45%" style="display:inline-block;">
 
 ### Settings Page
 
@@ -103,8 +106,8 @@ Use the following usernames to log in:
   - Skills to Teach
   - Skills to Learn
 
-![Settings](/demo/settings-light.jpeg)
-![Settings](/demo/settings-dark.jpeg)
+<img src="public/demo/settings-light.jpeg" alt="Settings Light" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="public/demo/settings-dark.jpeg" alt="Settings Dark" width="45%" style="display:inline-block;">
 
 ### User Profile Page
 
@@ -112,8 +115,8 @@ Use the following usernames to log in:
 - Displays mutual skills.
 - Includes an action button (connect / pending / connected / respond).
 
-![User Profile](/demo/user-profile-light.jpeg)  
-![User Profile](/demo/user-profile-dark.jpeg)
+<img src="public/demo/user-profile-light.jpeg" alt="User Profile Light" width="45%" style="display:inline-block; margin-right:5%;">
+<img src="public/demo/user-profile-dark.jpeg" alt="User Profile Dark" width="45%" style="display:inline-block;">
 
 ---
 

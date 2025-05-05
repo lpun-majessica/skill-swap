@@ -1,8 +1,16 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SkillSwap
+
+SkillSwap is a responsive web application designed to connect people based on the skills they want to teach and learn. Built with **Next.js**, **Tailwind CSS**, and **shadcn/ui**, it supports both dark and light modes for an enhanced user experience.
+
+## Author
+
+- Nguyen Thi Ngoc Anh
+- Nguyen Nhu Ha
+- Nguyen Pham Anh Thu
 
 ## Getting Started
 
-First, run the development server:
+To start the development server, run:
 
 ```bash
 npm run dev
@@ -14,24 +22,86 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then, open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Project Goal
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+SkillSwap enables users to showcase a skill they can teach and one they want to learn. It facilitates mutual skill exchange by connecting users with shared interests.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework**: [Next.js](https://nextjs.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
+- **State Management**: `React Context API` via `useContext`
+- **Mock Backend**: Local JSON file
+- **Storage**: `localStorage` for session persistence
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Test Accounts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Use the following usernames to log in:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# SkillSwap
+1. `alexj`
+2. `bella.design`
+
+---
+
+## Pages Overview
+
+### Landing Page
+
+- Public welcome page with a call-to-action for login/signup.
+
+### Login Page
+
+- Enter a test account username (`alexj`, `bella.design`).
+- Saves the current user to `localStorage` for session persistence.
+
+### Explore Page
+
+- **Features**:
+  - Users sorted by match status and number of compatible skills.
+  - Highlight users with at least one match in both "teach" and "learn".
+- **Filters**:
+  - By skill to teach or learn.
+  - By username or name (search).
+- **Actions**:
+  - Send connection requests.
+  - Accept/reject invitations.
+  - Cancel sent requests.
+
+### My Network Page
+
+- Displays connections categorized as:
+  - My Connections
+  - Pending Requests (sent)
+  - Invitations (received)
+- Supports filters and search.
+
+### Settings Page
+
+- Allows users to edit:
+  - Name
+  - Username
+  - Bio
+  - Skills to Teach
+  - Skills to Learn
+
+### User Profile Page
+
+- View another user’s full profile.
+- Displays mutual skills.
+- Includes an action button (connect / pending / connected / respond).
+
+---
+
+## Features
+
+- **Responsive Design**: Optimized for both desktop and mobile devices.
+- **Dark/Light Mode**: Seamless theme switching.
+- **Skill Matching**: Intuitive logic to connect users with shared interests.
+- **Persistent Sessions**: User data stored in `localStorage`.

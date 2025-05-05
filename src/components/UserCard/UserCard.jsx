@@ -17,6 +17,7 @@ import { ConnectionsButtons } from "./connection-buttons";
 import { useDataContext } from "@/contexts/data-context";
 import { useAuthContext } from "@/contexts/auth-context";
 import { useState, useEffect } from "react";
+import { ArrowRightLeft } from 'lucide-react';
 
 export default function UserCard({
 	id,
@@ -63,12 +64,14 @@ export default function UserCard({
 			<Card className={`relative w-3xs min-[800px]:w-64 min-[1280px]:w-67 min-[1545px]:w-2xs bg-ss-light-777 dark:bg-ss-black-131
 				${isMatch ? "shadow-[0_0px_6px_rgba(218,_5,_5,_0.3)] dark:shadow-[0_0px_4px_rgba(255,_111,_111,_0.4)] ring-[#FF9595] dark:ring-ss-red-666 ring-1" : "shadow-lg inset-shadow-2xs"}`}>
 				<Link href={`/user/${id}`} className="absolute inset-0" />
+				<ArrowRightLeft strokeWidth={2} size={22} className={`-mt-1 absolute ml-5 p-0.5 rounded-full text-ss-red-666 border-ss-red-666 border-2 ${isMatch ? "visible" : "invisible"}`}/> 
 				<Avatar className="-mt-1 lg:mt-0 size-16 lg:size-18 mx-auto">
 					<AvatarImage className="size-fit" src={pfp} alt={"@" + username} />
 					<AvatarFallback className="bg-ss-light-333 dark:bg-ss-black-444">
 						{fallbackName}
 					</AvatarFallback>
 				</Avatar>
+				
 
 				<CardHeader>
 					<CardTitle className="text-center -mt-3 -mb-1 text-lg lg:text-xl font-bold text-ss-black-222 dark:text-ss-light-555">

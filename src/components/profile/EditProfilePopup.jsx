@@ -39,7 +39,7 @@ const EditProfilePopup = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-[4px] z-50">
-      <div className="bg-white p-6 rounded-2xl w-lg shadow-lg dark:bg-ss-black-929">
+      <div className="bg-white p-6 rounded-2xl w-90 sm:w-lg shadow-lg dark:bg-ss-black-929">
         <h2 className="text-xl font-bold mb-6 ml-2">Edit Profile</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Input

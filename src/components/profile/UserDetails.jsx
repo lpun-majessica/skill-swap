@@ -7,6 +7,7 @@ import Image from "next/image";
 import EditProfilePopup from "./EditProfilePopup";
 import { ConnectionsButtons } from "@/components/UserCard/connection-buttons";
 import { DynaPuff } from 'next/font/google';
+import { ArrowRightLeft } from 'lucide-react';
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -60,15 +61,15 @@ const UserDetails = ({ currentUser, user = null, isEditable = true }) => {
 
   return (
     <div className={`mx-5 md:mx-0 w-sm lg:w-lg md:w-md sm:w-md bg-white dark:bg-ss-black-929 rounded-2xl p-6 flex
-       flex-col items-center h-fit ${isMatch ? "shadow-[0_0px_7px_rgba(218,_5,_5,_0.3)] dark:shadow-[0_0px_7px_rgba(255,_111,_111,_0.4)] ring-ss-red-666 dark:ring-[#864C4C] ring-1" : "shadow-lg inset-shadow-2xs"
+       flex-col items-center h-fit ${isMatch ? "shadow-[0_0px_7px_rgba(218,_5,_5,_0.3)] dark:shadow-[0_0px_7px_rgba(255,_111,_111,_0.4)] ring-ss-red-666 dark:ring-[#c06464] ring-1" : "shadow-lg inset-shadow-2xs"
       }`}>
       <div className="relative w-full">
-        <span
-          className={`${dynapuff.className} absolute left-0 top-1 text-sm text-ss-red-666 
+        <div
+          className={`absolute flex gap-1 text-xs font-bold text-ss-red-666 px-2 py-1 border-2 border-ss-red-666 rounded-full 
       ${!isEditable && isMatch ? "visible" : "invisible"}`}
-        >
-          Potential match!
-        </span>
+        > <ArrowRightLeft strokeWidth={2} size={16} className="hidden sm:inline"/> 
+          <span>Potential match!</span>
+        </div>
 
         <div className="w-full flex justify-center">
           <Image src={userData.pfp} alt="Avatar" width={160} height={160} sizes="(max-width: 640px) 96px, 160px"

@@ -4,7 +4,9 @@ import { useParams } from 'next/navigation';
 import { useAuthContext } from "@/contexts/auth-context";
 import SkillDetails from '@/components/profile/SkillDetails';
 import UserDetails from '@/components/profile/UserDetails';
+import AuthGuard from '@/components/auth/AuthGuard';
 import { useDataContext } from '@/contexts/data-context';
+
 
 
 export default function UserProfile() {
@@ -21,6 +23,7 @@ export default function UserProfile() {
   }
 
   return (
+    <AuthGuard>
     <div className="flex justify-center gap-10 mt-12 mx-10 flex-wrap bg-ss-light-FFF dark:bg-ss-black-121 mb-10">
       {/* Left: user details */}
       <UserDetails currentUser={currentUser} user={user} isEditable={false} />
@@ -37,7 +40,8 @@ export default function UserProfile() {
           skills={user.skillsToLearn}
           currentUserSkills={currentUser?.skillsToTeach}
         />
+       </div>
       </div>
-    </div>
+    </AuthGuard>
   );
 }

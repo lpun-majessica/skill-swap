@@ -59,16 +59,20 @@ Use the following usernames to log in:
 
 - Public welcome page with a call-to-action for login/signup.
 
-<img src="public/demo/homepage-light.jpeg" alt="Homepage Light" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="public/demo/homepage-dark.jpeg" alt="Homepage Dark" width="45%" style="display:inline-block;">
+<div>
+  <img src="public/demo/homepage-light.jpeg" alt="Homepage Light" width="45%">
+  <img src="public/demo/homepage-dark.jpeg" alt="Homepage Dark" width="45%">
+</div>
 
 ### Login Page
 
 - Enter a test account username.
 - Saves the current user to `localStorage` for session persistence.
 
-<img src="public/demo/login-page-light.jpeg" alt="Login Light" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="public/demo/login-page-dark.jpeg" alt="Login Dark" width="45%" style="display:inline-block;">
+<div>
+  <img src="public/demo/login-page-light.jpeg" alt="Login Light" width="45%">
+  <img src="public/demo/login-page-dark.jpeg" alt="Login Dark" width="45%">
+</div>
 
 ### Explore Page
 
@@ -83,8 +87,10 @@ Use the following usernames to log in:
   - Accept/reject invitations.
   - Cancel sent requests.
 
-<img src="public/demo/explore-light.jpeg" alt="Explore Light" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="public/demo/explore-dark.jpeg" alt="Explore Dark" width="45%" style="display:inline-block;">
+<div>
+  <img src="public/demo/explore-light.jpeg" alt="Explore Light" width="45%">
+  <img src="public/demo/explore-dark.jpeg" alt="Explore Dark" width="45%">
+</div>
 
 ### My Network Page
 
@@ -94,8 +100,10 @@ Use the following usernames to log in:
   - Invitations (received)
 - Supports filters and search.
 
-<img src="public/demo/my-network-light.jpeg" alt="My Network Light" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="public/demo/my-network-dark.jpeg" alt="My Network Dark" width="45%" style="display:inline-block;">
+<div>
+  <img src="public/demo/my-network-light.jpeg" alt="My Network Light" width="45%">
+  <img src="public/demo/my-network-dark.jpeg" alt="My Network Dark" width="45%">
+</div>
 
 ### Settings Page
 
@@ -106,17 +114,21 @@ Use the following usernames to log in:
   - Skills to Teach
   - Skills to Learn
 
-<img src="public/demo/settings-light.jpeg" alt="Settings Light" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="public/demo/settings-dark.jpeg" alt="Settings Dark" width="45%" style="display:inline-block;">
+<div>
+  <img src="public/demo/settings-light.jpeg" alt="Settings Light" width="45%">
+  <img src="public/demo/settings-dark.jpeg" alt="Settings Dark" width="45%">
+</div>
 
 ### User Profile Page
 
-- View another user’s full profile.
+- View another user's full profile.
 - Displays mutual skills.
 - Includes an action button (connect / pending / connected / respond).
 
-<img src="public/demo/user-profile-light.jpeg" alt="User Profile Light" width="45%" style="display:inline-block; margin-right:5%;">
-<img src="public/demo/user-profile-dark.jpeg" alt="User Profile Dark" width="45%" style="display:inline-block;">
+<div>
+  <img src="public/demo/user-profile-light.jpeg" alt="User Profile Light" width="45%">
+  <img src="public/demo/user-profile-dark.jpeg" alt="User Profile Dark" width="45%">
+</div>
 
 ---
 

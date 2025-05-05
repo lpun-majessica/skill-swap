@@ -7,6 +7,7 @@ SkillSwap is a responsive web application designed to connect people based on th
 - Nguyen Thi Ngoc Anh
 - Nguyen Nhu Ha
 - Nguyen Pham Anh Thu
+- Le Thi Diem My
 
 ## Getting Started
 

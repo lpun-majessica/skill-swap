@@ -9,7 +9,7 @@ import { useAuthContext } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
 
 const sharedClass =
-	"relative text-xs lg:text-[13px] xl:text-sm w-22 h-8 md:w-24 lg:h-9 xl:w-26 xl:h-10 2xl:w-28 rounded-4xl hover:cursor-pointer";
+	"relative text-xs lg:text-[13px] xl:text-sm w-22 h-8 min-[800px]:w-24 min-[1280px]:h-9 min-[1545px]:w-26 min-[1545px]:h-10 rounded-4xl hover:cursor-pointer";
 const redButton = `${sharedClass} bg-ss-red-505 text-ss-light-555 hover:bg-ss-red-404 active:bg-ss-red-404/70 dark:bg-ss-red-404 dark:hover:bg-ss-red-404/70 dark:active:bg-ss-red-404/50 dark:text-ss-light-222`;
 const grayButton = `${sharedClass} flex flex-row justify-center items-center gap-1 bg-ss-light-555 border-2 border-ss-light-222 text-ss-black-444 hover:bg-ss-light-222 dark:bg-ss-black-131 dark:hover:bg-ss-black-444 dark:border-ss-black-444 dark:text-ss-light-555`;
 

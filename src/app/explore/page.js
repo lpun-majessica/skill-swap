@@ -3,7 +3,7 @@ import { RecommendedUserList } from "@/components/user-list/recommended-user-lis
 
 export default function ExplorePage() {
 	return (
-		<div className="flex flex-col sm:flex-row items-start min-h-screen px-4 sm:px-6 lg:px-8 py-3 lg:py-6 gap-2 lg:gap-3">
+		<div className="flex flex-col sm:flex-row items-start min-h-screen px-4 lg:px-10 2xl:px-12 py-3 lg:py-6 gap-2 lg:gap-3">
 			<div className="flex flex-col items-center sm:mt-10 mr-4 sm:mr-6 lg:mr-8">
 				<Filter />
 			</div>

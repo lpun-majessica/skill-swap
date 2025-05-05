@@ -24,11 +24,6 @@ const UserDetails = ({ currentUser, user = null, isEditable = true }) => {
   const [showPopup, setShowPopup] = useState(false);
   const { hasCompatibleSkills } = useDataContext();
 
-  // const connection = useDataContext().connections.filter(
-  //     (conn) =>
-  //       (conn.sender_id === user.id && conn.receiver_id === currentUser.id) ||
-  //       (conn.sender_id === currentUser.id && conn.receiver_id === user.id)
-  //   );
   const connection = useDataContext().connections.filter(
     (conn) =>
       currentUser &&

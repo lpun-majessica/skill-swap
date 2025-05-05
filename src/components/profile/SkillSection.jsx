@@ -6,9 +6,11 @@ import { SKILLS } from '@/lib/constant';
 import './profile.css';
 import { Checkbox } from '../ui/checkbox';
 import { useAuthContext } from "@/contexts/auth-context";
+import { useDataContext } from "@/contexts/data-context";
 
-const SkillSection = ({ title, skillKey, userSkills = [] }) => {
+const SkillSection = ({ title, skillKey }) => {
   const { currentUser, updateCurrentUser } = useAuthContext();
+  const { updateUser } = useDataContext();
   const [openDropdown, setOpenDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [displayedSkills, setDisplayedSkills] = useState(SKILLS); // manage skill list on dropdown-menu
@@ -55,7 +57,9 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
       ...currentUser,
       [skillKey]: newSkills,
     });
-
+    updateUser(currentUser.id, {
+      [skillKey]: newSkills
+    });
   };
 
   const handleRemoveSkill = (skill) => {
@@ -65,14 +69,9 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
       ...currentUser,
       [skillKey]: newSkills,
     });
-  };
-
-  const handleDropdownToggle = () => {
-    const willOpen = !openDropdown;
-    if (willOpen) {
-      updateDisplayedSkills(searchTerm);
-    }
-    setOpenDropdown(willOpen);
+    updateUser(currentUser.id, {
+      [skillKey]: newSkills
+    });
   };
 
   // arrange skills
@@ -101,7 +100,7 @@ const SkillSection = ({ title, skillKey, userSkills = [] }) => {
           placeholder="-- Add skills --"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          onClick={handleDropdownToggle}
+          onFocus={() => setOpenDropdown(true)}
           className="w-full p-2 border rounded-2xl bg-ss-light-777 dark:bg-ss-black-131 dark:focus:border-ss-black-444"
         />
 

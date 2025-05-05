@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input"
 import { DatePickerDemo } from "../ui/datepicker";
 import { useAuthContext } from "@/contexts/auth-context";
+import { useDataContext } from "@/contexts/data-context";
 
 
 const EditProfilePopup = ({ onClose }) => {
   const { currentUser, updateCurrentUser } = useAuthContext();
   const [dob, setDob] = useState("");
+  const { updateUser } = useDataContext();
 
   useEffect(() => {
     if (currentUser) {
@@ -28,7 +30,8 @@ const EditProfilePopup = ({ onClose }) => {
       bio: formData.get("bio"),
     };
 
-    updateCurrentUser(updatedUser); // Update via context
+    updateCurrentUser(updatedUser);
+    updateUser(currentUser.id, updatedUser);
     onClose(); // Close popup
   };
 

@@ -22,8 +22,8 @@ export default function SettingsPage() {
         <div className="flex flex-col gap-6 ">
           {currentUser && (
             <>
-              <SkillSection title="Teach" skillKey="skillsToTeach" userSkills={currentUser.skillsToTeach} />
-              <SkillSection title="Learn" skillKey="skillsToLearn" userSkills={currentUser.skillsToLearn} />
+              <SkillSection title="Teach" skillKey="skillsToTeach" />
+              <SkillSection title="Learn" skillKey="skillsToLearn" />
             </>
           )}
         </div>

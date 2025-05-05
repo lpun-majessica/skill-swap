@@ -11,7 +11,7 @@ export function RecommendedUserList() {
 
 	// recommended users by default
 	// or filtered users when filters or search are applied
-	const displayUsers = getFilteredUsers(currentUser);
+	const displayUsers = getFilteredUsers(currentUser?.id);
 
 	return (
 		<>

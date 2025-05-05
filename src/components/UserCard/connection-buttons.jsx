@@ -17,7 +17,7 @@ export function ConnectionsButtons({ connection, cardUserId }) {
 
 	console.assert(
 		connection.length <= 1,
-		`There are ${connection.length} connections between @${currentUser.username} (id: ${currentUser.id}) & @${cardUsername} (id: ${cardUserId})!`
+		`There are ${connection.length} connections! Connection ID: ${connection[0]?.id}`
 	);
 
 	if (connection.length === 0) {

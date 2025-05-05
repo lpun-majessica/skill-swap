@@ -40,20 +40,6 @@ export default function UserMenu({
         My Network
       </Link>
 
-      <Link href="/my-network">
-        <Button
-          variant="ghost"
-          size="icon"
-          className={clsx(
-            isHomePage && !scrolled
-              ? "text-white hover:text-white"
-              : "text-black dark:text-white"
-          )}
-        >
-          <Bell />
-        </Button>
-      </Link>
-
       {/* Profile dropdown */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

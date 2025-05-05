@@ -59,16 +59,6 @@ export default function MobileMenu({
 
           <div className="w-full">
             <Link
-              href="/my-network"
-              className="flex justify-start px-4 py-2 text-sm rounded-md w-full my-1 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
-              onClick={() => setMenuOpen(false)}
-            >
-              <span>Notification</span>
-            </Link>
-          </div>
-
-          <div className="w-full">
-            <Link
               href="/settings"
               className={clsx(
                 "flex justify-start px-4 py-2 text-sm rounded-md w-full my-1",

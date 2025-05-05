@@ -33,9 +33,6 @@ export default function LoginPage() {
     }
   };
 
-  const { resolvedTheme } = useTheme();
-  let isDarkMode = resolvedTheme === "dark";
-
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-5 font-sans relative overflow-hidden">
       {/* Left Side: Hidden on Mobile */}

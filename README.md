@@ -58,11 +58,15 @@ Use the following usernames to log in:
 ### Landing Page
 
 - Public welcome page with a call-to-action for login/signup.
+![Homepage](/demo/homepage-light.jpeg)
+![Homepage](/demo/homepage-dark.jpeg)
 
 ### Login Page
 
 - Enter a test account username (`alexj`, `bella.design`).
 - Saves the current user to `localStorage` for session persistence.
+![Login](/demo/login-page-light.jpeg)
+![Login](/demo/login-page-dark.jpeg)
 
 ### Explore Page
 
@@ -77,6 +81,9 @@ Use the following usernames to log in:
   - Accept/reject invitations.
   - Cancel sent requests.
 
+![Explore](/demo/explore-light.jpeg)
+![Explore](/demo/explore-dark.jpeg)
+
 ### My Network Page
 
 - Displays connections categorized as:
@@ -84,6 +91,8 @@ Use the following usernames to log in:
   - Pending Requests (sent)
   - Invitations (received)
 - Supports filters and search.
+  ![My Network](/demo/my-network-light.jpeg)
+  ![My Network](/demo/my-network-dark.jpeg)
 
 ### Settings Page
 
@@ -94,11 +103,17 @@ Use the following usernames to log in:
   - Skills to Teach
   - Skills to Learn
 
+![Settings](/demo/settings-light.jpeg)
+![Settings](/demo/settings-dark.jpeg)
+
 ### User Profile Page
 
 - View another user’s full profile.
 - Displays mutual skills.
 - Includes an action button (connect / pending / connected / respond).
+
+![User Profile](/demo/user-profile-light.jpeg)  
+![User Profile](/demo/user-profile-dark.jpeg)
 
 ---
 

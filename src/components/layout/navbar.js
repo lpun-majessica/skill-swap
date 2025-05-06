@@ -21,7 +21,6 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const { currentUser, logout } = useAuthContext();
-  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,22 +42,6 @@ export default function Navbar() {
     router.push("/");
   };
 
-  let isDarkMode;
-  switch (resolvedTheme) {
-    case "light": {
-      isDarkMode = false;
-      break;
-    }
-    case "dark": {
-      isDarkMode = true;
-      break;
-    }
-    default: {
-      isDarkMode = false;
-      break;
-    }
-  }
-
   const isHomePage = pathname === "/";
 
   return (
@@ -78,10 +61,8 @@ export default function Navbar() {
           {/* Logo with Link */}
           <Link href="/" className="flex items-center gap-2">
             <Logo
-              standalone={true}
               isHomePage={isHomePage}
               scrolled={scrolled}
-              isDarkMode={isDarkMode}
             />
             <span
               className={clsx(

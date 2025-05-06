@@ -14,7 +14,7 @@ export default function AuthGuard({ children }) {
 		}
 	}, [isLoading, currentUser, router]);
 
-	if (isLoading || !currentUser) {
+	if (isLoading && !currentUser) {
 		return (
 			<div className="flex justify-center items-center text-3xl min-h-95">
 				Loading ...

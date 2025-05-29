@@ -1,3 +1,5 @@
+import { useRouter } from "next/navigation";
+
 import {
   Card,
   CardContent,
@@ -11,7 +13,7 @@ import { SkillDisplay } from "@/components/user-card/skill-display";
 
 import { UserRoundPlus } from "lucide-react";
 
-export function UserCardDemo({
+export default function UserCardDemo({
   id,
   fullname,
   username,
@@ -19,6 +21,9 @@ export function UserCardDemo({
   skillsToLearn,
   job,
 }) {
+  const router = useRouter();
+  const handleClick = () => router.push("/login");
+
   const fallbackName = fullname
     .split(" ")
     .map((w) => w[0].toUpperCase())
@@ -62,7 +67,10 @@ export function UserCardDemo({
 
       <CardFooter className="-mb-1 flex flex-row flex-wrap justify-center gap-2 lg:mb-0">
         {/* Giả lập nút Connect chỉ để trưng bày */}
-        <button className="bg-ss-red-505 text-ss-light-555 dark:bg-ss-red-404 dark:text-ss-light-222 flex h-8 w-24 flex-row items-center justify-center gap-2 rounded-4xl text-xs lg:h-10 lg:w-28 lg:text-sm">
+        <button
+          className="bg-ss-red-505 text-ss-light-555 dark:bg-ss-red-404 dark:text-ss-light-222 flex h-8 w-24 flex-row items-center justify-center gap-2 rounded-4xl text-xs lg:h-10 lg:w-28 lg:text-sm"
+          onClick={handleClick}
+        >
           Connect <UserRoundPlus className="size-4" />
         </button>
       </CardFooter>

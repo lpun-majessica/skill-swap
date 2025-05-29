@@ -6,7 +6,6 @@ import { useDataContext } from "@/contexts/data-context";
 import Image from "next/image";
 import EditProfilePopup from "./edit-profile-popup";
 import { ConnectionsButtons } from "@/components/user-card/connection-buttons";
-import { DynaPuff } from "next/font/google";
 import { ArrowRightLeft } from "lucide-react";
 
 const formatDate = (dateString) => {
@@ -14,14 +13,8 @@ const formatDate = (dateString) => {
   return date.toLocaleDateString("en-GB");
 };
 
-const dynapuff = DynaPuff({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const UserDetails = ({ currentUser, user = null, isEditable = true }) => {
-  const { updateCurrentUser } = useAuthContext();
+const UserDetails = ({ user = null, isEditable = true }) => {
+  const { currentUser, updateCurrentUser } = useAuthContext();
   const [showPopup, setShowPopup] = useState(false);
   const { hasCompatibleSkills } = useDataContext();
 

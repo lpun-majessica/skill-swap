@@ -1,10 +1,13 @@
 "use client";
+
 import { useRouter } from "next/navigation";
 import React from "react";
-import { UserCardDemo } from "@/components/user-card/UserCardDemo.jsx";
 
-import mockUsers from "@/lib/data/users.json";
-import { Handshake, HeartHandshake, Repeat2, Share2 } from "lucide-react";
+import UserCardDemo from "@/components/user-card/user-card-demo";
+import { HeartHandshake, Repeat2, Share2 } from "lucide-react";
+
+import USERS from "@/lib/data/users.json";
+const mockUsers = USERS.slice(0, 4);
 
 export default function HomePage() {
   const router = useRouter();
@@ -176,22 +179,11 @@ export default function HomePage() {
             />
           </div>
 
-          {/* User Card Demo 1, 13, 16, 17*/}
           <div className="mx-auto mb-15 w-full max-w-7xl">
             <div className="flex flex-row flex-wrap items-center justify-center gap-10">
-              {mockUsers
-                .filter((user) => [1, 2, 3, 4].includes(user.id))
-                .map((user) => (
-                  <UserCardDemo
-                    key={user.id}
-                    id={user.id}
-                    fullname={user.fullname}
-                    username={user.username}
-                    skillsToTeach={user.skillsToTeach}
-                    skillsToLearn={user.skillsToLearn}
-                    job={user.job}
-                  />
-                ))}
+              {mockUsers.map((user) => (
+                <UserCardDemo key={user.id} {...user} />
+              ))}
             </div>
           </div>
         </div>

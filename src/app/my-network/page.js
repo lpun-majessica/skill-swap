@@ -1,21 +1,19 @@
-"use client";
-
 import Filter from "@/components/filter";
 import { MyNetWorkUserList } from "@/components/user-list/my-network-user-list";
 import AuthGuard from "@/components/auth/AuthGuard";
 
 export default function MyNetworkPage() {
-	return (
-		<AuthGuard>
-			<div className="flex flex-col sm:flex-row items-start min-h-screen px-4 lg:px-10 2xl:px-12 py-3 lg:py-6 gap-2 lg:gap-3">
-				<div className="flex flex-col items-center sm:mt-10 mr-4 sm:mr-6 lg:mr-8">
-					<Filter />
-				</div>
+  return (
+    <AuthGuard>
+      <div className="flex min-h-screen flex-col items-start gap-2 px-4 py-3 sm:flex-row lg:gap-3 lg:px-10 lg:py-6 2xl:px-12">
+        <div className="mr-4 flex flex-col items-center sm:mt-10 sm:mr-6 lg:mr-8">
+          <Filter />
+        </div>
 
-				<div className="w-full max-w-screen-2xl mx-auto">
-					<MyNetWorkUserList />
-				</div>
-			</div>
-		</AuthGuard>
-	);
+        <div className="mx-auto w-full max-w-screen-2xl">
+          <MyNetWorkUserList />
+        </div>
+      </div>
+    </AuthGuard>
+  );
 }

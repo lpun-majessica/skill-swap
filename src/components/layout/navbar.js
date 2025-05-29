@@ -5,7 +5,6 @@ import { Menu, X } from "lucide-react";
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
-import { useTheme } from "next-themes";
 import { ModeToggle } from "../common/mode-toggle";
 import { useAuthContext } from "@/contexts/auth-context";
 
@@ -24,7 +23,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > window.innerHeight);
     };
     handleScroll();
 
@@ -47,31 +46,28 @@ export default function Navbar() {
   return (
     <nav
       className={clsx(
-        "fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b",
+        "fixed top-0 left-0 z-50 w-full border-b transition-all duration-300",
         isHomePage
           ? scrolled
-            ? "bg-white dark:bg-ss-black-717 shadow-md border-gray-200 dark:border-ss-black-131"
-            : "bg-transparent border-transparent"
-          : "bg-white dark:bg-ss-black-717 border-gray-200 dark:border-ss-black-131"
+            ? "dark:bg-ss-black-717 dark:border-ss-black-131 border-gray-200 bg-white shadow-md"
+            : "border-transparent bg-transparent"
+          : "dark:bg-ss-black-717 dark:border-ss-black-131 border-gray-200 bg-white",
       )}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:py-4">
         {/* Left: Logo + Nav */}
         <div className="flex items-center gap-8">
           {/* Logo with Link */}
           <Link href="/" className="flex items-center gap-2">
-            <Logo
-              isHomePage={isHomePage}
-              scrolled={scrolled}
-            />
+            <Logo isHomePage={isHomePage} scrolled={scrolled} />
             <span
               className={clsx(
-                "font-bold text-lg",
+                "text-lg font-bold",
                 isHomePage
                   ? scrolled
                     ? "text-black dark:text-white"
                     : "text-white"
-                  : "text-black dark:text-white"
+                  : "text-black dark:text-white",
               )}
             >
               SkillSwap
@@ -87,7 +83,7 @@ export default function Navbar() {
         </div>
 
         {/* Right: Login or User Info */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden items-center gap-4 md:flex">
           <UserMenu
             currentUser={currentUser}
             handleLogin={handleLogin}
@@ -99,7 +95,7 @@ export default function Navbar() {
         </div>
 
         {/* Mobile menu toggle */}
-        <div className="md:hidden flex items-center gap-2">
+        <div className="flex items-center gap-2 md:hidden">
           <ModeToggle isHomePage={isHomePage} scrolled={scrolled} />
 
           <Button
@@ -110,7 +106,7 @@ export default function Navbar() {
               "focus:ring-0",
               isHomePage && !scrolled
                 ? "text-white hover:text-white"
-                : "text-black dark:text-white"
+                : "text-black dark:text-white",
             )}
           >
             {menuOpen ? <X /> : <Menu />}

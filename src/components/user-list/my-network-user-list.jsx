@@ -3,46 +3,46 @@
 import { useState } from "react";
 import { useDataContext } from "@/contexts/data-context";
 import { useAuthContext } from "@/contexts/auth-context";
-import { ConnectionFilter } from "../ConnectionFilter";
+import { ConnectionFilter } from "../connection-filter";
 import { UserList } from "./user-list";
 import { SearchBar } from "@/components/search-bar";
 
 const filterText = {
-	all: "All",
-	connections: "My connections",
-	pending: "Pending",
-	requests: "Invitation",
+  all: "All",
+  connections: "My connections",
+  pending: "Pending",
+  requests: "Invitation",
 };
 
 export function MyNetWorkUserList() {
-	const { currentUser, isLoading } = useAuthContext();
-	const [activeButton, setActiveButton] = useState(0);
-	const filterUsers = useDataContext().getUsersByStatus;
+  const { currentUser, isLoading } = useAuthContext();
+  const [activeButton, setActiveButton] = useState(0);
+  const filterUsers = useDataContext().getUsersByStatus;
 
-	if (isLoading || !currentUser) {
-		return <div>Loading...</div>;
-	}
+  if (isLoading || !currentUser) {
+    return <div>Loading...</div>;
+  }
 
-	const displayUsers = filterUsers(
-		currentUser.id,
-		Object.keys(filterText)[activeButton]
-	);
+  const displayUsers = filterUsers(
+    currentUser.id,
+    Object.keys(filterText)[activeButton],
+  );
 
-	return (
-		<>
-			<div className="flex flex-col-reverse min-[900px]:flex-row justify-center items-center min-[900px]:justify-start mb-6 mt-4 gap-3 h-20 min-[900px]:h-15">
-				<ConnectionFilter
-					filterText={filterText}
-					activeButton={activeButton}
-					setActiveButton={setActiveButton}
-				/>
+  return (
+    <>
+      <div className="mt-4 mb-6 flex h-20 flex-col-reverse items-center justify-center gap-3 min-[900px]:h-15 min-[900px]:flex-row min-[900px]:justify-start">
+        <ConnectionFilter
+          filterText={filterText}
+          activeButton={activeButton}
+          setActiveButton={setActiveButton}
+        />
 
-				<div className="min-[900px]:ml-auto">
-					<SearchBar />
-				</div>
-			</div>
+        <div className="min-[900px]:ml-auto">
+          <SearchBar />
+        </div>
+      </div>
 
-			<UserList users={displayUsers} />
-		</>
-	);
+      <UserList users={displayUsers} />
+    </>
+  );
 }

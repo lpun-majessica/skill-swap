@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { X } from 'lucide-react';
-import React, { useEffect, useState, useRef } from 'react';
-import { SKILLS } from '@/lib/constant';
-import './profile.css';
-import { Checkbox } from '../ui/checkbox';
+import { X } from "lucide-react";
+import React, { useEffect, useState, useRef } from "react";
+import { SKILLS } from "@/lib/constant";
+import "./profile.css";
+import { Checkbox } from "../ui/checkbox";
 import { useAuthContext } from "@/contexts/auth-context";
 import { useDataContext } from "@/contexts/data-context";
 
@@ -58,7 +58,7 @@ const SkillSection = ({ title, skillKey }) => {
       [skillKey]: newSkills,
     });
     updateUser(currentUser.id, {
-      [skillKey]: newSkills
+      [skillKey]: newSkills,
     });
   };
 
@@ -70,30 +70,29 @@ const SkillSection = ({ title, skillKey }) => {
       [skillKey]: newSkills,
     });
     updateUser(currentUser.id, {
-      [skillKey]: newSkills
+      [skillKey]: newSkills,
     });
   };
 
   // arrange skills
   const updateDisplayedSkills = (term) => {
-    const filteredSkills = SKILLS.filter(skill =>
-      skill.toLowerCase().includes(term.toLowerCase())
+    const filteredSkills = SKILLS.filter((skill) =>
+      skill.toLowerCase().includes(term.toLowerCase()),
     );
 
     const selectedSet = new Set(selectedSkills);
 
     const selectedFirst = [
-      ...filteredSkills.filter(skill => selectedSet.has(skill)),
-      ...filteredSkills.filter(skill => !selectedSet.has(skill)),
+      ...filteredSkills.filter((skill) => selectedSet.has(skill)),
+      ...filteredSkills.filter((skill) => !selectedSet.has(skill)),
     ];
 
     setDisplayedSkills(selectedFirst);
   };
 
-
   return (
-    <div className="mx-auto w-sm sm:w-md max-w-lg md:w-md lg:w-md bg-white p-6 rounded-2xl shadow-lg inset-shadow-2xs  dark:bg-ss-black-929">
-      <h3 className="font-semibold text-lg mb-2">{title}</h3>
+    <div className="dark:bg-ss-black-929 mx-auto w-sm max-w-lg rounded-2xl bg-white p-6 shadow-lg inset-shadow-2xs sm:w-md md:w-md lg:w-md">
+      <h3 className="mb-2 text-lg font-semibold">{title}</h3>
       <div className="relative" ref={dropdownRef}>
         <input
           type="text"
@@ -101,15 +100,15 @@ const SkillSection = ({ title, skillKey }) => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={() => setOpenDropdown(true)}
-          className="w-full p-2 border rounded-2xl bg-ss-light-777 dark:bg-ss-black-131 dark:focus:border-ss-black-444"
+          className="bg-ss-light-777 dark:bg-ss-black-131 dark:focus:border-ss-black-444 w-full rounded-2xl border p-2"
         />
 
         {openDropdown && (
-          <div className="absolute z-10 mt-1 bg-ss-light-777 border rounded-2xl shadow max-h-40 overflow-auto w-full dropdown-scroll dark:bg-ss-black-131">
+          <div className="bg-ss-light-777 dropdown-scroll dark:bg-ss-black-131 absolute z-10 mt-1 max-h-40 w-full overflow-auto rounded-2xl border shadow">
             {displayedSkills.map((skill) => (
               <label
                 key={skill}
-                className="flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-ss-black-444"
+                className="dark:hover:bg-ss-black-444 flex items-center justify-between px-4 py-2 hover:bg-gray-100"
               >
                 <span>{skill}</span>
                 <Checkbox
@@ -122,18 +121,15 @@ const SkillSection = ({ title, skillKey }) => {
         )}
       </div>
 
-      <div className="flex flex-wrap gap-2 mt-4">
+      <div className="mt-4 flex flex-wrap gap-2">
         {selectedSkills.map((skill) => (
           <div
             key={skill}
-            className="group flex items-center bg-gray-200 text-sm px-3 py-1 rounded-full hover:bg-ss-red-404 hover:text-ss-light-FFF dark:bg-ss-black-444 dark:hover:bg-ss-red-404"
+            className="group hover:bg-ss-red-404 hover:text-ss-light-FFF dark:bg-ss-black-444 dark:hover:bg-ss-red-404 flex items-center rounded-full bg-gray-200 px-3 py-1 text-sm"
           >
             <span>{skill}</span>
-            <button
-              onClick={() => handleRemoveSkill(skill)}
-              className="ml-2"
-            >
-              <X className='w-4 h-4' />
+            <button onClick={() => handleRemoveSkill(skill)} className="ml-2">
+              <X className="h-4 w-4" />
             </button>
           </div>
         ))}

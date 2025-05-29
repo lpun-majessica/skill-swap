@@ -25,7 +25,6 @@ export const SKILLS = [
   "Tailwind CSS",
   "Prototyping",
   "Design Systems",
-  "HTML/CSS",
 ];
 
 export const navItems = [

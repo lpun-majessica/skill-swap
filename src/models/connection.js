@@ -6,6 +6,8 @@ const connectionSchema = new mongoose.Schema({
   isAccepted: Boolean,
 });
 
+connectionSchema.index({ sender_id: 1, receiver_id: 1 }, { unique: true });
+
 connectionSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();

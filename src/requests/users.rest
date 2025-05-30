@@ -1,0 +1,60 @@
+GET http://localhost:3000/api/users
+
+###
+POST http://localhost:3000/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "fullname": "Bella Martinez",
+    "username": "bella.design",
+    "skillsToTeach": ["68383dacee97ee11c4c3af74", "683833f94f8431623efc58fd", "68384241bd2b4bb8ea6043fe"],
+    "skillsToLearn": ["68384241bd2b4bb8ea6043fd"],
+    "bio": "Designer curious about frontend dev.",
+    "dob": "1996-11-03",
+    "job": "UI/UX Designer",
+    "pfp": "/pfp/2.jpeg"
+}
+
+
+###
+GET http://localhost:3000/api/users/6839260a139193caf0fd2737
+
+###
+POST http://localhost:3000/api/users/6839260a139193caf0fd2737/learning HTTP/1.1
+Content-Type: application/json
+
+{
+    "skillsToLearn": "68383dacee97ee11c4c3af74"
+}
+
+###
+DELETE  http://localhost:3000/api/users/6839260a139193caf0fd2737/learning HTTP/1.1
+Content-Type: application/json
+
+{
+    "skillsToLearn": "68383dacee97ee11c4c3af74"
+}
+
+###
+POST http://localhost:3000/api/users/6839260a139193caf0fd2737/teaching HTTP/1.1
+Content-Type: application/json
+
+{
+    "skillsToTeach": "68383dacee97ee11c4c3af74"
+}
+
+###
+DELETE  http://localhost:3000/api/users/6839260a139193caf0fd2737/teaching HTTP/1.1
+Content-Type: application/json
+
+{
+    "skillsToTeach": "68383dacee97ee11c4c3af74"
+}
+
+###
+PUT http://localhost:3000/api/users/6839260a139193caf0fd2737 HTTP/1.1
+Content-Type: application/json
+
+{
+    "pfp": "/pfp/6839260a139193caf0fd2737.jpeg"
+}

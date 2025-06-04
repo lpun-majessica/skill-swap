@@ -1,63 +1,58 @@
-'use client';
+"use client";
 
-const { createContext, useState, useEffect, useContext } = require("react");
-import { login as loginUser, logout as logoutUser, getUser } from '@/utils/auth';
+import { createContext, useState, useEffect, useContext } from "react";
+import {
+  login as loginUser,
+  logout as logoutUser,
+  getUser,
+} from "@/utils/auth";
 
 const AuthContext = createContext();
 
-export function AuthProvider({children}){
-    const [currentUser, setCurrentUser] = useState(null);
-	const [isLoading, setIsLoading] = useState(true);
+export function AuthProvider({ children }) {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-		const user = getUser();
-		setCurrentUser(user);
-		setIsLoading(false);
-
-		const handleStorageChange = () => {
-			setCurrentUser(getUser());
-		};
-
-		window.addEventListener("storage", handleStorageChange);
-		return () => window.removeEventListener("storage", handleStorageChange);
-	}, []);
-
-    const updateCurrentUser = (updatedFields) => {
-        const storedUser = getUser();
-        if (!storedUser) return;
-    
-        const updatedUser = { ...storedUser, ...updatedFields };
-    
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-        setCurrentUser(updatedUser);
+  useEffect(() => {
+    const getCurrentUserData = () => {
+      const user = getUser();
+      setCurrentUser(user);
     };
 
-    const login = (username) => {
-        const success = loginUser(username);
-        if(success){
-            const loggedInUser = getUser();
-            setCurrentUser(loggedInUser);
-        }
-        return success;
-    };
+    getCurrentUserData();
+    setIsLoading(false);
 
-    const logout = () => {
-        logoutUser();
-        setCurrentUser(null);        
-    };
+    const handleStorageChange = getCurrentUserData;
 
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
 
-	return (
-		<AuthContext.Provider value={{ currentUser, updateCurrentUser, login, logout, isLoading }}>
-			{children}
-		</AuthContext.Provider>
-	);
-}
- 
-export function useAuthContext() {
-    const context = useContext(AuthContext);
-    if (!context) {
-      throw new Error('useAuthContext must be used within an AuthProvider');
+  const login = (username, password) => {
+    const success = loginUser({ username, password });
+    if (success) {
+      const loggedInUser = getUser();
+      setCurrentUser(loggedInUser);
     }
-    return context;
+    return success;
+  };
+
+  const logout = () => {
+    logoutUser();
+    setCurrentUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ currentUser, login, logout, isLoading }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuthContext() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuthContext must be used within an AuthProvider");
   }
+  return context;
+}

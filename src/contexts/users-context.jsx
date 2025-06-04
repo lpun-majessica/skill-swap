@@ -1,0 +1,191 @@
+"use client";
+
+const initialUsers = [];
+
+import { createContext, useEffect, useState, useContext } from "react";
+import { useCurrentUserContext } from "./current-user-context";
+import { useConnectionContext } from "./connection-context";
+
+import userService from "@/services/user";
+
+const UserContext = createContext();
+
+export function UserProvider({ children }) {
+  const { currentUser } = useCurrentUserContext();
+  const { findConnectionWith } = useConnectionContext();
+  const [users, setUsers] = useState(initialUsers);
+
+  const [selectedTeach, setSelectedTeach] = useState([]);
+  const [selectedLearn, setSelectedLearn] = useState([]);
+
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const USERS = await userService.getAllUsers();
+      setUsers(USERS.filter((user) => user.id != currentUser?.id));
+    };
+
+    fetchUserData();
+  }, [currentUser]);
+
+  let displayedUsers = users;
+
+  if (selectedLearn.length > 0) {
+    displayedUsers = displayedUsers.filter((user) => {
+      const learningMatch = user.skillsToLearn.some((skill) =>
+        selectedLearn.includes(skill.name),
+      );
+      return learningMatch;
+    });
+  }
+
+  if (selectedTeach.length > 0) {
+    displayedUsers = displayedUsers.filter((user) => {
+      const teachingMatch = user.skillsToTeach.some((skill) =>
+        selectedTeach.includes(skill.name),
+      );
+      return teachingMatch;
+    });
+  }
+
+  if (searchKeyword.trim() !== "") {
+    const keyword = searchKeyword.trim().toLowerCase();
+
+    displayedUsers = displayedUsers.filter(
+      (user) =>
+        (user.fullname?.toLowerCase().includes(keyword) ?? false) ||
+        (user.username?.toLowerCase().includes(keyword) ?? false),
+    );
+  }
+
+  const getUser = async (userId) => await userService.getUser(userId);
+
+  const isPotentialMatch = (skillsToLearn, skillsToTeach) => {
+    const isLearningMatch = skillsToLearn.some((skill) =>
+      currentUser.skillsToTeach.includes(skill),
+    );
+
+    const isTeachingMatch = skillsToTeach.some((skill) =>
+      currentUser.skillsToLearn.includes(skill),
+    );
+
+    return isLearningMatch && isTeachingMatch;
+  };
+
+  function recommend(users) {
+    const recommendedUser = users.sort((userA, userB) => {
+      const priorityA = getConnectionPriority(userA.id, currentUser.id);
+      const priorityB = getConnectionPriority(userB.id, currentUser.id);
+
+      if (priorityA !== priorityB) {
+        return priorityA - priorityB;
+      }
+
+      return (
+        countSimilarSkills(userB, currentUser) -
+        countSimilarSkills(userA, currentUser)
+      );
+    });
+
+    return recommendedUser;
+  }
+
+  function filterByStatus(users, type) {
+    switch (type) {
+      case "connections": {
+        return users.filter(
+          (user) => getConnectionStatus(user.id) === "connected",
+        );
+      }
+      case "pending": {
+        return users.filter(
+          (user) => getConnectionStatus(user.id) === "pending_received",
+        );
+      }
+      case "requests": {
+        return users.filter(
+          (user) => getConnectionStatus(user.id) === "pending_sent",
+        );
+      }
+      case "all":
+      default: {
+        return users.filter(
+          (user) => getConnectionStatus(user.id) !== "not_connected",
+        );
+      }
+    }
+  }
+
+  function getConnectionPriority(userId) {
+    const status = getConnectionStatus(userId);
+
+    switch (status) {
+      case "not_connected":
+      case "pending_sent":
+      case "pending_received":
+        return 0;
+      case "connected":
+        return 1;
+      default:
+        return Infinity;
+    }
+  }
+
+  function getConnectionStatus(userId) {
+    const connection = findConnectionWith(userId);
+
+    if (!connection) return "not_connected";
+
+    if (connection.isAccepted) return "connected";
+
+    return connection.sender_id === currentUser.id
+      ? "pending_sent"
+      : "pending_received";
+  }
+
+  function countSimilarSkills(user, currentUser) {
+    return (
+      compareSkills(user.skillsToTeach, currentUser.skillsToLearn) +
+      compareSkills(user.skillsToLearn, currentUser.skillsToTeach)
+    );
+  }
+
+  function compareSkills(targetSkills, userSkills) {
+    let count = 0;
+    if (targetSkills && userSkills) {
+      targetSkills.forEach(
+        (skill) => (count += userSkills.includes(skill) ? 1 : 0),
+      );
+    }
+    return count;
+  }
+
+  return (
+    <UserContext.Provider
+      value={{
+        users: displayedUsers,
+        recommend,
+        filterByStatus,
+        getUser,
+        selectedLearn,
+        setSelectedLearn,
+        selectedTeach,
+        setSelectedTeach,
+        searchKeyword,
+        setSearchKeyword,
+        isPotentialMatch,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
+}
+
+export function useUserContext() {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUserContext must be used within an UserProvider");
+  }
+  return context;
+}

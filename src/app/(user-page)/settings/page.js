@@ -1,6 +1,5 @@
 import UserDetails from "@/components/profile/user-details";
 import SkillSection from "@/components/profile/skill-section";
-// import { useEffect } from "react";
 import AuthGuard from "@/components/auth/AuthGuard";
 
 export default function SettingsPage() {

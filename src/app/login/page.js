@@ -1,15 +1,20 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/auth-context";
 import { ModeToggle } from "@/components/common/mode-toggle";
 import { toast } from "sonner";
 import Logo, { WhiteLogo } from "@/components/layout/logo";
 import Link from "next/link";
+import { useField } from "@/hooks";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
+  const username = useField("text");
+  const password = useField("password");
+
   const router = useRouter();
   const { login, currentUser, isLoading } = useAuthContext();
 
@@ -25,7 +30,7 @@ export default function LoginPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (login(username)) {
+    if (login(username.value, password.value)) {
       router.push("/explore");
     } else {
       toast.error(<span>Username or password is invalid!</span>);
@@ -73,20 +78,24 @@ export default function LoginPage() {
 
         <div className="flex w-full flex-col items-center justify-center px-10 py-20 md:w-auto">
           <h2 className="mb-6 text-2xl font-bold">Sign in</h2>
-          <form className="w-full max-w-sm" onSubmit={handleLogin}>
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              placeholder="Your username"
-              className="mb-4 w-full rounded-full border border-gray-300 px-4 py-2 focus:outline-none"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              placeholder="***********"
-              className="mb-6 w-full rounded-full border border-gray-300 px-4 py-2 focus:outline-none"
-            />
+          <form className="w-[190%] max-w-xs" onSubmit={handleLogin}>
+            <div className="grid w-full max-w-sm items-center gap-3">
+              <Label htmlFor="username">Username</Label>
+              <Input
+                {...username}
+                placeholder="Enter username"
+                className="mb-4 w-full rounded-full border border-gray-300 px-4 py-4 focus:outline-none"
+              />
+            </div>
+            <div className="grid w-full max-w-sm items-center gap-3">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                {...password}
+                placeholder="Enter password"
+                className="mb-6 w-full rounded-full border border-gray-300 px-4 py-4 focus:outline-none"
+              />
+            </div>
+
             <button
               type="submit"
               className="w-full rounded-full bg-red-600 py-2 font-semibold text-white transition hover:bg-red-700"

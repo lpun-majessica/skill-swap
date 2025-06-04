@@ -19,7 +19,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const { currentUser, logout } = useAuthContext();
+  const { logout } = useAuthContext();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,15 +46,13 @@ export default function Navbar() {
   return (
     <nav
       className={clsx(
-        "fixed top-0 left-0 z-50 w-full border-b transition-all duration-300",
-        isHomePage
-          ? scrolled
-            ? "dark:bg-ss-black-717 dark:border-ss-black-131 border-gray-200 bg-white shadow-md"
-            : "border-transparent bg-transparent"
-          : "dark:bg-ss-black-717 dark:border-ss-black-131 border-gray-200 bg-white",
+        "fixed top-0 left-0 z-50 w-screen border-b transition-all duration-300",
+        isHomePage & !scrolled
+          ? "border-transparent bg-transparent"
+          : "dark:bg-ss-black-717 dark:border-ss-black-131 border-gray-200 bg-white shadow-md",
       )}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:py-4">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 md:py-4">
         {/* Left: Logo + Nav */}
         <div className="flex items-center gap-8">
           {/* Logo with Link */}
@@ -85,7 +83,6 @@ export default function Navbar() {
         {/* Right: Login or User Info */}
         <div className="hidden items-center gap-4 md:flex">
           <UserMenu
-            currentUser={currentUser}
             handleLogin={handleLogin}
             handleLogout={handleLogout}
             isHomePage={isHomePage}
@@ -117,7 +114,6 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <MobileMenu
-          currentUser={currentUser}
           pathname={pathname}
           handleLogin={handleLogin}
           handleLogout={handleLogout}

@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SkillDisplay } from "@/components/user-card/skill-display";
 
 import { UserRoundPlus } from "lucide-react";
+import { Button } from "../ui/button";
 
 export default function UserCardDemo({
   id,
@@ -50,29 +51,19 @@ export default function UserCardDemo({
       </CardHeader>
 
       <CardContent className="relative -mt-2 -mb-1">
-        <SkillDisplay
-          fullname={fullname}
-          header="Teaching"
-          skills={skillsToTeach}
-          currentUserSkills={[]} // Không so sánh
-        />
+        <SkillDisplay type="teach" skills={skillsToTeach} demo={true} />
         <hr className="border-ss-light-333 dark:border-ss-black-444 mt-3 mb-1" />
-        <SkillDisplay
-          fullname={fullname}
-          header="Learning"
-          skills={skillsToLearn}
-          currentUserSkills={[]} // Không so sánh
-        />
+        <SkillDisplay type="learn" skills={skillsToLearn} demo={true} />
       </CardContent>
 
       <CardFooter className="-mb-1 flex flex-row flex-wrap justify-center gap-2 lg:mb-0">
         {/* Giả lập nút Connect chỉ để trưng bày */}
-        <button
+        <Button
           className="bg-ss-red-505 text-ss-light-555 dark:bg-ss-red-404 dark:text-ss-light-222 flex h-8 w-24 flex-row items-center justify-center gap-2 rounded-4xl text-xs lg:h-10 lg:w-28 lg:text-sm"
           onClick={handleClick}
         >
           Connect <UserRoundPlus className="size-4" />
-        </button>
+        </Button>
       </CardFooter>
     </Card>
   );

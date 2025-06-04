@@ -4,16 +4,18 @@ import Link from "next/link";
 import clsx from "clsx";
 import { navItems } from "@/lib/constant";
 import { Button } from "@/components/ui/button";
+import { useAuthContext } from "@/contexts/auth-context";
 
 export default function MobileMenu({
-  currentUser,
   pathname,
   handleLogin,
   handleLogout,
   setMenuOpen,
 }) {
+  const { currentUser } = useAuthContext();
+
   return (
-    <div className="md:hidden px-4 pb-4 bg-white dark:bg-ss-black-717 text-black dark:text-white shadow-lg">
+    <div className="dark:bg-ss-black-717 bg-white px-4 pb-4 text-black shadow-lg md:hidden dark:text-white">
       <div className="w-full pt-2" />
 
       {/* Main navigation items */}
@@ -24,10 +26,10 @@ export default function MobileMenu({
             <Link
               href={item.href}
               className={clsx(
-                "flex justify-start px-4 py-2 text-sm rounded-md w-full my-1",
-                "hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors",
-                "focus:outline-none focus:bg-gray-100 dark:focus:bg-zinc-800",
-                isActive && "font-bold"
+                "my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm",
+                "transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800",
+                "focus:bg-gray-100 focus:outline-none dark:focus:bg-zinc-800",
+                isActive && "font-bold",
               )}
               onClick={() => setMenuOpen(false)}
             >
@@ -40,16 +42,16 @@ export default function MobileMenu({
       {currentUser ? (
         <>
           {/* Separator line */}
-          <div className="h-px bg-gray-200 dark:bg-zinc-800 my-2 w-full" />
+          <div className="my-2 h-px w-full bg-gray-200 dark:bg-zinc-800" />
 
           {/* User specific options */}
           <div className="w-full">
             <Link
               href="/my-network"
               className={clsx(
-                "flex justify-start px-4 py-2 text-sm rounded-md w-full my-1",
-                "hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors",
-                pathname === "/my-network" && "font-bold"
+                "my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm",
+                "transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800",
+                pathname === "/my-network" && "font-bold",
               )}
               onClick={() => setMenuOpen(false)}
             >
@@ -61,9 +63,9 @@ export default function MobileMenu({
             <Link
               href="/settings"
               className={clsx(
-                "flex justify-start px-4 py-2 text-sm rounded-md w-full my-1",
-                "hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors",
-                pathname === "/settings" && "font-bold"
+                "my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm",
+                "transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800",
+                pathname === "/settings" && "font-bold",
               )}
               onClick={() => setMenuOpen(false)}
             >
@@ -74,17 +76,17 @@ export default function MobileMenu({
           <div className="w-full">
             <button
               onClick={handleLogout}
-              className="flex justify-start px-4 py-2 text-sm rounded-md w-full my-1 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+              className="my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
             >
               Log Out
             </button>
           </div>
         </>
       ) : (
-        <div className="w-full mt-2 px-4 flex justify-center">
+        <div className="mt-2 flex w-full justify-center px-4">
           <Button
             onClick={handleLogin}
-            className="px-6 py-1 bg-ss-red-505 text-white rounded-full hover:bg-red-700 transition h-auto border-0 inline-block"
+            className="bg-ss-red-505 inline-block h-auto rounded-full border-0 px-6 py-1 text-white transition hover:bg-red-700"
           >
             Log in
           </Button>

@@ -1,7 +1,11 @@
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { DataProvider } from "@/contexts/data-context";
+import { ThemeProvider } from "@/contexts/theme-context";
 import { AuthProvider } from "@/contexts/auth-context";
+import { CurrentUserProvider } from "@/contexts/current-user-context";
+import { ConnectionProvider } from "@/contexts/connection-context";
+import { UserProvider } from "@/contexts/users-context";
+import { SkillProvider } from "@/contexts/skill-context";
+
 import { Toaster } from "@/components/ui/sonner";
 import LayoutClient from "@/components/layout/layout-client";
 
@@ -14,15 +18,33 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <AuthProvider>
-          <DataProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <LayoutClient>{children}</LayoutClient>
-              <Toaster />
-            </ThemeProvider>
-          </DataProvider>
-        </AuthProvider>
+        <ContextProvider>
+          <LayoutClient>{children}</LayoutClient>
+          <Toaster />
+        </ContextProvider>
       </body>
     </html>
+  );
+}
+
+function ContextProvider({ children }) {
+  return (
+    <AuthProvider>
+      <SkillProvider>
+        <CurrentUserProvider>
+          <ConnectionProvider>
+            <UserProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+              >
+                {children}
+              </ThemeProvider>
+            </UserProvider>
+          </ConnectionProvider>
+        </CurrentUserProvider>
+      </SkillProvider>
+    </AuthProvider>
   );
 }

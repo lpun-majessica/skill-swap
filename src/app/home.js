@@ -5,12 +5,13 @@ import React from "react";
 
 import UserCardDemo from "@/components/user-card/user-card-demo";
 import { HeartHandshake, Repeat2, Share2 } from "lucide-react";
-
-import USERS from "@/lib/data/users.json";
-const mockUsers = USERS.slice(0, 4);
+import { useUserContext } from "@/contexts/users-context";
 
 export default function HomePage() {
   const router = useRouter();
+  const { users } = useUserContext();
+  const mockUsers = users.slice(0, 4);
+
   return (
     <div className="font-inter flex w-full flex-col items-center overflow-x-hidden">
       {/* === 1. Hero Section === */}
@@ -48,7 +49,7 @@ export default function HomePage() {
       </section>
 
       {/* === 2. Intro + Features === */}
-      <section className="bg-background mt-20 w-full px-6 py-20">
+      <section className="bg-background mt-20 w-full px-6 py-15 md:py-20">
         <div className="mx-auto max-w-6xl">
           <h2 className="font-regular dark:text-ss-light-222 text-ss-black-717 mb-4 text-center text-2xl md:text-3xl">
             Welcome to{" "}
@@ -110,7 +111,7 @@ export default function HomePage() {
       </section>
 
       {/* === 3. What You Can Do === */}
-      <section className="bg-background w-full px-6 py-16">
+      <section className="bg-background w-full px-6 py-10 md:py-16">
         <div
           className="bg-ss-red-505 mx-auto flex max-w-6xl flex-col items-center gap-8 overflow-hidden rounded-2xl p-6 md:flex-row md:p-10"
           style={{
@@ -166,10 +167,10 @@ export default function HomePage() {
 
       {/* === 4. Featured Profiles === */}
       <section className="bg-ss-light-777 dark:bg-ss-black-929 mt-20 min-h-[10px] w-full">
-        <div className="mx-auto max-w-6xl space-y-10">
+        <div className="mx-auto max-w-7xl space-y-10">
           {/* Banner Text */}
           <div className="my-8 flex items-center justify-center space-x-2 px-7 md:px-10">
-            <span className="text-ss-light-222 bg-ss-red-505 rounded-full px-5 py-3 text-center text-sm font-semibold md:px-8 md:py-4 md:text-base lg:py-5">
+            <span className="text-ss-light-222 bg-ss-red-505 rounded-full px-5 py-3 text-center text-sm font-semibold md:px-8 md:py-4 md:text-base">
               Start connecting, sharing, and leveling up together
             </span>
             <img
@@ -179,8 +180,8 @@ export default function HomePage() {
             />
           </div>
 
-          <div className="mx-auto mb-15 w-full max-w-7xl">
-            <div className="flex flex-row flex-wrap items-center justify-center gap-10">
+          <div className="mx-auto mb-15 w-full">
+            <div className="flex flex-row flex-wrap items-center justify-center gap-8">
               {mockUsers.map((user) => (
                 <UserCardDemo key={user.id} {...user} />
               ))}
@@ -191,7 +192,7 @@ export default function HomePage() {
 
       {/* === 5. Testimonial Banner === */}
       <section
-        className="text-ss-light-222 relative mt-20 h-[320px] w-full bg-cover bg-center md:h-[270px]"
+        className="text-ss-light-222 relative h-[320px] w-full bg-cover bg-center md:h-[270px]"
         style={{ backgroundImage: "url('/lpp/hand.jpg')" }}
       >
         {/* Overlay blur */}
@@ -201,7 +202,7 @@ export default function HomePage() {
           {/* Left - Logo and Text */}
           <div className="font-regular flex items-start gap-4 py-10 text-[25px]">
             <img src="/lpp/logo.svg" alt="Logo" className="h-16 w-16" />
-            <div className="text-ss-light-222 text-left text-lg leading-relaxed">
+            <div className="text-ss-light-222 text-left text-base leading-relaxed md:text-lg">
               <p>
                 SkillSwap gives everyone, from beginners to experts, a space to
                 share and grow through skill exchange.
@@ -213,7 +214,7 @@ export default function HomePage() {
           </div>
 
           {/* Right - User count */}
-          <div className="absolute right-6 bottom-4 flex items-center gap-2">
+          <div className="absolute right-6 bottom-4 flex items-center gap-2 pb-2">
             <p className="text-ss-light-222/80 text-sm font-bold whitespace-nowrap">
               More than 2K+ users
             </p>
@@ -242,7 +243,7 @@ export default function HomePage() {
       </section>
 
       {/* === 6. Universe === */}
-      <section className="relative mt-20 h-screen w-full overflow-hidden text-center">
+      <section className="relative h-screen w-full overflow-hidden text-center">
         {/* Light and dark background images */}
         <img
           src="/lpp/universe_light.svg"
@@ -256,11 +257,11 @@ export default function HomePage() {
         />
 
         {/* Centered content */}
-        <div className="relative z-10 flex h-full flex-col items-center justify-center">
+        <div className="relative z-10 flex h-full flex-col items-center justify-center px-5">
           <h2 className="dark:text-ss-light-222 text-ss-black-717 mb-4 text-3xl font-bold md:text-4xl">
             Ready to start your skill–sharing journey?
           </h2>
-          <p className="text-dark dark:text-ss-light-222 mb-6 max-w-xl text-xl md:text-2xl">
+          <p className="text-dark dark:text-ss-light-222 mb-6 max-w-xl py-2 text-xl md:text-2xl">
             Join SkillSwap today and be part of a growing tech learning
             community!
           </p>

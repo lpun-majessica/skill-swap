@@ -1,30 +1,32 @@
-export default function SkillDetails({ title, skills, currentUserSkills = [] }) {
-  // Sắp xếp skills: match lên trước
-  const sortedSkills = [...skills].sort((a, b) => {
-    const aMatch = currentUserSkills.includes(a);
-    const bMatch = currentUserSkills.includes(b);
-    return aMatch === bMatch ? 0 : aMatch ? -1 : 1;
-  });
+import { useCurrentUserContext } from "@/contexts/current-user-context";
+import sortSkills from "@/utils/skills";
+
+export default function SkillDetails({ type, skills }) {
+  const { currentUser } = useCurrentUserContext();
+
+  const info = {
+    teach: {
+      title: "Skills to Teach",
+      currentUserSkills: currentUser[skillsToTeach],
+    },
+    learn: {
+      title: "Skills to Learn",
+      currentUserSkills: currentUser[skillsToLearn],
+    },
+  };
+  const { title, currentUserSkills } = info[type];
+
+  const sortedSkills = sortSkills(skills, currentUserSkills);
 
   return (
-    <div className="mx-2 sm:mx-auto w-sm sm:w-md max-w-lg md:w-md lg:w-md bg-white dark:bg-ss-black-929 p-6 rounded-2xl shadow-lg inset-shadow-2xs dark:shadow-none">
+    <div className="dark:bg-ss-black-929 mx-2 w-sm max-w-lg rounded-2xl bg-white p-6 shadow-lg inset-shadow-2xs sm:mx-auto sm:w-md md:w-md lg:w-md dark:shadow-none">
       <div>
-        <h3 className="font-semibold mb-2 text-ss-black-717 dark:text-ss-light-FFF">{title}</h3>
+        <h3 className="text-ss-black-717 dark:text-ss-light-FFF mb-2 font-semibold">
+          {title}
+        </h3>
         <div className="flex flex-wrap gap-2">
-          {sortedSkills.map((skill) => {
-            const isMatch = currentUserSkills.includes(skill);
-            return (
-              <div
-                key={skill}
-                className={`px-3 py-1 rounded-full text-sm font-normal ${
-                  isMatch
-                    ? 'border border-ss-red-444 bg-red-100 dark:bg-ss-red-ABA text-ss-red-505 dark:text-ss-red-404'
-                    : 'bg-gray-200  dark:bg-ss-black-444 text-ss-black-121 dark:text-ss-light-FFF '
-                }`}
-              >
-                {skill}
-              </div>
-            );
+          {sortedSkills.map(([skill, isMatch]) => {
+            return <SkillBadge key={skill} isMatch={isMatch} skill={skill} />;
           })}
         </div>
       </div>

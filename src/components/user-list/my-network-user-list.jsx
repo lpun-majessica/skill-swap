@@ -1,30 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { useDataContext } from "@/contexts/data-context";
-import { useAuthContext } from "@/contexts/auth-context";
+import { useUserContext } from "@/contexts/users-context";
+
 import { ConnectionFilter } from "../connection-filter";
 import { UserList } from "./user-list";
 import { SearchBar } from "@/components/search-bar";
 
 const filterText = {
   all: "All",
-  connections: "My connections",
-  pending: "Pending",
-  requests: "Invitation",
+  connections: "Connected",
+  pending: "Received",
+  requests: "Sent",
 };
 
 export function MyNetWorkUserList() {
-  const { currentUser, isLoading } = useAuthContext();
   const [activeButton, setActiveButton] = useState(0);
-  const filterUsers = useDataContext().getUsersByStatus;
+  const { users, filterByStatus } = useUserContext();
 
-  if (isLoading || !currentUser) {
-    return <div>Loading...</div>;
-  }
-
-  const displayUsers = filterUsers(
-    currentUser.id,
+  const displayedUsers = filterByStatus(
+    users,
     Object.keys(filterText)[activeButton],
   );
 
@@ -42,7 +37,7 @@ export function MyNetWorkUserList() {
         </div>
       </div>
 
-      <UserList users={displayUsers} />
+      <UserList users={displayedUsers} />
     </>
   );
 }

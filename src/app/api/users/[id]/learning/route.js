@@ -1,17 +1,17 @@
-import dbConnect from "@/lib/dbConnect";
+import dbConnect from "@/lib/db-connect";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
 
 export async function POST(request, { params }) {
   await dbConnect();
-  const { skillsToLearn } = await request.json();
+  const { skillId } = await request.json();
   const { id } = await params;
   const returnData = { new: true };
 
   try {
     const updatedUser = await User.findByIdAndUpdate(
       id,
-      { $push: { skillsToLearn } },
+      { $addToSet: { skillsToLearn: skillId } },
       returnData,
     )
       .populate("skillsToLearn")
@@ -25,14 +25,14 @@ export async function POST(request, { params }) {
 
 export async function DELETE(request, { params }) {
   await dbConnect();
-  const { skillsToLearn } = await request.json();
+  const { skillId } = await request.json();
   const { id } = await params;
   const returnData = { new: true };
 
   try {
     const updatedUser = await User.findByIdAndUpdate(
       id,
-      { $pull: { skillsToLearn } },
+      { $pull: { skillsToLearn: skillId } },
       returnData,
     )
       .populate("skillsToLearn")

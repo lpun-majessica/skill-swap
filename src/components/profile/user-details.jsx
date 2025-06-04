@@ -1,30 +1,23 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAuthContext } from "@/contexts/auth-context";
-import { useDataContext } from "@/contexts/data-context";
-import Image from "next/image";
 import EditProfilePopup from "./edit-profile-popup";
 import { ConnectionsButtons } from "@/components/user-card/connection-buttons";
 import { ArrowRightLeft } from "lucide-react";
-
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-GB");
-};
+import { useCurrentUserContext } from "@/contexts/current-user-context";
+import UserAvatar from "../user-card/avatar";
+import { useConnectionContext } from "@/contexts/connection-context";
+import { useUserContext } from "@/contexts/users-context";
 
 const UserDetails = ({ user = null, isEditable = true }) => {
-  const { currentUser, updateCurrentUser } = useAuthContext();
   const [showPopup, setShowPopup] = useState(false);
-  const { hasCompatibleSkills } = useDataContext();
+  const [isMatch, setIsMatch] = useState(false);
 
-  const connection = useDataContext().connections.filter(
-    (conn) =>
-      currentUser &&
-      user &&
-      ((conn.sender_id === user.id && conn.receiver_id === currentUser.id) ||
-        (conn.sender_id === currentUser.id && conn.receiver_id === user.id)),
-  );
+  const { currentUser, updateCurrentUser } = useCurrentUserContext();
+  const { findConnectionWith } = useConnectionContext();
+  const { isPotentialMatch } = useUserContext();
+
+  const connection = findConnectionWith(user.id);
 
   const handleEditClick = () => setShowPopup(true);
   const handleClosePopup = () => setShowPopup(false);
@@ -34,21 +27,15 @@ const UserDetails = ({ user = null, isEditable = true }) => {
     setShowPopup(false);
   };
 
-  const [isMatch, setIsMatch] = useState(false);
+  const userData = isEditable ? currentUser : user;
+  const { fullname, username, skillsToLearn, skillsToTeach, pfp, dob, job } =
+    userData;
 
   useEffect(() => {
-    if (
-      !isEditable &&
-      user &&
-      currentUser &&
-      Array.isArray(currentUser.skillsToTeach) &&
-      Array.isArray(currentUser.skillsToLearn)
-    ) {
-      setIsMatch(hasCompatibleSkills(user.id, currentUser));
+    if (!isEditable) {
+      setIsMatch(isPotentialMatch(skillsToLearn, skillsToTeach));
     }
-  }, [user?.id, currentUser, isEditable]);
-
-  const userData = isEditable ? currentUser : user;
+  }, [skillsToLearn, skillsToTeach]);
 
   if (!userData) return null;
 
@@ -74,18 +61,16 @@ const UserDetails = ({ user = null, isEditable = true }) => {
         </div>
 
         <div className="flex w-full justify-center">
-          <Image
-            src={userData.pfp}
-            alt="Avatar"
-            width={160}
-            height={160}
-            sizes="(max-width: 640px) 96px, 160px"
-            className="h-auto w-[96px] rounded-full sm:w-[160px]"
+          <UserAvatar
+            className="size-[96px] sm:size-[160px]"
+            fullname={fullname}
+            username={username}
+            pfp={pfp}
           />
         </div>
       </div>
-      <h2 className="mt-4 text-xl font-bold">{userData.fullname}</h2>
-      <h4 className="text-ss-red-444 mt-1 mb-3 text-base">{userData.job}</h4>
+      <h2 className="mt-4 text-xl font-bold">{fullname}</h2>
+      <h4 className="text-ss-red-444 mt-1 mb-3 text-base">{job}</h4>
       {!isEditable && (
         <ConnectionsButtons connection={connection} cardUserId={user.id} />
       )}
@@ -98,7 +83,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
             </p>
             <div className="dark:bg-ss-black-121 w-full rounded-xl bg-gray-100 px-4 py-2">
               <span className="dark:text-ss-light-333 text-sm text-gray-500">
-                @{userData.username}
+                @{username}
               </span>
             </div>
           </div>
@@ -110,7 +95,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
             </p>
             <div className="dark:bg-ss-black-121 rounded-xl bg-gray-100 px-4 py-2">
               <span className="dark:text-ss-light-333 text-sm text-gray-500">
-                {formatDate(userData.dob)}
+                {dob}
               </span>
             </div>
           </div>
@@ -122,7 +107,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
             </p>
             <div className="dark:bg-ss-black-121 h-20 rounded-xl bg-gray-100 px-4 py-2">
               <span className="dark:text-ss-light-333 text-sm text-gray-500">
-                {userData.bio}
+                {bio}
               </span>
             </div>
           </div>

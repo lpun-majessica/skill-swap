@@ -1,81 +1,85 @@
 import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@/components/ui/popover";
-
 import { SkillBadge } from "../common/SkillBadge";
 
-export function SkillDisplay({
-	fullname,
-	header,
-	skills = [],
-	currentUserSkills = [],
-}) {
-	const containerWidth = 255;
-	const paddingWidth = 5;
-	const wordWidth = 10;
-	let maxSkillDisplay = 0;
+import sortSkills from "@/utils/skills";
+import { useCurrentUserContext } from "@/contexts/current-user-context";
 
-	const skillsArray = Array.isArray(skills) ? skills : [];
+export function SkillDisplay({ type, skills = [], demo = false }) {
+  const containerWidth = 255;
+  const paddingWidth = 5;
+  const wordWidth = 10;
+  let maxSkillDisplay = 0;
 
-	const sortedSkills = skillsArray
-		.map((skill) => [skill, currentUserSkills.includes(skill)])
-		.sort(([_skillA, isMatchSkillA], [_skillB, isMatchSkillB]) => {
-			const matchA = isMatchSkillA ? 1 : 0;
-			const matchB = isMatchSkillB ? 1 : 0;
-			return matchA > matchB ? -1 : 1;
-		});
+  const { currentUser } = useCurrentUserContext();
+  const info = {
+    teach: {
+      header: "Teaching",
+      currentUserSkills: demo ? [] : currentUser.skillsToTeach,
+    },
+    learn: {
+      header: "Learning",
+      currentUserSkills: demo ? [] : currentUser.skillsToLearn,
+    },
+  };
 
-	sortedSkills.reduce((currentWidth, [skill]) => {
-		let addedWidth = 0;
-		if (
-			currentWidth + paddingWidth + skill.length * wordWidth <=
-			containerWidth
-		) {
-			maxSkillDisplay += 1;
-			addedWidth = paddingWidth + skill.length * wordWidth;
-		}
+  const { header, currentUserSkills } = info[type];
+  const { fullname } = currentUser;
 
-		return currentWidth + addedWidth;
-	}, 0);
+  const sortedSkills = sortSkills(skills, currentUserSkills);
 
-	function displaySkill(cutOff) {
-		return sortedSkills.slice(0, cutOff).map(([skill, isMatch]) => {
-			return <SkillBadge key={skill} isMatch={isMatch} skill={skill} />;
-		});
-	}
+  sortedSkills.reduce((currentWidth, [skill]) => {
+    let addedWidth = 0;
+    if (
+      currentWidth + paddingWidth + skill.length * wordWidth <=
+      containerWidth
+    ) {
+      maxSkillDisplay += 1;
+      addedWidth = paddingWidth + skill.length * wordWidth;
+    }
 
-	return (
-		<>
-			<p className="mb-1 text-xs lg:text-sm text-ss-black-131 dark:text-ss-light-555">
-				{header}
-			</p>
-			<Popover>
-				<div className="flex flex-row gap-1 h-6">
-					{displaySkill(maxSkillDisplay)}
-					{skillsArray.length > maxSkillDisplay && (
-						<PopoverTrigger asChild className="ml-auto">
-							<p
-								variant="link"
-								className="p-1 text-xs text-ss-black-444 dark:text-ss-light-555 font-bold hover:cursor-pointer hover:underline decoration-1 justify-center"
-							>
-								+{skillsArray.length - maxSkillDisplay}
-							</p>
-						</PopoverTrigger>
-					)}
-				</div>
+    return currentWidth + addedWidth;
+  }, 0);
 
-				<PopoverContent className="w-70 lg:w-80 bg-ss-light-777 dark:bg-ss-black-131">
-					<p className="mb-1 text-xs lg:text-sm text-ss-black-444 dark:text-ss-light-555">
-						<span className="font-bold">{fullname}</span> is{" "}
-						{header.toLowerCase()}
-					</p>
-					<div className="flex flex-row flex-wrap gap-1">
-						{displaySkill(skillsArray.length)}
-					</div>
-				</PopoverContent>
-			</Popover>
-		</>
-	);
+  function displaySkill(cutOff) {
+    return sortedSkills.slice(0, cutOff).map(([skill, isMatch]) => {
+      return <SkillBadge key={skill} isMatch={isMatch} skill={skill} />;
+    });
+  }
+
+  return (
+    <>
+      <p className="text-ss-black-131 dark:text-ss-light-555 mb-1 text-xs lg:text-sm">
+        {header}
+      </p>
+      <Popover>
+        <div className="flex h-6 flex-row gap-1">
+          {displaySkill(maxSkillDisplay)}
+          {skills.length > maxSkillDisplay && (
+            <PopoverTrigger asChild className="ml-auto">
+              <p
+                variant="link"
+                className="text-ss-black-444 dark:text-ss-light-555 justify-center p-1 text-xs font-bold decoration-1 hover:cursor-pointer hover:underline"
+              >
+                +{skills.length - maxSkillDisplay}
+              </p>
+            </PopoverTrigger>
+          )}
+        </div>
+
+        <PopoverContent className="bg-ss-light-777 dark:bg-ss-black-131 w-70 lg:w-80">
+          <p className="text-ss-black-444 dark:text-ss-light-555 mb-1 text-xs lg:text-sm">
+            <span className="font-bold">{fullname}</span> is{" "}
+            {header.toLowerCase()}
+          </p>
+          <div className="flex flex-row flex-wrap gap-1">
+            {displaySkill(skills.length)}
+          </div>
+        </PopoverContent>
+      </Popover>
+    </>
+  );
 }

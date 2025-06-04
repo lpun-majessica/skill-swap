@@ -1,19 +1,22 @@
 "use client";
 
-import { X } from "lucide-react";
-import React, { useEffect, useState, useRef } from "react";
-import { SKILLS } from "@/lib/constant";
 import "./profile.css";
-import { Checkbox } from "../ui/checkbox";
-import { useAuthContext } from "@/contexts/auth-context";
-import { useDataContext } from "@/contexts/data-context";
+
+import React, { useEffect, useState, useRef } from "react";
+import { useCurrentUserContext } from "@/contexts/current-user-context";
+import { useSkillContext } from "@/contexts/skill-context";
+
+import { X } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const SkillSection = ({ title, skillKey }) => {
-  const { currentUser, updateCurrentUser } = useAuthContext();
-  const { updateUser } = useDataContext();
+  const { currentUser, addSkill, removeSkill } = useCurrentUserContext();
   const [openDropdown, setOpenDropdown] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [displayedSkills, setDisplayedSkills] = useState(SKILLS); // manage skill list on dropdown-menu
+
+  const SKILLS = useSkillContext();
+  const [displayedSkills, setDisplayedSkills] = useState([]); // manage skill list on dropdown-menu
+  const [selectedSkills, setSelectedSkills] = useState([]);
 
   const dropdownRef = useRef(null);
 
@@ -39,45 +42,30 @@ const SkillSection = ({ title, skillKey }) => {
     }
   }, [searchTerm, openDropdown]);
 
-  const [selectedSkills, setSelectedSkills] = useState([]);
-
   useEffect(() => {
     if (currentUser && currentUser[skillKey]) {
       setSelectedSkills(currentUser[skillKey]);
     }
   }, [currentUser, skillKey]);
 
-  const handleCheckboxChange = (skill) => {
-    const newSkills = selectedSkills.includes(skill)
-      ? selectedSkills.filter((s) => s !== skill)
-      : [...selectedSkills, skill];
-
+  const handleAddSkill = (skillId, skillName) => {
+    const newSkills = [...selectedSkills, { id: skillId, name: skillName }];
     setSelectedSkills(newSkills);
-    updateCurrentUser({
-      ...currentUser,
-      [skillKey]: newSkills,
-    });
-    updateUser(currentUser.id, {
-      [skillKey]: newSkills,
-    });
+
+    addSkill(skillKey, { skillId });
   };
 
-  const handleRemoveSkill = (skill) => {
-    const newSkills = selectedSkills.filter((s) => s !== skill);
+  const handleRemoveSkill = (skillId, skillName) => {
+    const newSkills = selectedSkills.filter((s) => s.name !== skillName);
     setSelectedSkills(newSkills);
-    updateCurrentUser({
-      ...currentUser,
-      [skillKey]: newSkills,
-    });
-    updateUser(currentUser.id, {
-      [skillKey]: newSkills,
-    });
+
+    removeSkill(skillKey, { skillId });
   };
 
   // arrange skills
   const updateDisplayedSkills = (term) => {
-    const filteredSkills = SKILLS.filter((skill) =>
-      skill.toLowerCase().includes(term.toLowerCase()),
+    const filteredSkills = SKILLS.filter(({ name }) =>
+      name.toLowerCase().includes(term.toLowerCase()),
     );
 
     const selectedSet = new Set(selectedSkills);
@@ -105,15 +93,19 @@ const SkillSection = ({ title, skillKey }) => {
 
         {openDropdown && (
           <div className="bg-ss-light-777 dropdown-scroll dark:bg-ss-black-131 absolute z-10 mt-1 max-h-40 w-full overflow-auto rounded-2xl border shadow">
-            {displayedSkills.map((skill) => (
+            {displayedSkills.map(({ id, name }) => (
               <label
-                key={skill}
+                key={id}
                 className="dark:hover:bg-ss-black-444 flex items-center justify-between px-4 py-2 hover:bg-gray-100"
               >
-                <span>{skill}</span>
+                <span>{name}</span>
                 <Checkbox
-                  checked={selectedSkills.includes(skill)}
-                  onCheckedChange={(checked) => handleCheckboxChange(skill)}
+                  checked={selectedSkills.some((skill) => skill.name === name)}
+                  onCheckedChange={(checked) => {
+                    checked
+                      ? handleAddSkill(id, name)
+                      : handleRemoveSkill(id, name);
+                  }}
                 />
               </label>
             ))}
@@ -122,13 +114,16 @@ const SkillSection = ({ title, skillKey }) => {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        {selectedSkills.map((skill) => (
+        {selectedSkills.map(({ id, name }) => (
           <div
-            key={skill}
+            key={id}
             className="group hover:bg-ss-red-404 hover:text-ss-light-FFF dark:bg-ss-black-444 dark:hover:bg-ss-red-404 flex items-center rounded-full bg-gray-200 px-3 py-1 text-sm"
           >
-            <span>{skill}</span>
-            <button onClick={() => handleRemoveSkill(skill)} className="ml-2">
+            <span>{name}</span>
+            <button
+              onClick={() => handleRemoveSkill(id, name)}
+              className="ml-2"
+            >
               <X className="h-4 w-4" />
             </button>
           </div>

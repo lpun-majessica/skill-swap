@@ -3,13 +3,11 @@
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { DatePickerDemo } from "../ui/datepicker";
-import { useAuthContext } from "@/contexts/auth-context";
-import { useDataContext } from "@/contexts/data-context";
+import { useCurrentUserContext } from "@/contexts/current-user-context";
 
 const EditProfilePopup = ({ onClose }) => {
-  const { currentUser, updateCurrentUser } = useAuthContext();
+  const { currentUser, updateCurrentUser } = useCurrentUserContext();
   const [dob, setDob] = useState("");
-  const { updateUser } = useDataContext();
 
   useEffect(() => {
     if (currentUser) {
@@ -21,16 +19,14 @@ const EditProfilePopup = ({ onClose }) => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
-    const updatedUser = {
-      ...currentUser,
+    const updatedFields = {
       fullname: formData.get("fullname"),
       job: formData.get("job"),
       dob: dob,
       bio: formData.get("bio"),
     };
 
-    updateCurrentUser(updatedUser);
-    updateUser(currentUser.id, updatedUser);
+    updateCurrentUser(updatedFields);
     onClose(); // Close popup
   };
 

@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
   CardContent,
@@ -12,12 +11,13 @@ import {
 import { SkillDisplay } from "./skill-display";
 import Link from "next/link";
 
-import { ConnectionsButtons } from "./connection-buttons";
-
-import { useDataContext } from "@/contexts/data-context";
-import { useAuthContext } from "@/contexts/auth-context";
-import { useState, useEffect } from "react";
 import { ArrowRightLeft } from "lucide-react";
+import { ConnectionsButtons } from "./connection-buttons";
+import UserAvatar from "./avatar";
+
+import { useState, useEffect } from "react";
+import { useConnectionContext } from "@/contexts/connection-context";
+import { useUserContext } from "@/contexts/users-context";
 
 export default function UserCard({
   id,
@@ -28,35 +28,15 @@ export default function UserCard({
   job,
   pfp,
 }) {
-  const currentUser = useAuthContext().currentUser ?? {
-    id: 0,
-    skillsToLearn: [],
-    skillsToTeach: [],
-  };
-  const connection = useDataContext().connections.filter(
-    (conn) =>
-      (conn.sender_id === id && conn.receiver_id === currentUser.id) ||
-      (conn.sender_id === currentUser.id && conn.receiver_id === id),
-  );
-
-  const fallbackName = fullname
-    .split(" ")
-    .map((word) => word[0].toUpperCase())
-    .join("");
-
-  const { hasCompatibleSkills } = useDataContext();
+  const { isPotentialMatch } = useUserContext();
+  const { findConnectionWith } = useConnectionContext();
+  const connection = findConnectionWith(id);
 
   const [isMatch, setIsMatch] = useState(false);
 
   useEffect(() => {
-    if (
-      currentUser &&
-      Array.isArray(currentUser.skillsToTeach) &&
-      Array.isArray(currentUser.skillsToLearn)
-    ) {
-      setIsMatch(hasCompatibleSkills(id, currentUser));
-    }
-  }, [id, currentUser]);
+    setIsMatch(isPotentialMatch(skillsToLearn, skillsToTeach));
+  }, [skillsToLearn, skillsToTeach]);
 
   return (
     <>
@@ -69,12 +49,12 @@ export default function UserCard({
           size={22}
           className={`text-ss-red-666 border-ss-red-666 absolute -mt-1 ml-5 rounded-full border-2 p-0.5 ${isMatch ? "visible" : "invisible"}`}
         />
-        <Avatar className="mx-auto -mt-1 size-16 lg:mt-0 lg:size-18">
-          <AvatarImage className="size-fit" src={pfp} alt={"@" + username} />
-          <AvatarFallback className="bg-ss-light-333 dark:bg-ss-black-444">
-            {fallbackName}
-          </AvatarFallback>
-        </Avatar>
+        <UserAvatar
+          className="mx-auto -mt-1 size-16 lg:mt-0 lg:size-18"
+          fullname={fullname}
+          username={username}
+          pfp={pfp}
+        />
 
         <CardHeader>
           <CardTitle className="text-ss-black-222 dark:text-ss-light-555 -mt-3 -mb-1 text-center text-lg font-bold lg:text-xl">
@@ -88,23 +68,17 @@ export default function UserCard({
         </CardHeader>
 
         <CardContent className="relative -mt-2 -mb-1">
-          <SkillDisplay
-            fullname={fullname}
-            header="Teaching"
-            skills={skillsToTeach}
-            currentUserSkills={currentUser.skillsToLearn}
-          />
+          <SkillDisplay type="teach" skills={skillsToTeach} />
           <hr className="border-ss-light-333 dark:border-ss-black-444 mt-3 mb-1" />
-          <SkillDisplay
-            fullname={fullname}
-            header="Learning"
-            skills={skillsToLearn}
-            currentUserSkills={currentUser.skillsToTeach}
-          />
+          <SkillDisplay type="learn" skills={skillsToLearn} />
         </CardContent>
 
         <CardFooter className="-mb-1 flex flex-row flex-wrap justify-center gap-2 lg:mb-0">
-          <ConnectionsButtons connection={connection} cardUserId={id} />
+          <ConnectionsButtons
+            connection={connection}
+            cardUserId={id}
+            cardUsername={username}
+          />
         </CardFooter>
       </Card>
     </>

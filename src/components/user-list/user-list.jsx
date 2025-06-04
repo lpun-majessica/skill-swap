@@ -1,6 +1,6 @@
 "use client";
 
-import { NextButton, PrevButton } from "./navigation-buttons";
+import { Pagination } from "./pagination";
 import UserCard from "@/components/user-card/user-card";
 
 import { useEffect, useState } from "react";
@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 export function UserList({ users }) {
   const pageSize = 8;
   const [currentPage, setCurrentPage] = useState(0);
+  const lastPage =
+    users.length === 0 ? 0 : Math.floor((users.length - 1) / pageSize);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -29,16 +31,10 @@ export function UserList({ users }) {
           })}
       </div>
       <div className="mt-5 flex flex-row items-center justify-center">
-        <PrevButton
-          disabled={currentPage === 0}
+        <Pagination
+          currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-        />
-        <NextButton
-          disabled={
-            users.length === 0 ||
-            currentPage === Math.floor((users.length - 1) / pageSize)
-          }
-          setCurrentPage={setCurrentPage}
+          lastPage={lastPage}
         />
       </div>
     </>

@@ -1,4 +1,7 @@
 GET http://localhost:3000/api/connections
+###
+GET http://localhost:3000/api/connections/find?currentUserId=6839260a139193caf0fd2737&userId=683931d94b133bcff5e6b665
+
 
 ###
 POST http://localhost:3000/api/connections HTTP/1.1

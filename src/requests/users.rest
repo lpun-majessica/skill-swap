@@ -24,7 +24,7 @@ POST http://localhost:3000/api/users/6839260a139193caf0fd2737/learning HTTP/1.1
 Content-Type: application/json
 
 {
-    "skillsToLearn": "68383dacee97ee11c4c3af74"
+    "skillId": "68383dacee97ee11c4c3af74"
 }
 
 ###
@@ -32,7 +32,7 @@ DELETE  http://localhost:3000/api/users/6839260a139193caf0fd2737/learning HTTP/1
 Content-Type: application/json
 
 {
-    "skillsToLearn": "68383dacee97ee11c4c3af74"
+    "skillId": "68383dacee97ee11c4c3af74"
 }
 
 ###
@@ -40,7 +40,7 @@ POST http://localhost:3000/api/users/6839260a139193caf0fd2737/teaching HTTP/1.1
 Content-Type: application/json
 
 {
-    "skillsToTeach": "68383dacee97ee11c4c3af74"
+    "skillId": "68383d72ee97ee11c4c3af72"
 }
 
 ###
@@ -48,7 +48,7 @@ DELETE  http://localhost:3000/api/users/6839260a139193caf0fd2737/teaching HTTP/1
 Content-Type: application/json
 
 {
-    "skillsToTeach": "68383dacee97ee11c4c3af74"
+    "skillId": "68383d72ee97ee11c4c3af72"
 }
 
 ###
@@ -57,4 +57,11 @@ Content-Type: application/json
 
 {
     "pfp": "/pfp/6839260a139193caf0fd2737.jpeg"
+}
+###
+PUT http://localhost:3000/api/users/6839260a139193caf0fd2737 HTTP/1.1
+Content-Type: application/json
+
+{
+    "password": "alexj"
 }

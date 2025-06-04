@@ -1,6 +1,7 @@
-import dbConnect from "@/lib/dbConnect";
+import dbConnect from "@/lib/db-connect";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
+import hashPassword from "@/utils/hash-password";
 
 export async function GET() {
   await dbConnect();
@@ -10,15 +11,17 @@ export async function GET() {
       .populate("skillsToLearn")
       .populate("skillsToTeach");
 
-    return NextResponse.json(users);
+    return NextResponse.json(users, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: error.message });
+    return NextResponse.json({ error: error.message }, { status: 404 });
   }
 }
 
 export async function POST(request) {
   await dbConnect();
-  const userData = await request.json();
+  let userData = await request.json();
+  userData = await hashPassword(userData, NextResponse);
+
   const user = new User(userData);
 
   try {
@@ -27,8 +30,8 @@ export async function POST(request) {
       .populate("skillsToLearn")
       .populate("skillsToTeach");
 
-    return NextResponse.json(newUser);
+    return NextResponse.json(newUser, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: error.message });
+    return NextResponse.json({ error: error.message }, { status: 404 });
   }
 }

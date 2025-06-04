@@ -16,9 +16,20 @@ const userSchema = new mongoose.Schema({
   pfp: String,
 });
 
+const formatDate = (dateStr) => {
+  const dateObj = new Date(dateStr);
+
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObj.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
 userSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
+    returnedObject.dob = formatDate(returnedObject.dob);
     delete returnedObject._id;
     delete returnedObject.__v;
     delete returnedObject.passwordHash;

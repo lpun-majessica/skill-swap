@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/dbConnect";
+import dbConnect from "@/lib/db-connect";
 import Skill from "@/models/skill";
 import { NextResponse } from "next/server";
 

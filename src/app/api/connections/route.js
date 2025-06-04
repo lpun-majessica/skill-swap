@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/dbConnect";
+import dbConnect from "@/lib/db-connect";
 import Connection from "@/models/connection";
 import { NextResponse } from "next/server";
 
@@ -38,12 +38,12 @@ export async function POST(request) {
 
 export async function PUT(request) {
   await dbConnect();
-  const { sender_id, receiver_id, isAccepted } = await request.json();
+  const { connectionId, isAccepted } = await request.json();
   const returnData = { new: true };
 
   try {
-    let updatedConnection = await Connection.findOneAndUpdate(
-      { sender_id, receiver_id },
+    let updatedConnection = await Connection.findByIdAndUpdate(
+      connectionId,
       { isAccepted },
       returnData,
     )
@@ -58,12 +58,12 @@ export async function PUT(request) {
 
 export async function DELETE(request) {
   await dbConnect();
-  const { sender_id, receiver_id } = await request.json();
+  const { connectionId } = await request.json();
   const returnData = { new: true };
 
   try {
-    let deletedConnection = await Connection.findOneAndDelete(
-      { sender_id, receiver_id },
+    let deletedConnection = await Connection.findByIdAndDelete(
+      connectionId,
       returnData,
     )
       .populate("sender_id", { fullname: 1 })

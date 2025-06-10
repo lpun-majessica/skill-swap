@@ -83,7 +83,6 @@ export function PopUpButton({ variant, username, handleClick }) {
   };
 
   const handleConfirm = () => {
-    console.log(`${variant} action confirmed for @${username}`);
     handleClick();
   };
 

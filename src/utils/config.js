@@ -7,4 +7,11 @@ const MONGODB_URI =
 
 const PORT = process.env.PORT;
 
-export { MONGODB_URI, PORT };
+const CLOUDINARY_URL = process.env.CLOUDINARY_URL;
+
+const CLOUDINARY_CONFIG = {
+  cloudName: "skill-swap",
+  uploadPreset: "profile-picture",
+};
+
+export { MONGODB_URI, PORT, CLOUDINARY_URL, CLOUDINARY_CONFIG };

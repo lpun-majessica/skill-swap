@@ -8,6 +8,8 @@ import { useCurrentUserContext } from "@/contexts/current-user-context";
 import UserAvatar from "../user-card/avatar";
 import { useConnectionContext } from "@/contexts/connection-context";
 import { useUserContext } from "@/contexts/users-context";
+import { Button } from "../ui/button";
+import ImageUpload from "./image-upload";
 
 const UserDetails = ({ user = null, isEditable = true }) => {
   const [showPopup, setShowPopup] = useState(false);
@@ -17,7 +19,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
   const { findConnectionWith } = useConnectionContext();
   const { isPotentialMatch } = useUserContext();
 
-  const connection = findConnectionWith(user.id);
+  const connection = findConnectionWith(user?.id);
 
   const handleEditClick = () => setShowPopup(true);
   const handleClosePopup = () => setShowPopup(false);
@@ -28,8 +30,16 @@ const UserDetails = ({ user = null, isEditable = true }) => {
   };
 
   const userData = isEditable ? currentUser : user;
-  const { fullname, username, skillsToLearn, skillsToTeach, pfp, dob, job } =
-    userData;
+  const {
+    fullname,
+    username,
+    skillsToLearn,
+    skillsToTeach,
+    pfp,
+    bio,
+    dob,
+    job,
+  } = userData;
 
   useEffect(() => {
     if (!isEditable) {
@@ -51,7 +61,6 @@ const UserDetails = ({ user = null, isEditable = true }) => {
         <div
           className={`text-ss-red-666 border-ss-red-666 absolute flex gap-1 rounded-full border-2 px-2 py-1 text-xs font-bold ${!isEditable && isMatch ? "visible" : "invisible"}`}
         >
-          {" "}
           <ArrowRightLeft
             strokeWidth={2}
             size={16}
@@ -61,12 +70,17 @@ const UserDetails = ({ user = null, isEditable = true }) => {
         </div>
 
         <div className="flex w-full justify-center">
-          <UserAvatar
-            className="size-[96px] sm:size-[160px]"
-            fullname={fullname}
-            username={username}
-            pfp={pfp}
-          />
+          <div className="relative">
+            <UserAvatar
+              className="size-[96px] sm:size-[160px]"
+              fullname={fullname}
+              username={username}
+              pfp={pfp}
+            />
+            {isEditable && (
+              <ImageUpload className="bg-ss-black-29D hover:bg-ss-black-171 dark:bg-ss-black-444 hover:dark:bg-ss-black-171 absolute top-0 right-0 z-1 size-8 rounded-full lg:size-10" />
+            )}
+          </div>
         </div>
       </div>
       <h2 className="mt-4 text-xl font-bold">{fullname}</h2>
@@ -115,12 +129,12 @@ const UserDetails = ({ user = null, isEditable = true }) => {
       </div>
 
       {isEditable && (
-        <button
+        <Button
           onClick={handleEditClick}
-          className="dark:bg-ss-black-444 dark:hover:bg-ss-red-505 hover:bg-ss-red-404 hover:text-ss-light-FFF mt-2 rounded-3xl bg-gray-300 px-6 py-2"
+          className="text-ss-light-222 bg-ss-black-171/90 dark:bg-ss-black-444 dark:hover:bg-ss-red-505 hover:bg-ss-red-404 mt-2 rounded-3xl px-6 py-2"
         >
           Edit profile
-        </button>
+        </Button>
       )}
 
       {/* Popup */}

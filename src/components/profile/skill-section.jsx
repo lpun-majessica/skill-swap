@@ -8,6 +8,7 @@ import { useSkillContext } from "@/contexts/skill-context";
 
 import { X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { SkillBadge } from "../common/skill-badge";
 
 const SkillSection = ({ title, skillKey }) => {
   const { currentUser, addSkill, removeSkill } = useCurrentUserContext();
@@ -68,11 +69,11 @@ const SkillSection = ({ title, skillKey }) => {
       name.toLowerCase().includes(term.toLowerCase()),
     );
 
-    const selectedSet = new Set(selectedSkills);
+    const selectedSet = new Set(selectedSkills.map((skill) => skill.name));
 
     const selectedFirst = [
-      ...filteredSkills.filter((skill) => selectedSet.has(skill)),
-      ...filteredSkills.filter((skill) => !selectedSet.has(skill)),
+      ...filteredSkills.filter((skill) => selectedSet.has(skill.name)),
+      ...filteredSkills.filter((skill) => !selectedSet.has(skill.name)),
     ];
 
     setDisplayedSkills(selectedFirst);
@@ -80,7 +81,7 @@ const SkillSection = ({ title, skillKey }) => {
 
   return (
     <div className="dark:bg-ss-black-929 mx-auto w-sm max-w-lg rounded-2xl bg-white p-6 shadow-lg inset-shadow-2xs sm:w-md md:w-md lg:w-md">
-      <h3 className="mb-2 text-lg font-semibold">{title}</h3>
+      <h3 className="mb-2 text-base font-semibold lg:text-lg">{title}</h3>
       <div className="relative" ref={dropdownRef}>
         <input
           type="text"
@@ -88,7 +89,7 @@ const SkillSection = ({ title, skillKey }) => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={() => setOpenDropdown(true)}
-          className="bg-ss-light-777 dark:bg-ss-black-131 dark:focus:border-ss-black-444 w-full rounded-2xl border p-2"
+          className="bg-ss-light-777 dark:bg-ss-black-131 dark:focus:border-ss-black-444 w-full rounded-2xl border p-2 text-sm lg:text-base"
         />
 
         {openDropdown && (
@@ -96,7 +97,7 @@ const SkillSection = ({ title, skillKey }) => {
             {displayedSkills.map(({ id, name }) => (
               <label
                 key={id}
-                className="dark:hover:bg-ss-black-444 flex items-center justify-between px-4 py-2 hover:bg-gray-100"
+                className="dark:hover:bg-ss-black-444 flex items-center justify-between px-4 py-2 text-sm hover:bg-gray-100 lg:text-base"
               >
                 <span>{name}</span>
                 <Checkbox
@@ -115,18 +116,16 @@ const SkillSection = ({ title, skillKey }) => {
 
       <div className="mt-4 flex flex-wrap gap-2">
         {selectedSkills.map(({ id, name }) => (
-          <div
-            key={id}
-            className="group hover:bg-ss-red-404 hover:text-ss-light-FFF dark:bg-ss-black-444 dark:hover:bg-ss-red-404 flex items-center rounded-full bg-gray-200 px-3 py-1 text-sm"
-          >
-            <span>{name}</span>
+          <SkillBadge key={id} skill={name}>
             <button
               onClick={() => handleRemoveSkill(id, name)}
-              className="ml-2"
+              className="hover:bg-ss-black-29D hover:dark:bg-ss-black-171 -mr-1 rounded-full p-1 hover:cursor-pointer"
+              size="icon"
+              title="Remove from skill list"
             >
-              <X className="h-4 w-4" />
+              <X className="size-3" strokeWidth={4} />
             </button>
-          </div>
+          </SkillBadge>
         ))}
       </div>
     </div>

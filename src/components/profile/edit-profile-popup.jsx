@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { DatePickerDemo } from "../ui/datepicker";
 import { useCurrentUserContext } from "@/contexts/current-user-context";
+import { Button } from "../ui/button";
 
 const EditProfilePopup = ({ onClose }) => {
   const { currentUser, updateCurrentUser } = useCurrentUserContext();
@@ -62,19 +63,19 @@ const EditProfilePopup = ({ onClose }) => {
             rows={3}
           />
           <div className="mt-4 flex justify-center gap-7">
-            <button
+            <Button
               type="button"
               onClick={onClose}
-              className="hover:bg-ss-red-ABA dark:bg-ss-black-131 dark:hover:bg-ss-black-444 w-22 rounded-3xl bg-gray-300 py-2"
+              className="hover:bg-ss-red-ABA text-ss-light-555 dark:bg-ss-black-131 dark:hover:bg-ss-black-444 bg-ss-black-171 w-22 rounded-3xl py-2"
             >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
               className="bg-ss-red-505 hover:bg-ss-red-404 w-22 rounded-3xl py-2 text-white"
             >
               Save
-            </button>
+            </Button>
           </div>
         </form>
       </div>

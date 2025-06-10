@@ -1,4 +1,7 @@
 import "./globals.css";
+
+import Script from "next/script";
+
 import { ThemeProvider } from "@/contexts/theme-context";
 import { AuthProvider } from "@/contexts/auth-context";
 import { CurrentUserProvider } from "@/contexts/current-user-context";
@@ -22,6 +25,10 @@ export default function RootLayout({ children }) {
           <LayoutClient>{children}</LayoutClient>
           <Toaster />
         </ContextProvider>
+        <Script
+          src="https://upload-widget.cloudinary.com/global/all.js"
+          strategy="beforeInteractive"
+        />
       </body>
     </html>
   );

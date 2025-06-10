@@ -1,7 +1,7 @@
 "use client";
 
 import { Search, X } from "lucide-react";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 import { useEffect } from "react";
 import { useUserContext } from "@/contexts/users-context";
 

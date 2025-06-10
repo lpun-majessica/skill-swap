@@ -6,7 +6,8 @@ import { useUserContext } from "@/contexts/users-context";
 
 import { Input } from "@/components/ui/input";
 import { Filter as FilterIcon, X } from "lucide-react";
-import { Checkbox } from "./ui/checkbox";
+import { Checkbox } from "../ui/checkbox";
+import { SkillBadge } from "../common/skill-badge";
 
 const initialFilter = [];
 
@@ -203,9 +204,7 @@ function FilterBody({
             className="dark:hover:bg-ss-black-444 grid grid-cols-[3.5fr_1fr_1fr] gap-1 rounded-xl px-1 py-2 transition-colors duration-300 hover:bg-gray-100 sm:gap-2 sm:px-2"
           >
             <div className="flex items-center justify-start">
-              <span className="bg-ss-light-222 dark:bg-ss-black-444 rounded-full px-2 py-0.5 text-[12px] font-medium whitespace-nowrap text-black sm:text-[11px] md:text-[11px] dark:text-white">
-                {name}
-              </span>
+              <SkillBadge skill={name} />
             </div>
             <div className="flex items-center justify-center">
               <Checkbox

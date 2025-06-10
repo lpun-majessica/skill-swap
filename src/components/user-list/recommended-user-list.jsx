@@ -4,7 +4,7 @@ import { useUserContext } from "@/contexts/users-context";
 import { useCurrentUserContext } from "@/contexts/current-user-context";
 
 import { UserList } from "./user-list";
-import { SearchBar } from "@/components/search-bar";
+import { SearchBar } from "@/components/filter/search-bar";
 
 export function RecommendedUserList() {
   const { users, recommend } = useUserContext();

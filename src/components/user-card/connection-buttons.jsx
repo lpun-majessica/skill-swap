@@ -1,4 +1,4 @@
-import { Button, PopUpButton } from "@/components/common/Buttons";
+import { Button, PopUpButton } from "@/components/common/buttons";
 import { UserRoundPlus } from "lucide-react";
 
 import { useConnectionContext } from "@/contexts/connection-context";

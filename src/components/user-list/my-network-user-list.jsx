@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { useUserContext } from "@/contexts/users-context";
 
-import { ConnectionFilter } from "../connection-filter";
+import { ConnectionFilter } from "../filter/connection-filter";
 import { UserList } from "./user-list";
-import { SearchBar } from "@/components/search-bar";
+import { SearchBar } from "@/components/filter/search-bar";
 
 const filterText = {
   all: "All",

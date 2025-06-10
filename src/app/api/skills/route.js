@@ -21,8 +21,6 @@ export async function POST(request) {
 
   try {
     const savedSkill = await newSkill.save();
-    console.log(`Added skill: ${name}`);
-
     return NextResponse.json(savedSkill);
   } catch (error) {
     return NextResponse.json({ error: error.message });

@@ -3,7 +3,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { SkillBadge } from "../common/SkillBadge";
+import { SkillBadge } from "../common/skill-badge";
 
 import sortSkills from "@/utils/skills";
 import { useCurrentUserContext } from "@/contexts/current-user-context";

@@ -4,6 +4,8 @@ const guestUser = {
   id: 0,
   username: "guest",
   fullname: "Guest User",
+  job: "Guest",
+  dob: "yyyy-mm-dd",
   skillsToTeach: [],
   skillsToLearn: [],
 };

@@ -1,6 +1,9 @@
 const sortSkills = (skills, currentUserSkills) => {
-  const sortedSkills = skills
-    .map(({ name }) => [name, currentUserSkills.includes(name)])
+  const skillsArray = skills.map((skill) => skill.name);
+  const currentUserSkillsArray = currentUserSkills.map((skill) => skill.name);
+
+  const sortedSkills = skillsArray
+    .map((skill) => [skill, currentUserSkillsArray.includes(skill)])
     .sort(([_skillA, isMatchSkillA], [_skillB, isMatchSkillB]) => {
       const matchA = isMatchSkillA ? 1 : 0;
       const matchB = isMatchSkillB ? 1 : 0;

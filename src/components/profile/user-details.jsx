@@ -1,15 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import EditProfilePopup from "./edit-profile-popup";
-import { ConnectionsButtons } from "@/components/user-card/connection-buttons";
-import { ArrowRightLeft } from "lucide-react";
 import { useCurrentUserContext } from "@/contexts/current-user-context";
-import UserAvatar from "../user-card/avatar";
 import { useConnectionContext } from "@/contexts/connection-context";
 import { useUserContext } from "@/contexts/users-context";
-import { Button } from "../ui/button";
+
+import EditProfilePopup from "./edit-profile-popup";
+import UserAvatar from "../user-card/avatar";
 import ImageUpload from "./image-upload";
+import { ConnectionsButtons } from "@/components/user-card/connection-buttons";
+import { ArrowRightLeft } from "lucide-react";
+import { Button } from "../ui/button";
 
 const UserDetails = ({ user = null, isEditable = true }) => {
   const [showPopup, setShowPopup] = useState(false);
@@ -86,7 +87,11 @@ const UserDetails = ({ user = null, isEditable = true }) => {
       <h2 className="mt-4 text-xl font-bold">{fullname}</h2>
       <h4 className="text-ss-red-444 mt-1 mb-3 text-base">{job}</h4>
       {!isEditable && (
-        <ConnectionsButtons connection={connection} cardUserId={user.id} />
+        <ConnectionsButtons
+          connection={connection}
+          cardUserId={user.id}
+          cardUsername={username}
+        />
       )}
       <div className="dark:border-ss-black-131 my-4 flex w-78 flex-col items-center rounded-2xl border border-gray-300 px-5 py-4 sm:w-90 sm:px-6">
         <div className="flex w-full flex-col gap-4">

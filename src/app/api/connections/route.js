@@ -26,9 +26,7 @@ export async function POST(request) {
 
   try {
     let newConnection = await connection.save();
-    newConnection = await Connection.findById(newConnection._id)
-      .populate("sender_id", { fullname: 1 })
-      .populate("receiver_id", { fullname: 1 });
+    newConnection = await Connection.findById(newConnection._id);
 
     return NextResponse.json(newConnection, { status: 201 });
   } catch (error) {

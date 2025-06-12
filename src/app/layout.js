@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
       <body>
         <ContextProvider>
           <LayoutClient>{children}</LayoutClient>
-          <Toaster />
+          <Toaster closeButton />
         </ContextProvider>
         <Script
           src="https://upload-widget.cloudinary.com/global/all.js"

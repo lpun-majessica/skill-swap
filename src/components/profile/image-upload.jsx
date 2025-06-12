@@ -1,29 +1,24 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useCallback } from "react";
+import { useAuthContext } from "@/contexts/auth-context";
+import { useCurrentUserContext } from "@/contexts/current-user-context";
+
+import { CldUploadWidget } from "next-cloudinary";
 
 import { Button } from "../ui/button";
 import { Pencil } from "lucide-react";
 import { toast } from "sonner";
 
-import { Cloudinary } from "@cloudinary/url-gen";
 import { CLOUDINARY_CONFIG } from "@/utils/config";
+
 import userService from "@/services/user";
-import { useAuthContext } from "@/contexts/auth-context";
 
-const cld = new Cloudinary({
-  cloud: {
-    cloudName: CLOUDINARY_CONFIG.cloudName,
-  },
-});
-
-const uploadWidgetConfig = {
-  cloudName: CLOUDINARY_CONFIG.cloudName,
+const uploadWidgetOptions = {
   clientAllowedFormats: "image",
-  uploadPreset: CLOUDINARY_CONFIG.uploadPreset,
   sources: ["local", "url", "camera", "google_drive", "dropbox"],
   showAdvancedOptions: false,
-  cropping: true,
+  cropping: false,
   multiple: false,
   maxFiles: 1,
   defaultSource: "local",
@@ -54,75 +49,75 @@ const uploadWidgetConfig = {
 };
 
 const ImageUpload = ({ className }) => {
-  const [uploadWidget, setUploadWidget] = useState(null);
   const { currentUser } = useAuthContext();
+  const { updateProfilePicture } = useCurrentUserContext();
 
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.cloudinary) {
-      const widget = window.cloudinary.createUploadWidget(
-        uploadWidgetConfig,
-        async (error, result) => {
-          if (error) {
-            console.error("Upload error:", error);
-            toast.error(
-              `Upload failed: ${error.statusText || "Unknown error"}`,
-            );
-            return;
-          }
-
-          if (result && result.event === "success") {
-            console.log(result);
-
-            const promise = () =>
-              new Promise((resolve) => setTimeout(() => resolve(), 3000));
-
-            toast.promise(promise, {
-              loading: "Loading...",
-              success: () => {
-                return "Upload image successfully!";
-              },
-              error: "Error",
-            });
-            console.log(currentUser);
-
-            await userService.updateUser(currentUser.id, {
-              pfp: result.info.secure_url,
-            });
-          } else if (result && result.event === "close") {
-            if (!result.info) {
-              toast.error("Upload cancelled or failed. Please try again.");
-            }
-          }
-        },
-      );
-      setUploadWidget(widget);
-    }
-
-    return () => {
-      if (uploadWidget) {
-        uploadWidget.destroy();
+  const checkModeration = useCallback(
+    async (info, startTime, loadingToastId) => {
+      if (Date.now() - startTime > 60000) {
+        toast.dismiss(loadingToastId);
+        toast.error("Moderation check timed out. Please try again.");
+        return;
       }
-    };
-  }, []);
 
-  const openUploadWidget = (e) => {
-    e.preventDefault();
+      try {
+        const data = await userService.checkImageModerationResult(info);
 
-    if (uploadWidget) {
-      uploadWidget.open();
-    }
+        if (currentUser && data.status === "approved") {
+          updateProfilePicture(data.publicId, data.url);
+          toast.dismiss(loadingToastId);
+          toast.success("Upload image successfully!");
+        } else if (data.status === "rejected") {
+          toast.error(data.message);
+        } else {
+          setTimeout(() => checkModeration(info, startTime), 1000);
+        }
+      } catch (error) {
+        console.error("Error checking moderation status:", error);
+        toast.error("An error occurred while processing your image.");
+      }
+    },
+    [],
+  );
+
+  const handleUploadSuccess = (result) => {
+    const loadingToastId = toast.loading("Uploading image...");
+    const startTime = Date.now();
+    checkModeration(result.info, startTime, loadingToastId);
+  };
+
+  const handleUploadError = (error) => {
+    console.error("Upload error:", error);
+    toast.error(`Upload failed: ${error.statusText || "Unknown error"}`);
   };
 
   return (
-    <Button
-      variant="secondary"
-      size="icon"
-      className={className}
-      onClick={openUploadWidget}
-      title="Edit profile picture"
+    <CldUploadWidget
+      signatureEndpoint="/api/sign-cloudinary-params"
+      options={uploadWidgetOptions}
+      config={{
+        cloud: {
+          cloudName: CLOUDINARY_CONFIG.cloudName,
+          apiKey: CLOUDINARY_CONFIG.apiKey,
+        },
+      }}
+      onSuccess={handleUploadSuccess}
+      onError={handleUploadError}
     >
-      <Pencil className="size-3 md:size-4 lg:size-5" />
-    </Button>
+      {({ open }) => {
+        return (
+          <Button
+            variant="secondary"
+            size="icon"
+            className={className}
+            onClick={() => open()}
+            title="Edit profile picture"
+          >
+            <Pencil className="size-3 md:size-4 lg:size-5" />
+          </Button>
+        );
+      }}
+    </CldUploadWidget>
   );
 };
 

@@ -12,6 +12,7 @@ const CLOUDINARY_URL = process.env.CLOUDINARY_URL;
 const CLOUDINARY_CONFIG = {
   cloudName: "skill-swap",
   uploadPreset: "profile-picture",
+  apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
 };
 
 export { MONGODB_URI, PORT, CLOUDINARY_URL, CLOUDINARY_CONFIG };

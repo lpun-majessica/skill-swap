@@ -1,17 +1,19 @@
 import { useCurrentUserContext } from "@/contexts/current-user-context";
 import sortSkills from "@/utils/skills";
 
+import { SkillBadge } from "../common/skill-badge";
+
 export default function SkillDetails({ type, skills }) {
   const { currentUser } = useCurrentUserContext();
 
   const info = {
     teach: {
       title: "Skills to Teach",
-      currentUserSkills: currentUser[skillsToTeach],
+      currentUserSkills: currentUser.skillsToTeach,
     },
     learn: {
       title: "Skills to Learn",
-      currentUserSkills: currentUser[skillsToLearn],
+      currentUserSkills: currentUser.skillsToLearn,
     },
   };
   const { title, currentUserSkills } = info[type];

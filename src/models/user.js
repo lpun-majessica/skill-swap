@@ -13,7 +13,13 @@ const userSchema = new mongoose.Schema({
   bio: String,
   dob: Date,
   job: String,
-  pfp: String,
+  pfp: {
+    publicId: {
+      type: String,
+      required: [true, "profile picture must have a public id"],
+    },
+    url: String,
+  },
 });
 
 const formatDate = (dateStr) => {

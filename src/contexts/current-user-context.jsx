@@ -8,6 +8,7 @@ const guestUser = {
   dob: "yyyy-mm-dd",
   skillsToTeach: [],
   skillsToLearn: [],
+  pfp: {},
 };
 
 import { createContext, useEffect, useState, useContext } from "react";
@@ -71,11 +72,20 @@ export function CurrentUserProvider({ children }) {
     setCurrentUserData(updatedUser);
   };
 
+  const updateProfilePicture = async (publicId, url) => {
+    const updatedUser = await userService.updateUser(currentUser.id, {
+      pfp: { publicId: publicId, url: url },
+    });
+
+    setCurrentUserData(updatedUser);
+  };
+
   return (
     <CurrentUserContext.Provider
       value={{
         currentUser: currentUserData,
         updateCurrentUser,
+        updateProfilePicture,
         addSkill,
         removeSkill,
       }}

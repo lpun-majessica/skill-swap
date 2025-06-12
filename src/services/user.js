@@ -21,6 +21,11 @@ const updateUser = async (userId, userData) => {
   return response.data;
 };
 
+const checkImageModerationResult = async (data) => {
+  const response = await axios.post(`${baseUrl}/profile-picture`, data);
+  return response.data;
+};
+
 const addTeachingSkill = async (userId, skillId) => {
   const response = await axios.post(`${baseUrl}/${userId}/teaching`, skillId);
   return response.data;
@@ -50,6 +55,7 @@ export default {
   getUser,
   addUser,
   updateUser,
+  checkImageModerationResult,
   addTeachingSkill,
   deleteTeachingSkill,
   addLearningSkill,

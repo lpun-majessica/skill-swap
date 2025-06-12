@@ -38,7 +38,6 @@ export default function Navbar() {
   const handleLogout = () => {
     logout();
     setMenuOpen(false);
-    router.push("/");
   };
 
   const isHomePage = pathname === "/";

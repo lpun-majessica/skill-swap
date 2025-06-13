@@ -6,7 +6,7 @@ import { useUserContext } from "@/contexts/users-context";
 
 import SkillDetails from "@/components/profile/skill-details";
 import UserDetails from "@/components/profile/user-details";
-import AuthGuard from "@/components/auth/AuthGuard";
+import AuthGuard from "@/components/auth/auth-guard";
 
 export default function UserProfile() {
   const { id } = useParams();

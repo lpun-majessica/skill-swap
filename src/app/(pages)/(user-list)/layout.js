@@ -1,4 +1,4 @@
-import Filter from "@/components/filter/filter";
+import Filter from "@/components/filter";
 
 export default function UserListLayout({ children }) {
   return (

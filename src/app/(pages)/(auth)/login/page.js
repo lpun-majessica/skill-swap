@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useField } from "@/hooks";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { GoogleSignin } from "@/components/auth/google-signin";
 
 export default function LoginPage() {
   const username = useField("text");
@@ -102,6 +103,8 @@ export default function LoginPage() {
             >
               Sign In
             </button>
+            <GoogleSignin />
+
             <p className="mt-4 text-center text-sm">
               <a href="#" className="text-red-600 underline">
                 Reset password

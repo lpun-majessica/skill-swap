@@ -1,5 +1,5 @@
 import { MyNetWorkUserList } from "@/components/user-list/my-network-user-list";
-import AuthGuard from "@/components/auth/AuthGuard";
+import AuthGuard from "@/components/auth/auth-guard";
 
 export default function MyNetworkPage() {
   return (

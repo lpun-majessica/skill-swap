@@ -38,7 +38,7 @@ export default function SignUpPage() {
       <div className="w-[190%] max-w-xs">
         <SignUpForm />
 
-        <div className="mt-4 text-center text-sm">
+        <div className="mt-4 text-center text-sm font-semibold">
           Already have an account?
           <Link
             href="/signin"

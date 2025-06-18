@@ -6,15 +6,15 @@ import hashPassword from "@/utils/hash-password";
 
 export async function POST(request) {
   await dbConnect();
-  let userData = await request.json();
-
-  if (userData.hasOwnProperty("password")) {
-    userData = await hashPassword(userData, NextResponse);
-  }
-
-  const user = new User(userData);
 
   try {
+    let userData = await request.json();
+    if (userData.hasOwnProperty("password")) {
+      userData = await hashPassword(userData, NextResponse);
+    }
+
+    const user = new User(userData);
+
     let newUser = await user.save();
     newUser = await User.findById(newUser._id)
       .populate("skillsToLearn")

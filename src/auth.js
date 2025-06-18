@@ -21,8 +21,6 @@ const providers = [
         const { username, password } = credentials;
 
         user = await authService.signIn(username, password);
-        console.log(user);
-
         return user;
       } catch (error) {
         return null;
@@ -93,13 +91,13 @@ export const providerMap = providers
   })
   .filter((provider) => provider.id !== "credentials");
 
-export const signIn = (...args) =>
-  authSignIn(...args, { redirectTo: "/explore" });
+export const signIn = (provider, options = {}) =>
+  authSignIn(provider, { ...options, redirectTo: "/explore" });
 
 export const { handlers, auth } = NextAuth({
   session,
   providers,
   callbacks,
   events,
-  pages: { signIn: "/signin" },
+  pages: { signIn: "/signin", newUser: "/settings" },
 });

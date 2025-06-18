@@ -1,6 +1,7 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn } from "@/auth";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema } from "@/lib/zod";
@@ -17,6 +18,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export function SignInForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -26,8 +29,10 @@ export function SignInForm() {
   });
 
   const onSubmit = (data) => {
+    setIsSubmitting(true);
+
     const credentials = data;
-    signIn("credentials", credentials);
+    signIn("credentials", { ...credentials, redirectTo: "/explore" });
   };
 
   return (
@@ -77,11 +82,10 @@ export function SignInForm() {
         />
 
         <Button
-          type="submit"
-          className="bg-ss-red-505 text-ss-light-555 dark:text-ss-light-222 hover:bg-ss-red-404 mt-1 mb-3 w-full rounded-full py-2 font-semibold transition"
-          disabled={form.formState.isSubmitting}
+          className="bg-ss-light-222 hover:bg-ss-red-404 mt-1 mb-3 w-full rounded-full py-2 font-semibold transition"
+          disabled={isSubmitting}
         >
-          {form.formState.isSubmitting ? "Loading..." : "Sign In"}
+          {isSubmitting ? "Loading..." : "Sign In"}
         </Button>
       </form>
     </Form>

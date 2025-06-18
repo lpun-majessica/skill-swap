@@ -82,7 +82,7 @@ export function SignInForm() {
         />
 
         <Button
-          className="bg-ss-light-222 hover:bg-ss-red-404 mt-1 mb-3 w-full rounded-full py-2 font-semibold transition"
+          className="bg-ss-red-404 text-ss-light-222 hover:bg-ss-red-505/80 mt-1 mb-3 w-full rounded-full py-2 font-semibold transition"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Loading..." : "Sign In"}

@@ -31,14 +31,18 @@ export function SignUpForm() {
       email: "",
       username: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
 
+    const userData = { ...data };
+    delete userData.confirmPassword;
+
     try {
-      await authService.signUp(data);
+      await authService.signUp(userData);
 
       toast.success("Registration Successful");
       return router.push("/signin");
@@ -120,9 +124,33 @@ export function SignUpForm() {
           )}
         />
 
+        <FormField
+          className="flex flex-col items-start"
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <div className="mb-1 flex flex-row gap-2">
+                <FormLabel className="font-bold">
+                  Confirm your password
+                </FormLabel>
+                <FormMessage className="-my-1" />
+              </div>
+              <FormControl>
+                <Input
+                  className="mb-4 w-full rounded-full border border-gray-300 px-4 py-4 focus:outline-none"
+                  placeholder="********"
+                  type="password"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
         <Button
           type="submit"
-          className="bg-ss-red-404 text-ss-light-555 dark:text-ss-light-222 hover:bg-ss-red-505 mb-2 w-full rounded-full py-2 font-semibold transition"
+          className="bg-ss-red-404 text-ss-light-222 hover:bg-ss-red-505/80 mb-2 w-full rounded-full py-2 font-semibold transition"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Loading..." : "Create New Account"}

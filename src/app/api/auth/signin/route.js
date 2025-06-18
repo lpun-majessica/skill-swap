@@ -14,7 +14,7 @@ export async function POST(request) {
 
   const { username, password } = await request.json();
 
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ $or: [{ username }, { email: username }] });
 
   const isCorrectPassword = await bcrypt.compare(
     password,

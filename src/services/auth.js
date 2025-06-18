@@ -18,8 +18,16 @@ const signUp = async (userData) => {
     console.log(error);
     const errorMessage = error.response.data.error;
 
-    if (errorMessage.startsWith("E11000")) {
-      throw new Error("This email has already been used.");
+    if (
+      errorMessage.startsWith("E11000") &&
+      errorMessage.includes("username")
+    ) {
+      throw new Error("This username has been taken.");
+    } else if (
+      errorMessage.startsWith("E11000") &&
+      errorMessage.includes("email")
+    ) {
+      throw new Error("This email has been taken.");
     }
   }
 };

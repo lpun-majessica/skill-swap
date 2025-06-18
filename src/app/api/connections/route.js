@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/db-connect";
+import dbConnect from "@/lib/db";
 import Connection from "@/models/connection";
 import { NextResponse } from "next/server";
 

@@ -4,9 +4,11 @@ import { usePathname } from "next/navigation";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 
+const noLayoutPages = new Set(["/signin", "/signup", "/reset-password"]);
+
 export default function LayoutClient({ children }) {
   const pathname = usePathname();
-  const hideLayout = pathname === "/login";
+  const hideLayout = noLayoutPages.has(pathname);
   const isHomePage = pathname === "/";
 
   return (

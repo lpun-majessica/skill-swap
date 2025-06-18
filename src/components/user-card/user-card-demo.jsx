@@ -23,7 +23,7 @@ export default function UserCardDemo({
   job,
 }) {
   const router = useRouter();
-  const handleClick = () => router.push("/login");
+  const handleClick = () => router.push("/signin");
 
   const fallbackName = fullname
     .split(" ")

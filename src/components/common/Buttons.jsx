@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+
 import { Button as ButtonTemplate } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import ConfirmationDialog from "@/components/common/confirmation-dialog";
-import { useAuthContext } from "@/contexts/auth-context";
-import { useRouter } from "next/navigation";
 
 const sharedClass =
   "relative text-xs lg:text-[13px] xl:text-sm w-22 h-8 min-[800px]:w-24 min-[1280px]:h-9 min-[1545px]:w-26 min-[1545px]:h-10 rounded-4xl hover:cursor-pointer";
@@ -15,13 +16,13 @@ const grayButton = `${sharedClass} flex flex-row justify-center items-center gap
 
 export function Button({ text, handleClick, children, username }) {
   const router = useRouter();
-  const { currentUser } = useAuthContext();
+  const { data } = useSession();
 
   const className = text !== "Decline" ? redButton : grayButton;
 
   const showToast = () => {
-    if (!currentUser) {
-      router.push("/login");
+    if (!data) {
+      router.push("/signin");
       return;
     }
 

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
-import { navItems } from "@/lib/constant";
+import { navItems } from "@/utils/constant";
 
 export default function NavItems({ isHomePage, scrolled, pathname }) {
   return (

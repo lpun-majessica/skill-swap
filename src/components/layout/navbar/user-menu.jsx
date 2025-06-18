@@ -1,5 +1,7 @@
 "use client";
 
+import { useSession } from "next-auth/react";
+
 import Link from "next/link";
 import { Bell, User } from "lucide-react";
 import clsx from "clsx";
@@ -12,28 +14,27 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import UserAvatar from "@/components/user-card/avatar";
-import { useAuthContext } from "@/contexts/auth-context";
-import { useCurrentUserContext } from "@/contexts/current-user-context";
 
 export default function UserMenu({
-  handleLogin,
-  handleLogout,
+  handleSignIn,
+  handleSignOut,
   isHomePage,
   scrolled,
 }) {
-  const { currentUser } = useAuthContext();
-  const { username, fullname, pfp } = useCurrentUserContext().currentUser;
+  const { data } = useSession();
 
-  if (!currentUser) {
+  if (!data) {
     return (
       <Button
-        onClick={handleLogin}
+        onClick={handleSignIn}
         className="bg-ss-red-505 inline-block h-auto rounded-full border-0 px-6 py-2 text-white transition hover:bg-red-700"
       >
-        Log in
+        Sign In
       </Button>
     );
   }
+
+  const { fullname, username, pfp } = data.user;
 
   return (
     <>
@@ -70,9 +71,17 @@ export default function UserMenu({
               My Profile: {username}
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
-            Log Out
+
+          <DropdownMenuSeparator className="border-1" />
+          <DropdownMenuItem asChild>
+            <Link href="/reset-password" className="cursor-pointer">
+              Reset Password
+            </Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator className="mx-2" />
+          <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+            Sign Out
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import clsx from "clsx";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { ModeToggle } from "../common/mode-toggle";
-import { useAuthContext } from "@/contexts/auth-context";
+import { signIn, signOut } from "next-auth/react";
 
 import Link from "next/link";
 import Logo from "./logo";
@@ -18,8 +18,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
-  const { logout } = useAuthContext();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,12 +29,10 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleLogin = () => {
-    router.push("/login");
-  };
+  const handleSignIn = signIn;
 
-  const handleLogout = () => {
-    logout();
+  const handleSignOut = () => {
+    signOut();
     setMenuOpen(false);
   };
 
@@ -82,8 +78,8 @@ export default function Navbar() {
         {/* Right: Login or User Info */}
         <div className="hidden items-center gap-4 md:flex">
           <UserMenu
-            handleLogin={handleLogin}
-            handleLogout={handleLogout}
+            handleSignIn={handleSignIn}
+            handleSignOut={handleSignOut}
             isHomePage={isHomePage}
             scrolled={scrolled}
           />
@@ -114,8 +110,8 @@ export default function Navbar() {
       {menuOpen && (
         <MobileMenu
           pathname={pathname}
-          handleLogin={handleLogin}
-          handleLogout={handleLogout}
+          handleSignIn={handleSignIn}
+          handleSignOut={handleSignOut}
           setMenuOpen={setMenuOpen}
         />
       )}

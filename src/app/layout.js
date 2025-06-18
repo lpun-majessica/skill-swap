@@ -3,21 +3,19 @@ import "./globals.css";
 import Script from "next/script";
 
 import { ThemeProvider } from "@/contexts/theme-context";
-import { AuthProvider } from "@/contexts/auth-context";
-import { CurrentUserProvider } from "@/contexts/current-user-context";
-import { ConnectionProvider } from "@/contexts/connection-context";
-import { UserProvider } from "@/contexts/users-context";
-import { SkillProvider } from "@/contexts/skill-context";
+import { SessionProvider } from "next-auth/react";
 
 import { Toaster } from "@/components/ui/sonner";
 import LayoutClient from "@/components/layout/layout-client";
+import { AuthProvider } from "@/contexts/auth-context";
+import { CurrentUserProvider } from "@/contexts/current-user-context";
 
 export const metadata = {
   title: "SkillSwap",
   description: "SkillSwap - A platform for skill exchange",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
@@ -36,22 +34,14 @@ export default function RootLayout({ children }) {
 
 function ContextProvider({ children }) {
   return (
-    <AuthProvider>
-      <SkillProvider>
+    <SessionProvider>
+      <AuthProvider>
         <CurrentUserProvider>
-          <ConnectionProvider>
-            <UserProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-              >
-                {children}
-              </ThemeProvider>
-            </UserProvider>
-          </ConnectionProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+          </ThemeProvider>
         </CurrentUserProvider>
-      </SkillProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </SessionProvider>
   );
 }

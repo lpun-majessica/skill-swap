@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  fullname: { type: String, required: [true, "name cannot be empty"] },
+  email: { type: String, required: true, unique: true },
+  fullname: String,
   username: {
     type: String,
-    required: [true, "username cannot be empty"],
     unique: true,
   },
   passwordHash: String,
@@ -14,15 +14,16 @@ const userSchema = new mongoose.Schema({
   dob: Date,
   job: String,
   pfp: {
-    publicId: {
-      type: String,
-      required: [true, "profile picture must have a public id"],
-    },
+    publicId: String,
     url: String,
   },
 });
 
 const formatDate = (dateStr) => {
+  if (!dateStr) {
+    return "yyyy-mm-dd";
+  }
+
   const dateObj = new Date(dateStr);
 
   const year = dateObj.getFullYear();

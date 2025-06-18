@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/db-connect";
+import dbConnect from "@/lib/db";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
 import hashPassword from "@/utils/hash-password";
@@ -38,6 +38,18 @@ export async function PUT(request, { params }) {
       .populate("skillsToLearn");
 
     return NextResponse.json(updatedUser);
+  } catch (error) {
+    return NextResponse.json({ error: error.message });
+  }
+}
+
+export async function DELETE(request, { params }) {
+  await dbConnect();
+  const { id } = await params;
+
+  try {
+    await User.findByIdAndDelete(id);
+    return NextResponse.json({ message: `User ID ${id} deleted` });
   } catch (error) {
     return NextResponse.json({ error: error.message });
   }

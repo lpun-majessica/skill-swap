@@ -1,8 +1,24 @@
 import axios from "axios";
-const baseUrl = "/api/users";
+let baseUrl = "/api/users";
 
 const getAllUsers = async () => {
   const response = await axios.get(baseUrl);
+  return response.data;
+};
+
+const findUser = async (identifiers) => {
+  let params = "";
+  Object.entries(identifiers).map(([param, value]) => {
+    if (!value) return;
+    if (params) {
+      params += "&";
+    }
+    params += `${param}=${value}`;
+  });
+
+  const response = await axios.get(
+    `${process.env.NEXTAUTH_URL}/${baseUrl}?${params}`,
+  );
   return response.data;
 };
 
@@ -53,6 +69,7 @@ const deleteLearningSkill = async (userId, skillId) => {
 export default {
   getAllUsers,
   getUser,
+  findUser,
   addUser,
   updateUser,
   checkImageModerationResult,

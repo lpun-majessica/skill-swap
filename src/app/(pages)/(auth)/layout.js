@@ -1,9 +1,17 @@
+import { auth } from "@/auth";
 import { ModeToggle } from "@/components/common/mode-toggle";
 import Logo, { WhiteLogo } from "@/components/layout/logo";
 import { headers } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function AuthLayout({ children }) {
+  const session = await auth();
+
+  if (session) {
+    redirect("/explore");
+  }
+
   const header = await headers();
   const path = header.get("referer");
 

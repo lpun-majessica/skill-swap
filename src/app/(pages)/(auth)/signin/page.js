@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 
 import { SignInOAuth } from "@/components/auth/signin-oauth";
 import { SignInForm } from "@/components/auth/signin-form";
@@ -11,7 +10,6 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 export default function SignInPage() {
-  const { data } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -20,19 +18,9 @@ export default function SignInPage() {
   useEffect(() => {
     if (error === "CredentialsSignin") {
       toast.error("Invalid username or password");
-      router.push("/signin");
+      router.replace("/signin");
     }
   }, []);
-
-  useEffect(() => {
-    let toastId;
-    if (data) {
-      toastId = toast.success("Login Successful");
-      router.push("/explore");
-    }
-
-    return () => toast.dismiss(toastId);
-  });
 
   return (
     <div className="flex w-full flex-col items-center justify-center px-10 py-20 md:w-auto">
@@ -50,7 +38,7 @@ export default function SignInPage() {
         >
           Forgot your password?
         </Button> */}
-        <div className="mt-4 text-center text-sm">
+        <div className="mt-4 text-center text-sm font-semibold">
           Don't have an account?
           <Link
             href="/signup"

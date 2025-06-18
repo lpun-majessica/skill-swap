@@ -57,7 +57,7 @@ export default function UserCard({
         />
 
         <CardHeader>
-          <CardTitle className="text-ss-black-222 dark:text-ss-light-555 -mt-3 -mb-1 text-center text-lg font-bold lg:text-xl">
+          <CardTitle className="text-ss-black-222 dark:text-ss-light-555 -mt-3 -mb-1 truncate text-center text-lg font-bold lg:text-xl">
             {fullname}
           </CardTitle>
           <CardDescription className="m-auto w-[95cqw]">

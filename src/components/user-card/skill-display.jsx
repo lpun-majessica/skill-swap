@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Popover,
   PopoverContent,
@@ -9,9 +11,8 @@ import sortSkills from "@/utils/skills";
 import { useCurrentUserContext } from "@/contexts/current-user-context";
 
 export function SkillDisplay({ type, skills = [], demo = false }) {
-  const containerWidth = 255;
-  const paddingWidth = 5;
-  const wordWidth = 10;
+  const { containerWidth, paddingWidth, wordWidth } = getContainerSize();
+
   let maxSkillDisplay = 0;
 
   const { currentUser } = useCurrentUserContext();
@@ -38,7 +39,7 @@ export function SkillDisplay({ type, skills = [], demo = false }) {
       containerWidth
     ) {
       maxSkillDisplay += 1;
-      addedWidth = paddingWidth + skill.length * wordWidth;
+      addedWidth += paddingWidth + skill.length * wordWidth;
     }
 
     return currentWidth + addedWidth;
@@ -82,4 +83,27 @@ export function SkillDisplay({ type, skills = [], demo = false }) {
       </Popover>
     </>
   );
+}
+
+function getContainerSize() {
+  if (window === undefined) {
+    return;
+  }
+
+  const sizing = {
+    sm: { containerWidth: 240, paddingWidth: 4, wordWidth: 10 },
+    md: { containerWidth: 245, paddingWidth: 4, wordWidth: 10 },
+    lg: { containerWidth: 250, paddingWidth: 5, wordWidth: 10 },
+    xl: { containerWidth: 255, paddingWidth: 5, wordWidth: 10 },
+  };
+
+  let screenSize = "sm";
+  const breakPoints = { sm: 640, md: 768, lg: 1024, xl: 1280 };
+  Object.entries(breakPoints).forEach(([breakPoint, size]) => {
+    if (window.innerWidth >= size) {
+      screenSize = breakPoint;
+    }
+  });
+
+  return sizing[screenSize];
 }

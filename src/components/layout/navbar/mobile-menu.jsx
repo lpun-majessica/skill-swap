@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { useEffect, useRef } from "react";
 
 import Link from "next/link";
 import clsx from "clsx";
@@ -15,8 +16,25 @@ export default function MobileMenu({
 }) {
   const { data } = useSession();
 
+  const menuRef = useRef();
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="dark:bg-ss-black-717 bg-white px-4 pb-4 text-black shadow-lg md:hidden dark:text-white">
+    <div
+      ref={menuRef}
+      className="dark:bg-ss-black-717 bg-white px-4 pb-4 text-black shadow-lg md:hidden dark:text-white"
+    >
       <div className="w-full pt-2" />
 
       {/* Main navigation items */}
@@ -28,7 +46,7 @@ export default function MobileMenu({
               href={item.href}
               className={clsx(
                 "my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm",
-                "transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800",
+                "transition-colors",
                 "focus:bg-gray-100 focus:outline-none dark:focus:bg-zinc-800",
                 isActive && "bg-ss-black-29D/30 dark:bg-ss-black-131 font-bold",
               )}
@@ -50,8 +68,9 @@ export default function MobileMenu({
               href="/my-network"
               className={clsx(
                 "my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm",
-                "transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800",
-                pathname === "/my-network" && "font-bold",
+                "transition-colors",
+                pathname === "/my-network" &&
+                  "bg-ss-black-29D/30 dark:bg-ss-black-131 font-bold",
               )}
               onClick={() => setMenuOpen(false)}
             >
@@ -64,8 +83,9 @@ export default function MobileMenu({
               href="/settings"
               className={clsx(
                 "my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm",
-                "transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800",
-                pathname === "/settings" && "font-bold",
+                "transition-color",
+                pathname === "/settings" &&
+                  "bg-ss-black-29D/30 dark:bg-ss-black-131 font-bold",
               )}
               onClick={() => setMenuOpen(false)}
             >
@@ -76,20 +96,13 @@ export default function MobileMenu({
 
           <SeparatorLine />
 
-          <Link
-            className="my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
-            href="/reset-password"
-            asChild
-          >
-            <span>Reset Password</span>
-          </Link>
           <div className="w-full">
-            <button
+            <Button
               onClick={handleSignOut}
-              className="my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:hover:bg-zinc-800"
+              className="text-ss-black-121 dark:text-ss-light-FFF my-1 flex w-full justify-start rounded-md bg-transparent px-4 py-2 text-sm transition-colors"
             >
               Sign Out
-            </button>
+            </Button>
           </div>
         </>
       ) : (

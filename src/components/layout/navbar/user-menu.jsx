@@ -1,10 +1,10 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { useCurrentUserContext } from "@/contexts/current-user-context";
 
 import Link from "next/link";
-import { Bell, User } from "lucide-react";
-import clsx from "clsx";
+import { Bell } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,15 +15,11 @@ import {
 import { Button } from "@/components/ui/button";
 import UserAvatar from "@/components/user-card/avatar";
 
-export default function UserMenu({
-  handleSignIn,
-  handleSignOut,
-  isHomePage,
-  scrolled,
-}) {
+export default function UserMenu({ handleSignIn, handleSignOut }) {
   const { data } = useSession();
+  const { currentUser, isLoading } = useCurrentUserContext();
 
-  if (!data) {
+  if (!data || isLoading) {
     return (
       <Button
         onClick={handleSignIn}
@@ -34,7 +30,7 @@ export default function UserMenu({
     );
   }
 
-  const { fullname, username, pfp } = data.user;
+  const { username, pfp } = currentUser;
 
   return (
     <>
@@ -49,26 +45,13 @@ export default function UserMenu({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button className="h-8 w-8 overflow-hidden rounded-full hover:cursor-pointer focus:outline-none">
-            {pfp ? (
-              <UserAvatar fullname={fullname} username={username} pfp={pfp} />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center bg-gray-300 dark:bg-gray-700">
-                <User
-                  className={clsx(
-                    "h-5 w-5",
-                    isHomePage && !scrolled
-                      ? "text-white"
-                      : "text-black dark:text-white",
-                  )}
-                />
-              </div>
-            )}
+            <UserAvatar username={username} pfp={pfp} />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuItem asChild>
             <Link href="/settings" className="cursor-pointer">
-              My Profile: {username}
+              My Profile{username && `: ${username}`}
             </Link>
           </DropdownMenuItem>
 

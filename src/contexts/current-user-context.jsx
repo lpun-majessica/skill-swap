@@ -2,42 +2,38 @@
 
 const guestUser = {
   id: 0,
-  username: "guest",
-  fullname: "Guest User",
-  job: "Guest",
-  dob: "yyyy-mm-dd",
   skillsToTeach: [],
   skillsToLearn: [],
-  pfp: {},
 };
 
 import { createContext, useEffect, useState, useContext } from "react";
-import { useAuthContext } from "./auth-context";
+import { useSession } from "next-auth/react";
 
 import userService from "@/services/user";
 
 const CurrentUserContext = createContext();
 
 export function CurrentUserProvider({ children }) {
-  const { currentUser } = useAuthContext();
+  const { data } = useSession();
   const [currentUserData, setCurrentUserData] = useState(guestUser);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (currentUser) {
-      const fetchUserData = async () => {
-        const userData = await userService.getUser(currentUser.id);
-        setCurrentUserData(userData);
-      };
+    const fetchUserData = async () => {
+      const userData = await userService.getUser(data.user);
+      setCurrentUserData(userData);
+      setIsLoading(false);
+    };
 
+    if (data) {
       fetchUserData();
+    } else {
+      setCurrentUserData(guestUser);
     }
-  }, [currentUser]);
+  }, [data]);
 
   const updateCurrentUser = async (updatedFields) => {
-    const updatedUser = await userService.updateUser(
-      currentUser.id,
-      updatedFields,
-    );
+    const updatedUser = await userService.updateUser(data.user, updatedFields);
 
     setCurrentUserData(updatedUser);
   };
@@ -46,9 +42,9 @@ export function CurrentUserProvider({ children }) {
     let updatedUser;
 
     if (skillKey === "skillsToTeach") {
-      updatedUser = await userService.addTeachingSkill(currentUser.id, skillId);
+      updatedUser = await userService.addTeachingSkill(data.user, skillId);
     } else if (skillKey === "skillsToLearn") {
-      updatedUser = await userService.addLearningSkill(currentUser.id, skillId);
+      updatedUser = await userService.addLearningSkill(data.user, skillId);
     }
 
     setCurrentUserData(updatedUser);
@@ -58,22 +54,16 @@ export function CurrentUserProvider({ children }) {
     let updatedUser;
 
     if (skillKey === "skillsToTeach") {
-      updatedUser = await userService.deleteTeachingSkill(
-        currentUser.id,
-        skillId,
-      );
+      updatedUser = await userService.deleteTeachingSkill(data.user, skillId);
     } else if (skillKey === "skillsToLearn") {
-      updatedUser = await userService.deleteLearningSkill(
-        currentUser.id,
-        skillId,
-      );
+      updatedUser = await userService.deleteLearningSkill(data.user, skillId);
     }
 
     setCurrentUserData(updatedUser);
   };
 
   const updateProfilePicture = async (publicId, url) => {
-    const updatedUser = await userService.updateUser(currentUser.id, {
+    const updatedUser = await userService.updateUser(data.user, {
       pfp: { publicId: publicId, url: url },
     });
 
@@ -84,6 +74,7 @@ export function CurrentUserProvider({ children }) {
     <CurrentUserContext.Provider
       value={{
         currentUser: currentUserData,
+        isLoading,
         updateCurrentUser,
         updateProfilePicture,
         addSkill,

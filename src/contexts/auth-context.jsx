@@ -1,11 +1,7 @@
 "use client";
 
 import { createContext, useState, useEffect, useContext } from "react";
-import {
-  login as loginUser,
-  logout as logoutUser,
-  getUser,
-} from "@/utils/auth";
+import { getUser } from "@/utils/auth";
 
 const AuthContext = createContext();
 
@@ -28,22 +24,8 @@ export function AuthProvider({ children }) {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  const login = (username, password) => {
-    const success = loginUser({ username, password });
-    if (success) {
-      const loggedInUser = getUser();
-      setCurrentUser(loggedInUser);
-    }
-    return success;
-  };
-
-  const logout = () => {
-    logoutUser();
-    setCurrentUser(null);
-  };
-
   return (
-    <AuthContext.Provider value={{ currentUser, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ currentUser, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

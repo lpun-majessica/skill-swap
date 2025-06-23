@@ -27,7 +27,7 @@ export function UserProvider({ children }) {
     };
 
     fetchUserData();
-  }, [currentUser]);
+  }, []);
 
   let displayedUsers = users;
 
@@ -58,8 +58,6 @@ export function UserProvider({ children }) {
         (user.username?.toLowerCase().includes(keyword) ?? false),
     );
   }
-
-  const getUser = async (userId) => await userService.getUser(userId);
 
   const isPotentialMatch = (skillsToLearn, skillsToTeach) => {
     const isLearningMatch = skillsToLearn.some((skill) =>
@@ -167,7 +165,6 @@ export function UserProvider({ children }) {
         users: displayedUsers,
         recommend,
         filterByStatus,
-        getUser,
         selectedLearn,
         setSelectedLearn,
         selectedTeach,

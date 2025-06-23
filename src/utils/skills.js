@@ -1,3 +1,7 @@
+const listSkill = (skills) => {
+  return skills.map((skill) => skill.name);
+};
+
 const sortSkills = (skills, currentUserSkills) => {
   const skillsArray = skills.map((skill) => skill.name);
   const currentUserSkillsArray = currentUserSkills.map((skill) => skill.name);
@@ -14,4 +18,4 @@ const sortSkills = (skills, currentUserSkills) => {
   return sortedSkills;
 };
 
-export default sortSkills;
+export { sortSkills, listSkill };

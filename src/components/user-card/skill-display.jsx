@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/popover";
 import { SkillBadge } from "../common/skill-badge";
 
-import sortSkills from "@/utils/skills";
+import { sortSkills } from "@/utils/skills";
 import { useCurrentUserContext } from "@/contexts/current-user-context";
 
 export function SkillDisplay({ type, skills = [], demo = false }) {
@@ -19,11 +19,11 @@ export function SkillDisplay({ type, skills = [], demo = false }) {
   const info = {
     teach: {
       header: "Teaching",
-      currentUserSkills: demo ? [] : currentUser.skillsToTeach,
+      currentUserSkills: demo ? [] : currentUser.skillsToLearn,
     },
     learn: {
       header: "Learning",
-      currentUserSkills: demo ? [] : currentUser.skillsToLearn,
+      currentUserSkills: demo ? [] : currentUser.skillsToTeach,
     },
   };
 

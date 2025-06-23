@@ -3,14 +3,17 @@
 const initialUsers = [];
 
 import { createContext, useEffect, useState, useContext } from "react";
+import { useSession } from "next-auth/react";
 import { useCurrentUserContext } from "./current-user-context";
 import { useConnectionContext } from "./connection-context";
 
 import userService from "@/services/user";
+import { listSkill } from "@/utils/skills";
 
 const UserContext = createContext();
 
 export function UserProvider({ children }) {
+  const { data } = useSession();
   const { currentUser } = useCurrentUserContext();
   const { findConnectionWith } = useConnectionContext();
   const [users, setUsers] = useState(initialUsers);
@@ -23,11 +26,13 @@ export function UserProvider({ children }) {
   useEffect(() => {
     const fetchUserData = async () => {
       const USERS = await userService.getAllUsers();
-      setUsers(USERS.filter((user) => user.id != currentUser?.id));
+      setUsers(USERS.filter((user) => user.id != data.user));
     };
 
-    fetchUserData();
-  }, []);
+    if (data) {
+      fetchUserData();
+    }
+  }, [data]);
 
   let displayedUsers = users;
 
@@ -60,13 +65,13 @@ export function UserProvider({ children }) {
   }
 
   const isPotentialMatch = (skillsToLearn, skillsToTeach) => {
-    const isLearningMatch = skillsToLearn.some((skill) =>
-      currentUser.skillsToTeach.includes(skill),
-    );
+    const targetTeach = listSkill(skillsToTeach);
+    const targetLearn = listSkill(skillsToLearn);
+    const userTeach = listSkill(currentUser.skillsToTeach);
+    const userLearn = listSkill(currentUser.skillsToLearn);
 
-    const isTeachingMatch = skillsToTeach.some((skill) =>
-      currentUser.skillsToLearn.includes(skill),
-    );
+    const isLearningMatch = compareSkills(targetTeach, userLearn) >= 1;
+    const isTeachingMatch = compareSkills(targetLearn, userTeach) >= 1;
 
     return isLearningMatch && isTeachingMatch;
   };
@@ -85,7 +90,6 @@ export function UserProvider({ children }) {
         countSimilarSkills(userA, currentUser)
       );
     });
-
     return recommendedUser;
   }
 
@@ -142,20 +146,25 @@ export function UserProvider({ children }) {
       : "pending_received";
   }
 
-  function countSimilarSkills(user, currentUser) {
+  function countSimilarSkills(target, user) {
+    const targetTeach = listSkill(target.skillsToTeach);
+    const targetLearn = listSkill(target.skillsToLearn);
+    const userTeach = listSkill(user.skillsToTeach);
+    const userLearn = listSkill(user.skillsToLearn);
+
     return (
-      compareSkills(user.skillsToTeach, currentUser.skillsToLearn) +
-      compareSkills(user.skillsToLearn, currentUser.skillsToTeach)
+      compareSkills(targetTeach, userTeach) +
+      compareSkills(targetLearn, userLearn)
     );
   }
 
-  function compareSkills(targetSkills, userSkills) {
+  function compareSkills(targetSkills = [], userSkills = []) {
     let count = 0;
-    if (targetSkills && userSkills) {
-      targetSkills.forEach(
-        (skill) => (count += userSkills.includes(skill) ? 1 : 0),
-      );
-    }
+    targetSkills.forEach((skill) => {
+      const isSkillMatch = userSkills.includes(skill) ? 1 : 0;
+      count += isSkillMatch;
+    });
+
     return count;
   }
 

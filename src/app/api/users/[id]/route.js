@@ -1,7 +1,6 @@
 import dbConnect from "@/lib/db";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
-import hashPassword from "@/utils/hash-password";
 
 export async function GET(request, { params }) {
   await dbConnect();
@@ -23,10 +22,6 @@ export async function PUT(request, { params }) {
   const { id } = await params;
   let updatedFields = await request.json();
   const returnData = { new: true };
-
-  if (updatedFields.hasOwnProperty("password")) {
-    updatedFields = await hashPassword(updatedFields, NextResponse);
-  }
 
   try {
     const updatedUser = await User.findByIdAndUpdate(

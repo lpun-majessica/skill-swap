@@ -56,13 +56,7 @@ export default function UserMenu({ handleSignIn, handleSignOut }) {
           </DropdownMenuItem>
 
           <DropdownMenuSeparator className="border-1" />
-          <DropdownMenuItem asChild>
-            <Link href="/reset-password" className="cursor-pointer">
-              Reset Password
-            </Link>
-          </DropdownMenuItem>
 
-          <DropdownMenuSeparator className="mx-2" />
           <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
             Sign Out
           </DropdownMenuItem>

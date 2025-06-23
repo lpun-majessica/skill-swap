@@ -15,7 +15,6 @@ import { ArrowRightLeft } from "lucide-react";
 import { ConnectionsButtons } from "./connection-buttons";
 import UserAvatar from "./avatar";
 
-import { useState, useEffect } from "react";
 import { useConnectionContext } from "@/contexts/connection-context";
 import { useUserContext } from "@/contexts/users-context";
 
@@ -32,16 +31,12 @@ export default function UserCard({
   const { findConnectionWith } = useConnectionContext();
   const connection = findConnectionWith(id);
 
-  const [isMatch, setIsMatch] = useState(false);
-
-  useEffect(() => {
-    setIsMatch(isPotentialMatch(skillsToLearn, skillsToTeach));
-  }, [skillsToLearn, skillsToTeach]);
+  const isMatch = isPotentialMatch(skillsToTeach, skillsToLearn);
 
   return (
     <>
       <Card
-        className={`bg-ss-light-777 dark:bg-ss-black-131 relative w-3xs min-[800px]:w-64 min-[1280px]:w-67 min-[1545px]:w-2xs ${isMatch ? "dark:ring-ss-red-666 shadow-[0_0px_6px_rgba(218,_5,_5,_0.3)] ring-1 ring-[#FF9595] dark:shadow-[0_0px_4px_rgba(255,_111,_111,_0.4)]" : "shadow-lg inset-shadow-2xs"}`}
+        className={`bg-ss-light-777 dark:bg-ss-black-131 relative w-3xs min-[800px]:w-64 min-[1280px]:w-67 min-[1545px]:w-2xs ${isMatch ? "dark:ring-ss-red-666 shadow-[0_0px_6px_rgba(218,_5,_5,_0.3)] ring-1 ring-[#FF9595] dark:shadow-none" : "shadow-lg inset-shadow-2xs"}`}
       >
         <Link href={`/user/${id}`} className="absolute inset-0" />
         <ArrowRightLeft

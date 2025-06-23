@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useCurrentUserContext } from "@/contexts/current-user-context";
 import { useConnectionContext } from "@/contexts/connection-context";
 import { useUserContext } from "@/contexts/users-context";
@@ -14,7 +14,6 @@ import { Button } from "../ui/button";
 
 const UserDetails = ({ user = null, isEditable = true }) => {
   const [showPopup, setShowPopup] = useState(false);
-  const [isMatch, setIsMatch] = useState(false);
 
   const { currentUser, updateCurrentUser } = useCurrentUserContext();
   const { findConnectionWith } = useConnectionContext();
@@ -42,25 +41,22 @@ const UserDetails = ({ user = null, isEditable = true }) => {
     job,
   } = userData;
 
-  useEffect(() => {
-    if (!isEditable) {
-      setIsMatch(isPotentialMatch(skillsToLearn, skillsToTeach));
-    }
-  }, [skillsToLearn, skillsToTeach]);
+  const isMatch = isPotentialMatch(skillsToTeach, skillsToLearn);
 
   if (!userData) return null;
 
   return (
     <div
-      className={`dark:bg-ss-black-929 mx-auto flex h-fit w-87 flex-col items-center rounded-2xl bg-white p-6 sm:w-sm md:w-md lg:mx-0 lg:w-lg ${
+      className={`dark:bg-ss-black-929 mx-auto flex h-fit w-87 flex-col items-center rounded-2xl bg-white px-6 py-8 sm:w-sm md:w-md lg:mx-0 lg:w-lg ${
         isMatch
-          ? "ring-ss-red-666 shadow-[0_0px_7px_rgba(218,_5,_5,_0.3)] ring-1 dark:shadow-[0_0px_7px_rgba(255,_111,_111,_0.4)] dark:ring-[#c06464]"
+          ? "ring-ss-red-666 shadow-[0_0px_7px_rgba(218,_5,_5,_0.3)] ring-1 dark:shadow-none dark:ring-[#c06464]"
           : "shadow-lg inset-shadow-2xs"
       }`}
     >
       <div className="relative w-full">
         <div
-          className={`text-ss-red-666 border-ss-red-666 absolute flex gap-1 rounded-full border-2 px-2 py-1 text-xs font-bold ${!isEditable && isMatch ? "visible" : "invisible"}`}
+          className={`text-ss-red-666 border-ss-red-666 absolute -top-1 -left-1 flex w-fit gap-1 rounded-full border-1 px-2 py-1 text-xs font-bold ${!isEditable && isMatch ? "visible" : "invisible"}`}
+          title={`You may be able to exchange skill knowledge with @${username}`}
         >
           <ArrowRightLeft
             strokeWidth={2}
@@ -73,7 +69,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
         <div className="flex w-full justify-center">
           <div className="relative">
             <UserAvatar
-              className="size-27 sm:size-30 md:size-35"
+              className="size-25 md:size-27 lg:size-29"
               username={username}
               pfp={pfp}
             />
@@ -84,11 +80,11 @@ const UserDetails = ({ user = null, isEditable = true }) => {
         </div>
       </div>
 
-      <h2 className="mt-3 -mb-2 h-8 text-xl font-bold lg:text-2xl">
+      <h2 className="mt-3 h-8 text-xl font-bold lg:mt-4 lg:text-2xl">
         {fullname}
       </h2>
 
-      <h4 className="text-ss-red-444 mb-3 text-base">{job}</h4>
+      <h4 className="text-ss-red-444 mb-3 text-sm lg:text-base">{job}</h4>
       {!isEditable && (
         <ConnectionsButtons
           connection={connection}

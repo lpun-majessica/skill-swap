@@ -23,7 +23,7 @@ export default function SkillDetails({ type, skills }) {
   const sortedSkills = sortSkills(skills, currentUserSkills);
 
   return (
-    <div className="dark:bg-ss-black-929 mx-2 w-sm max-w-lg rounded-2xl bg-white p-6 shadow-lg inset-shadow-2xs sm:mx-auto sm:w-md md:w-md lg:w-md dark:shadow-none">
+    <div className="dark:bg-ss-black-929 mx-auto -mb-2 w-87 max-w-lg rounded-2xl bg-white p-6 shadow-lg inset-shadow-2xs sm:w-sm md:w-md lg:mx-0">
       <div>
         <h3 className="text-ss-black-717 dark:text-ss-light-FFF mb-2 font-semibold">
           {title}

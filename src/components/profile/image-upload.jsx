@@ -113,7 +113,7 @@ const ImageUpload = ({ className }) => {
             onClick={() => open()}
             title="Edit profile picture"
           >
-            <Pencil className="size-3 md:size-4 lg:size-5" />
+            <Pencil className="size-3 md:size-4" />
           </Button>
         );
       }}

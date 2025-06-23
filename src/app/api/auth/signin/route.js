@@ -12,31 +12,19 @@ export async function GET(request) {
 export async function POST(request) {
   await dbConnect();
 
-  const { username, password } = await request.json();
+  const { username } = await request.json();
 
   const user = await User.findOne({ $or: [{ username }, { email: username }] });
-
-  const isCorrectPassword = await bcrypt.compare(
-    password,
-    user?.passwordHash ?? "",
-  );
-
-  if (!isCorrectPassword) {
-    return NextResponse.json(
-      { error: "Invalid username or password" },
-      { status: 401 },
-    );
+  if (!user) {
+    throw new Error("No user found");
   }
 
-  const userForToken = {
+  const loggedInUser = {
     id: user._id,
-    username: user.username,
-    fullname: user.fullname,
-    pfp: user.pfp.url,
   };
 
   try {
-    return NextResponse.json(userForToken, { status: 200 });
+    return NextResponse.json(loggedInUser, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: error.message });
   }

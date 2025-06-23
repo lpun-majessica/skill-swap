@@ -1,27 +1,29 @@
 import dbConnect from "@/lib/db";
+import mongoose from "mongoose";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
-
-import hashPassword from "@/utils/hash-password";
 
 export async function POST(request) {
   await dbConnect();
 
   try {
     let userData = await request.json();
-    if (userData.hasOwnProperty("password")) {
-      userData = await hashPassword(userData, NextResponse);
+
+    if (userData.hasOwnProperty("id")) {
+      userData._id = new mongoose.Types.ObjectId(userData.id);
+      delete userData.id;
     }
 
     const user = new User(userData);
+    await user.save();
 
-    let newUser = await user.save();
-    newUser = await User.findById(newUser._id)
-      .populate("skillsToLearn")
-      .populate("skillsToTeach");
-
-    return NextResponse.json(newUser, { status: 201 });
+    const response = NextResponse.json(
+      { message: "New user created" },
+      { status: 201 },
+    );
+    return response;
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ error: error.message }, { status: 404 });
   }
 }

@@ -5,10 +5,10 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   await dbConnect();
   const searchParams = request.nextUrl.searchParams;
+  const query = Object.fromEntries(searchParams);
 
   try {
-    if (searchParams) {
-      const query = Object.fromEntries(searchParams);
+    if (Object.keys(query).length > 0) {
       const isExisted = !!(await User.findOne(query));
 
       return NextResponse.json({ isExisted }, { status: 200 });

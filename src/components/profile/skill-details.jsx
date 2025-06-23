@@ -1,3 +1,5 @@
+"use client";
+
 import { useCurrentUserContext } from "@/contexts/current-user-context";
 import sortSkills from "@/utils/skills";
 

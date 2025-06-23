@@ -51,17 +51,16 @@ export default function UserCard({
         />
         <UserAvatar
           className="mx-auto -mt-1 size-16 lg:mt-0 lg:size-18"
-          fullname={fullname}
           username={username}
           pfp={pfp}
         />
 
         <CardHeader>
-          <CardTitle className="text-ss-black-222 dark:text-ss-light-555 -mt-3 -mb-1 truncate text-center text-lg font-bold lg:text-xl">
+          <CardTitle className="text-ss-black-222 dark:text-ss-light-555 -mt-3 -mb-1 h-6 truncate text-center text-lg font-bold lg:h-7 lg:text-xl">
             {fullname}
           </CardTitle>
           <CardDescription className="m-auto w-[95cqw]">
-            <p className="text-ss-black-929 dark:text-ss-light-222 truncate text-center text-xs">
+            <p className="text-ss-black-929 dark:text-ss-light-222 h-4 truncate text-center text-xs">
               {job}
             </p>
           </CardDescription>

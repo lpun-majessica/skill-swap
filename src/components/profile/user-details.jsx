@@ -9,7 +9,7 @@ import EditProfilePopup from "./edit-profile-popup";
 import UserAvatar from "../user-card/avatar";
 import ImageUpload from "./image-upload";
 import { ConnectionsButtons } from "@/components/user-card/connection-buttons";
-import { ArrowRightLeft } from "lucide-react";
+import { ArrowRightLeft, AtSign } from "lucide-react";
 import { Button } from "../ui/button";
 
 const UserDetails = ({ user = null, isEditable = true }) => {
@@ -52,7 +52,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
 
   return (
     <div
-      className={`dark:bg-ss-black-929 mx-5 flex h-fit w-sm flex-col items-center rounded-2xl bg-white p-6 sm:w-md md:mx-0 md:w-md lg:w-lg ${
+      className={`dark:bg-ss-black-929 mx-auto flex h-fit w-87 flex-col items-center rounded-2xl bg-white p-6 sm:w-sm md:w-md lg:mx-0 lg:w-lg ${
         isMatch
           ? "ring-ss-red-666 shadow-[0_0px_7px_rgba(218,_5,_5,_0.3)] ring-1 dark:shadow-[0_0px_7px_rgba(255,_111,_111,_0.4)] dark:ring-[#c06464]"
           : "shadow-lg inset-shadow-2xs"
@@ -73,19 +73,22 @@ const UserDetails = ({ user = null, isEditable = true }) => {
         <div className="flex w-full justify-center">
           <div className="relative">
             <UserAvatar
-              className="size-[96px] sm:size-[160px]"
-              fullname={fullname}
+              className="size-27 sm:size-30 md:size-35"
               username={username}
               pfp={pfp}
             />
             {isEditable && (
-              <ImageUpload className="bg-ss-black-29D hover:bg-ss-black-171 dark:bg-ss-black-444 hover:dark:bg-ss-black-171 absolute top-0 right-0 z-1 size-8 rounded-full lg:size-10" />
+              <ImageUpload className="bg-ss-black-29D hover:bg-ss-black-171 dark:bg-ss-black-171/95 hover:dark:bg-ss-black-171 absolute top-0 right-0 z-1 size-7 rounded-full sm:size-8 md:size-9" />
             )}
           </div>
         </div>
       </div>
-      <h2 className="mt-4 text-xl font-bold">{fullname}</h2>
-      <h4 className="text-ss-red-444 mt-1 mb-3 text-base">{job}</h4>
+
+      <h2 className="mt-3 -mb-2 h-8 text-xl font-bold lg:text-2xl">
+        {fullname}
+      </h2>
+
+      <h4 className="text-ss-red-444 mb-3 text-base">{job}</h4>
       {!isEditable && (
         <ConnectionsButtons
           connection={connection}
@@ -93,16 +96,17 @@ const UserDetails = ({ user = null, isEditable = true }) => {
           cardUsername={username}
         />
       )}
-      <div className="dark:border-ss-black-131 my-4 flex w-78 flex-col items-center rounded-2xl border border-gray-300 px-5 py-4 sm:w-90 sm:px-6">
+      <div className="dark:border-ss-black-444/80 my-4 flex w-75 flex-col items-center rounded-2xl border-1 border-gray-300 px-5 py-4 sm:w-85 md:w-100">
         <div className="flex w-full flex-col gap-4">
           {/* Username */}
           <div>
             <p className="dark:text-ss-light-FFF mb-1 text-sm font-semibold text-gray-900">
               User name
             </p>
-            <div className="dark:bg-ss-black-121 w-full rounded-xl bg-gray-100 px-4 py-2">
+            <div className="dark:bg-ss-black-121 h-10 w-full rounded-xl bg-gray-100 px-4 py-2">
               <span className="dark:text-ss-light-333 text-sm text-gray-500">
-                @{username}
+                <AtSign className="-mt-1 mr-1 inline size-4 opacity-50" />
+                {username}
               </span>
             </div>
           </div>
@@ -112,7 +116,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
             <p className="dark:text-ss-light-FFF mb-1 text-sm font-semibold text-gray-900">
               Date of Birth
             </p>
-            <div className="dark:bg-ss-black-121 rounded-xl bg-gray-100 px-4 py-2">
+            <div className="dark:bg-ss-black-121 h-10 rounded-xl bg-gray-100 px-4 py-2">
               <span className="dark:text-ss-light-333 text-sm text-gray-500">
                 {dob}
               </span>
@@ -121,10 +125,10 @@ const UserDetails = ({ user = null, isEditable = true }) => {
 
           {/* Bio */}
           <div>
-            <p className="dark:text-ss-light-FFF font-medium text-gray-700">
-              Bio:
+            <p className="dark:text-ss-light-FFF mb-1 text-sm font-semibold text-gray-900">
+              Bio
             </p>
-            <div className="dark:bg-ss-black-121 h-20 rounded-xl bg-gray-100 px-4 py-2">
+            <div className="dark:bg-ss-black-121 h-25 rounded-xl bg-gray-100 px-4 py-2">
               <span className="dark:text-ss-light-333 text-sm text-gray-500">
                 {bio}
               </span>
@@ -136,7 +140,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
       {isEditable && (
         <Button
           onClick={handleEditClick}
-          className="text-ss-light-222 bg-ss-black-171/90 dark:bg-ss-black-444 dark:hover:bg-ss-red-505 hover:bg-ss-red-404 mt-2 rounded-3xl px-6 py-2"
+          className="text-ss-light-222 bg-ss-black-171/90 dark:bg-ss-black-444 dark:hover:bg-ss-red-505 hover:bg-ss-red-404 mt-2 rounded-3xl px-6 py-2 transition duration-150 ease-in-out"
         >
           Edit profile
         </Button>

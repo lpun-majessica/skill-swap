@@ -8,14 +8,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserAvatar from "./avatar";
 import { SkillDisplay } from "@/components/user-card/skill-display";
 
 import { UserRoundPlus } from "lucide-react";
 import { Button } from "../ui/button";
 
 export default function UserCardDemo({
-  id,
+  pfp,
   fullname,
   username,
   skillsToTeach,
@@ -25,19 +25,13 @@ export default function UserCardDemo({
   const router = useRouter();
   const handleClick = () => router.push("/signin");
 
-  const fallbackName = fullname
-    .split(" ")
-    .map((w) => w[0].toUpperCase())
-    .join("");
-
   return (
     <Card className="bg-ss-light-777 dark:bg-ss-black-131 relative w-3xs lg:w-2xs">
-      <Avatar className="mx-auto -mt-1 size-16 lg:mt-0 lg:size-18">
-        <AvatarImage src={`pfp/${id}.jpeg`} alt={"@" + username} />
-        <AvatarFallback className="bg-ss-light-333 dark:bg-ss-black-444">
-          {fallbackName}
-        </AvatarFallback>
-      </Avatar>
+      <UserAvatar
+        className="mx-auto -mt-1 size-16 lg:mt-0 lg:size-18"
+        username={username}
+        pfp={pfp}
+      />
 
       <CardHeader>
         <CardTitle className="text-ss-black-222 dark:text-ss-light-555 -mt-3 -mb-1 text-center text-lg font-bold lg:text-xl">

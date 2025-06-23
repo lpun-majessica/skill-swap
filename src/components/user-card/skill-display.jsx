@@ -86,24 +86,22 @@ export function SkillDisplay({ type, skills = [], demo = false }) {
 }
 
 function getContainerSize() {
-  if (window === undefined) {
-    return;
-  }
-
   const sizing = {
-    sm: { containerWidth: 240, paddingWidth: 4, wordWidth: 10 },
-    md: { containerWidth: 245, paddingWidth: 4, wordWidth: 10 },
+    sm: { containerWidth: 245, paddingWidth: 4, wordWidth: 10 },
+    md: { containerWidth: 250, paddingWidth: 4, wordWidth: 10 },
     lg: { containerWidth: 250, paddingWidth: 5, wordWidth: 10 },
     xl: { containerWidth: 255, paddingWidth: 5, wordWidth: 10 },
   };
-
   let screenSize = "sm";
-  const breakPoints = { sm: 640, md: 768, lg: 1024, xl: 1280 };
-  Object.entries(breakPoints).forEach(([breakPoint, size]) => {
-    if (window.innerWidth >= size) {
-      screenSize = breakPoint;
-    }
-  });
+
+  if (typeof window !== "undefined") {
+    const breakPoints = { sm: 640, md: 768, lg: 1024, xl: 1280 };
+    Object.entries(breakPoints).forEach(([breakPoint, size]) => {
+      if (window.innerWidth >= size) {
+        screenSize = breakPoint;
+      }
+    });
+  }
 
   return sizing[screenSize];
 }

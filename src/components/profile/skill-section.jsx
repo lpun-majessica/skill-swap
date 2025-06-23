@@ -2,46 +2,36 @@
 
 import "./profile.css";
 
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useCurrentUserContext } from "@/contexts/current-user-context";
 import { useSkillContext } from "@/contexts/skill-context";
 
-import { X } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { ChevronsUpDown, X } from "lucide-react";
 import { SkillBadge } from "../common/skill-badge";
+
+import { Button } from "../ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const SkillSection = ({ title, skillKey }) => {
   const { currentUser, addSkill, removeSkill } = useCurrentUserContext();
-  const [openDropdown, setOpenDropdown] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [open, setOpen] = useState(false);
 
   const SKILLS = useSkillContext();
-  const [displayedSkills, setDisplayedSkills] = useState([]); // manage skill list on dropdown-menu
+  const [displayedSkills, setDisplayedSkills] = useState(SKILLS);
   const [selectedSkills, setSelectedSkills] = useState([]);
-
-  const dropdownRef = useRef(null);
-
-  // Handle click outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setOpenDropdown(false);
-        setSearchTerm("");
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  // searchTerm thay đổi
-  useEffect(() => {
-    if (openDropdown) {
-      updateDisplayedSkills(searchTerm);
-    }
-  }, [searchTerm, openDropdown]);
 
   useEffect(() => {
     if (currentUser && currentUser[skillKey]) {
@@ -64,55 +54,69 @@ const SkillSection = ({ title, skillKey }) => {
   };
 
   // arrange skills
-  const updateDisplayedSkills = (term) => {
-    const filteredSkills = SKILLS.filter(({ name }) =>
-      name.toLowerCase().includes(term.toLowerCase()),
-    );
-
+  const updateDisplayedSkills = () => {
     const selectedSet = new Set(selectedSkills.map((skill) => skill.name));
 
     const selectedFirst = [
-      ...filteredSkills.filter((skill) => selectedSet.has(skill.name)),
-      ...filteredSkills.filter((skill) => !selectedSet.has(skill.name)),
+      ...SKILLS.filter((skill) => selectedSet.has(skill.name)),
+      ...SKILLS.filter((skill) => !selectedSet.has(skill.name)),
     ];
 
     setDisplayedSkills(selectedFirst);
   };
 
-  return (
-    <div className="dark:bg-ss-black-929 mx-auto w-sm max-w-lg rounded-2xl bg-white p-6 shadow-lg inset-shadow-2xs sm:w-md md:w-md lg:w-md">
-      <h3 className="mb-2 text-base font-semibold lg:text-lg">{title}</h3>
-      <div className="relative" ref={dropdownRef}>
-        <input
-          type="text"
-          placeholder="-- Add skills --"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onFocus={() => setOpenDropdown(true)}
-          className="bg-ss-light-777 dark:bg-ss-black-131 dark:focus:border-ss-black-444 w-full rounded-2xl border p-2 text-sm lg:text-base"
-        />
+  const handleOpenChange = () => {
+    setOpen(!open);
 
-        {openDropdown && (
-          <div className="bg-ss-light-777 dropdown-scroll dark:bg-ss-black-131 absolute z-10 mt-1 max-h-40 w-full overflow-auto rounded-2xl border shadow">
-            {displayedSkills.map(({ id, name }) => (
-              <label
-                key={id}
-                className="dark:hover:bg-ss-black-444 flex items-center justify-between px-4 py-2 text-sm hover:bg-gray-100 lg:text-base"
-              >
-                <span>{name}</span>
-                <Checkbox
-                  checked={selectedSkills.some((skill) => skill.name === name)}
-                  onCheckedChange={(checked) => {
-                    checked
-                      ? handleAddSkill(id, name)
-                      : handleRemoveSkill(id, name);
-                  }}
-                />
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
+    if (!open) {
+      updateDisplayedSkills();
+    }
+  };
+
+  return (
+    <div className="dark:bg-ss-black-929 mx-auto -mb-2 w-87 max-w-lg rounded-2xl bg-white p-6 shadow-lg inset-shadow-2xs sm:w-sm md:w-md lg:mx-0">
+      <h3 className="text-lg font-bold lg:text-xl">{title}</h3>
+
+      <Popover open={open} onOpenChange={handleOpenChange}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="mt-2 w-75 justify-between rounded-xl sm:w-85 md:w-100"
+          >
+            Add skill
+            <ChevronsUpDown className="opacity-50" />
+          </Button>
+        </PopoverTrigger>
+
+        <PopoverContent className="w-75 justify-between rounded-xl p-0 sm:w-85 md:w-100">
+          <Command>
+            <CommandInput placeholder="Search skill" className="h-9" />
+            <CommandList>
+              <CommandEmpty>No skill found.</CommandEmpty>
+              <CommandGroup>
+                {displayedSkills.map(({ id, name }) => (
+                  <CommandItem key={id} value={name} className="mx-2 pl-2">
+                    {name}
+                    <Checkbox
+                      className="ml-auto"
+                      checked={selectedSkills.some(
+                        (skill) => skill.name === name,
+                      )}
+                      onCheckedChange={(checked) => {
+                        checked
+                          ? handleAddSkill(id, name)
+                          : handleRemoveSkill(id, name);
+                      }}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
 
       <div className="mt-4 flex flex-wrap gap-2">
         {selectedSkills.map(({ id, name }) => (

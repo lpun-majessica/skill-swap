@@ -16,9 +16,7 @@ const findUser = async (identifiers) => {
     params += `${param}=${value}`;
   });
 
-  const response = await axios.get(
-    `${process.env.NEXTAUTH_URL}/${baseUrl}?${params}`,
-  );
+  const response = await axios.get(`/${baseUrl}?${params}`);
   return response.data;
 };
 

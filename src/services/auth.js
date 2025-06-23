@@ -11,8 +11,12 @@ const signIn = async (username, password) => {
 };
 
 const signUp = async (userData) => {
+  const endpoint = process.env.NEXTAUTH_URL
+    ? `${process.env.NEXTAUTH_URL}/${baseUrl}/signup`
+    : `${baseUrl}/signup`;
+
   try {
-    const response = await axios.post(`${baseUrl}/signup`, userData);
+    const response = await axios.post(endpoint, userData);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -28,6 +32,8 @@ const signUp = async (userData) => {
       errorMessage.includes("email")
     ) {
       throw new Error("This email has been taken.");
+    } else {
+      throw new Error("Something went wrong, please try again :(");
     }
   }
 };

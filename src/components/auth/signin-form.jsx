@@ -23,16 +23,15 @@ export function SignInForm() {
   const form = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      username: "",
-      password: "",
+      email: "",
     },
   });
 
   const onSubmit = (data) => {
     setIsSubmitting(true);
 
-    const credentials = data;
-    signIn("credentials", { ...credentials, redirectTo: "/explore" });
+    const email = data;
+    signIn("resend", email);
   };
 
   return (
@@ -41,39 +40,17 @@ export function SignInForm() {
         <FormField
           className="flex flex-col items-start"
           control={form.control}
-          name="username"
+          name="email"
           render={({ field }) => (
             <FormItem>
               <div className="mb-1 flex flex-row gap-2">
-                <FormLabel className="font-bold">Username or Email</FormLabel>
+                <FormLabel className="font-bold">Email</FormLabel>
                 <FormMessage className="-my-1" />
               </div>
               <FormControl>
                 <Input
                   className="mb-4 w-full rounded-full border border-gray-300 px-4 py-4 focus:outline-none"
-                  placeholder="janedoe"
-                  {...field}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          className="flex flex-col items-start"
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex flex-row gap-2">
-                <FormLabel className="font-bold">Password</FormLabel>
-                <FormMessage className="-my-1" />
-              </div>
-              <FormControl>
-                <Input
-                  className="mb-4 w-full rounded-full border border-gray-300 px-4 py-4 focus:outline-none"
-                  placeholder="********"
-                  type="password"
+                  placeholder="janedoe@example.com"
                   {...field}
                 />
               </FormControl>
@@ -82,10 +59,10 @@ export function SignInForm() {
         />
 
         <Button
-          className="bg-ss-red-404 text-ss-light-222 hover:bg-ss-red-505/80 mt-1 mb-3 w-full rounded-full py-2 font-semibold transition"
+          className="bg-ss-light-222 text-ss-black-121 hover:bg-ss-light-333 w-full rounded-full py-2 font-semibold transition"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Loading..." : "Sign In"}
+          {isSubmitting ? "Loading..." : "Send Verification Email"}
         </Button>
       </form>
     </Form>

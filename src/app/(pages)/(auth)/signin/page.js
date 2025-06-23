@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
 
 import { SignInOAuth } from "@/components/auth/signin-oauth";
 import { SignInForm } from "@/components/auth/signin-form";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -16,8 +14,17 @@ export default function SignInPage() {
   const { error } = Object.fromEntries(searchParams);
 
   useEffect(() => {
+    let errorMessage;
+
     if (error === "CredentialsSignin") {
-      toast.error("Invalid username or password");
+      errorMessage = "Invalid username or password";
+    }
+    if (error === "OAuthAccountNotLinked") {
+      errorMessage = "This email was not registered using this method";
+    }
+
+    if (errorMessage) {
+      toast.error(errorMessage);
       router.replace("/signin");
     }
   }, []);
@@ -31,22 +38,6 @@ export default function SignInPage() {
           OR
         </p>
         <SignInForm />
-
-        {/* <Button
-          variant="outline"
-          className="border-ss-black-171 dark:border-ss-light-333-171 hover:dark:bg-ss-black-222 mt-1 mb-3 w-full rounded-full border-1 py-2 font-semibold transition"
-        >
-          Forgot your password?
-        </Button> */}
-        <div className="mt-4 text-center text-sm font-semibold">
-          Don't have an account?
-          <Link
-            href="/signup"
-            className="ml-3 text-red-600 underline hover:no-underline"
-          >
-            Sign Up
-          </Link>
-        </div>
       </div>
     </div>
   );

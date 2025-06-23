@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { ModeToggle } from "@/components/common/mode-toggle";
 import Logo, { WhiteLogo } from "@/components/layout/logo";
-import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -12,10 +11,7 @@ export default async function AuthLayout({ children }) {
     redirect("/explore");
   }
 
-  const header = await headers();
-  const path = header.get("referer");
-
-  const title = `Welcome ${path && path.endsWith("signup") ? "to SkillSwap" : "back"}!`;
+  const title = "Welcome to SkillSwap";
 
   return (
     <div className="relative grid min-h-screen grid-cols-1 overflow-hidden font-sans md:grid-cols-5">

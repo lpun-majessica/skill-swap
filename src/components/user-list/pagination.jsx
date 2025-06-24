@@ -11,6 +11,8 @@ const sharedClass = "text-xs lg:text-sm w-20 h-8 lg:w-25 lg:h-10 rounded-4xl";
 const displayOptions = `${sharedClass} shadow-sm/20 hover:shadow-xs/20 bg-ss-light-777 hover:bg-ss-light-222 dark:bg-ss-black-131 dark:hover:bg-ss-black-444 text-ss-black-131 dark:text-ss-light-555`;
 const disabledOptions = `${sharedClass} pointer-events-none opacity-50 bg-ss-light-777 dark:bg-ss-black-131 text-ss-black-131/60 dark:text-ss-light-555/60`;
 
+const linkClass = "hover:dark:bg-ss-black-444/40";
+
 export function Pagination({ currentPage, setCurrentPage, lastPage }) {
   const pageNumber = (page) => String(page + 1);
 
@@ -36,7 +38,10 @@ export function Pagination({ currentPage, setCurrentPage, lastPage }) {
 
         {currentPage >= 2 && (
           <PaginationItem>
-            <PaginationLink onClick={() => setCurrentPage(0)}>
+            <PaginationLink
+              className={linkClass}
+              onClick={() => setCurrentPage(0)}
+            >
               {pageNumber(0)}
             </PaginationLink>
           </PaginationItem>
@@ -45,6 +50,7 @@ export function Pagination({ currentPage, setCurrentPage, lastPage }) {
         {currentPage > 0 && (
           <PaginationItem>
             <PaginationLink
+              className={linkClass}
               onClick={() => setCurrentPage((currPage) => currPage - 1)}
             >
               {pageNumber(currentPage - 1)}
@@ -59,6 +65,7 @@ export function Pagination({ currentPage, setCurrentPage, lastPage }) {
         {currentPage < lastPage && (
           <PaginationItem>
             <PaginationLink
+              className={linkClass}
               onClick={() => setCurrentPage((currPage) => currPage + 1)}
             >
               {pageNumber(currentPage + 1)}
@@ -74,7 +81,10 @@ export function Pagination({ currentPage, setCurrentPage, lastPage }) {
 
         {currentPage <= lastPage - 2 && (
           <PaginationItem>
-            <PaginationLink onClick={() => setCurrentPage(lastPage)}>
+            <PaginationLink
+              className={linkClass}
+              onClick={() => setCurrentPage(lastPage)}
+            >
               {pageNumber(lastPage)}
             </PaginationLink>
           </PaginationItem>

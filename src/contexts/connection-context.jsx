@@ -3,14 +3,14 @@
 const initialConnections = [];
 
 import { createContext, useEffect, useState, useContext } from "react";
-import { useAuthContext } from "./auth-context";
+import { useSession } from "next-auth/react";
 
 import connectionService from "@/services/connection";
 
 const ConnectionContext = createContext();
 
 export function ConnectionProvider({ children }) {
-  const { currentUser } = useAuthContext();
+  const { data } = useSession();
   const [connections, setConnections] = useState(initialConnections);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export function ConnectionProvider({ children }) {
     };
 
     fetchConnectionData();
-  }, [currentUser]);
+  }, [data]);
 
   const createConnection = async (
     sender_id,
@@ -59,13 +59,13 @@ export function ConnectionProvider({ children }) {
   const findConnectionWith = (userId) => {
     const connection = connections.filter(
       (conn) =>
-        (conn.sender_id === userId && conn.receiver_id === currentUser?.id) ||
-        (conn.sender_id === currentUser?.id && conn.receiver_id === userId),
+        (conn.sender_id === userId && conn.receiver_id === data?.user) ||
+        (conn.sender_id === data?.user && conn.receiver_id === userId),
     );
 
     console.assert(
       connection.length <= 1,
-      `${currentUser?.id} and ${userId} has ${connection.length} connections`,
+      `${data?.user} and ${userId} has ${connection.length} connections`,
     );
 
     return connection.length !== 0 ? connection[0] : null;

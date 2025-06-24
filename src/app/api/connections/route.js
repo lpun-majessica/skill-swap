@@ -25,10 +25,8 @@ export async function POST(request) {
   });
 
   try {
-    let newConnection = await connection.save();
-    newConnection = await Connection.findById(newConnection._id);
-
-    return NextResponse.json(newConnection, { status: 201 });
+    await connection.save();
+    return NextResponse.json(connection, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 404 });
   }

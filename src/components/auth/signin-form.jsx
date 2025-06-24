@@ -43,9 +43,9 @@ export function SignInForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <div className="mb-1 flex flex-row gap-2">
+              <div className="mb-1 flex flex-row items-center gap-2">
                 <FormLabel className="font-bold">Email</FormLabel>
-                <FormMessage className="-my-1" />
+                <FormMessage />
               </div>
               <FormControl>
                 <Input

@@ -1,4 +1,4 @@
-import { object, string, email, date } from "zod/v4";
+import { object, string, email, date, array } from "zod/v4";
 
 const requiredMessage = "- This field is required";
 const invalidEmail = "- Invalid email address";
@@ -17,4 +17,12 @@ export const updateUserSchema = object({
     .max(new Date(), { error: "Too young!" })
     .optional(),
   bio: string().optional(),
+  skillsToLearn: array(object({ id: string(), name: string() })).min(
+    1,
+    requiredMessage,
+  ),
+  skillsToTeach: array(object({ id: string(), name: string() })).min(
+    1,
+    requiredMessage,
+  ),
 });

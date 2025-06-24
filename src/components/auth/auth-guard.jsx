@@ -7,7 +7,7 @@ export default async function AuthGuard({ children }) {
   const session = await auth();
 
   if (!session) {
-    redirect("/signin");
+    redirect("/explore");
   }
 
   return children;

@@ -31,7 +31,7 @@ export default async function AuthLayout({ children }) {
           <img
             src="/login-1.svg"
             alt="Pending card"
-            className="absolute -bottom-10 left-1/2 h-auto w-[120%] max-w-3xl min-w-lg translate-x-[-40%] object-contain lg:-bottom-20"
+            className="absolute -bottom-10 left-1/2 h-auto w-[120%] max-w-2xl min-w-md translate-x-[-40%] object-contain lg:-bottom-20"
           />
         </div>
       </div>

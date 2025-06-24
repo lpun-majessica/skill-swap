@@ -1,17 +1,9 @@
-import { ConnectionProvider } from "@/contexts/connection-context";
-import { UserProvider } from "@/contexts/users-context";
 import { SkillProvider } from "@/contexts/skill-context";
 
-export default function UserPageLayout({ children }) {
+export default function MainPagesLayout({ children }) {
   return <DataProvider>{children}</DataProvider>;
 }
 
 function DataProvider({ children }) {
-  return (
-    <SkillProvider>
-      <ConnectionProvider>
-        <UserProvider>{children}</UserProvider>
-      </ConnectionProvider>
-    </SkillProvider>
-  );
+  return <SkillProvider>{children}</SkillProvider>;
 }

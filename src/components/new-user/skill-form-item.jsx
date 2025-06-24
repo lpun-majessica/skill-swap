@@ -66,7 +66,7 @@ const Wrapper = ({ open, handleOpenChange, description, children }) => {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="mt-2 w-75 justify-between rounded-xl sm:w-85 md:w-100"
+            className="mt-2 w-75 justify-between rounded-2xl sm:w-85 md:w-100"
           >
             Add skill
             <ChevronsUpDown className="opacity-50" />
@@ -74,7 +74,7 @@ const Wrapper = ({ open, handleOpenChange, description, children }) => {
         </FormControl>
       </DrawerTrigger>
 
-      <DrawerContent className="bg-ss-black-717 w-full justify-between rounded-xl">
+      <DrawerContent className="bg-ss-black-717 mx-auto w-full max-w-sm justify-between rounded-2xl">
         <DrawerTitle className="mx-auto pt-4 pb-1">Add skill</DrawerTitle>
         <DrawerDescription className="w-full border-b pb-2 text-center">
           {description}

@@ -52,7 +52,7 @@ const Wrapper = ({ open, handleOpenChange, description, children }) => {
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent className="w-75 justify-between rounded-xl p-0 sm:w-85 md:w-100">
+        <PopoverContent className="w-75 justify-between rounded-2xl p-0 sm:w-85 md:w-100">
           {children}
         </PopoverContent>
       </Popover>
@@ -72,7 +72,7 @@ const Wrapper = ({ open, handleOpenChange, description, children }) => {
         </Button>
       </DrawerTrigger>
 
-      <DrawerContent className="bg-ss-black-717 w-full justify-between rounded-xl">
+      <DrawerContent className="bg-ss-black-717 mx-auto w-full max-w-sm justify-between rounded-2xl">
         <DrawerTitle className="mx-auto pt-4 pb-1">Add skill</DrawerTitle>
         <DrawerDescription className="w-full border-b pb-2 text-center">
           {description}
@@ -178,9 +178,8 @@ const SkillSection = ({ type }) => {
             >
               {displayedSkills.map(({ id, name }) => (
                 <CommandItem key={id} value={name} className="mx-2 pl-2">
-                  <SkillBadge skill={name} />
                   <Checkbox
-                    className="ml-auto"
+                    className="mr-2"
                     checked={selectedSkills.some(
                       (skill) => skill.name === name,
                     )}
@@ -190,6 +189,7 @@ const SkillSection = ({ type }) => {
                         : handleRemoveSkill(id, name);
                     }}
                   />
+                  <SkillBadge skill={name} />
                 </CommandItem>
               ))}
             </CommandGroup>

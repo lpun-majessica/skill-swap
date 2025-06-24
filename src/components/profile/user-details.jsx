@@ -48,7 +48,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
   return (
     <div
       className={`dark:bg-ss-black-929 mx-auto flex h-fit w-87 flex-col items-center rounded-2xl bg-white px-6 py-8 sm:w-sm md:w-md lg:mx-0 lg:w-lg ${
-        isMatch
+        !isEditable && isMatch
           ? "ring-ss-red-666 shadow-[0_0px_7px_rgba(218,_5,_5,_0.3)] ring-1 dark:shadow-none dark:ring-[#c06464]"
           : "shadow-lg inset-shadow-2xs"
       }`}
@@ -74,7 +74,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
               pfp={pfp}
             />
             {isEditable && (
-              <ImageUpload className="bg-ss-black-29D hover:bg-ss-black-171 dark:bg-ss-black-171/95 hover:dark:bg-ss-black-171 absolute top-0 right-0 z-1 size-7 rounded-full sm:size-8 md:size-9" />
+              <ImageUpload className="bg-ss-black-29D hover:bg-ss-black-171 dark:bg-ss-black-171/95 hover:dark:bg-ss-black-171 absolute top-0 right-0 z-1 size-6 rounded-full sm:size-7 md:size-8" />
             )}
           </div>
         </div>

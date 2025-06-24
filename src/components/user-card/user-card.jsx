@@ -62,9 +62,17 @@ export default function UserCard({
         </CardHeader>
 
         <CardContent className="relative -mt-2 -mb-1">
-          <SkillDisplay type="teach" skills={skillsToTeach} />
+          <SkillDisplay
+            type="teach"
+            skills={skillsToTeach}
+            fullname={fullname}
+          />
           <hr className="border-ss-light-333 dark:border-ss-black-444 mt-3 mb-1" />
-          <SkillDisplay type="learn" skills={skillsToLearn} />
+          <SkillDisplay
+            type="learn"
+            skills={skillsToLearn}
+            fullname={fullname}
+          />
         </CardContent>
 
         <CardFooter className="-mb-1 flex flex-row flex-wrap justify-center gap-2 lg:mb-0">

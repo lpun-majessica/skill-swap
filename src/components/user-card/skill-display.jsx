@@ -10,7 +10,7 @@ import { SkillBadge } from "../common/skill-badge";
 import { sortSkills } from "@/utils/skills";
 import { useCurrentUserContext } from "@/contexts/current-user-context";
 
-export function SkillDisplay({ type, skills = [], demo = false }) {
+export function SkillDisplay({ type, skills = [], fullname, demo = false }) {
   const { containerWidth, paddingWidth, wordWidth } = getContainerSize();
 
   let maxSkillDisplay = 0;
@@ -28,8 +28,6 @@ export function SkillDisplay({ type, skills = [], demo = false }) {
   };
 
   const { header, currentUserSkills } = info[type];
-  const { fullname } = currentUser;
-
   const sortedSkills = sortSkills(skills, currentUserSkills);
 
   sortedSkills.reduce((currentWidth, [skill]) => {

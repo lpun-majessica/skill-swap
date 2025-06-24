@@ -26,12 +26,10 @@ export function UserProvider({ children }) {
   useEffect(() => {
     const fetchUserData = async () => {
       const USERS = await userService.getAllUsers();
-      setUsers(USERS.filter((user) => user.id != data.user));
+      setUsers(USERS.filter((user) => user.id != data?.user));
     };
 
-    if (data) {
-      fetchUserData();
-    }
+    fetchUserData();
   }, [data]);
 
   let displayedUsers = users;

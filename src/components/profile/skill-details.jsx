@@ -10,11 +10,11 @@ export default function SkillDetails({ type, skills }) {
 
   const info = {
     teach: {
-      title: "Skills to Teach",
+      title: "Teaching",
       currentUserSkills: currentUser.skillsToTeach,
     },
     learn: {
-      title: "Skills to Learn",
+      title: "Learning",
       currentUserSkills: currentUser.skillsToLearn,
     },
   };

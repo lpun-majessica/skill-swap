@@ -6,7 +6,7 @@ const UserAvatar = ({ className, username, pfp }) => {
 
   return (
     <Avatar className={`@container ${className}`}>
-      <AvatarImage className="size-fit" src={imageUrl} alt={"@" + username} />
+      <AvatarImage src={imageUrl} alt={"@" + username} />
       <AvatarFallback className="bg-ss-light-333 dark:bg-ss-black-444">
         <UserRound className="text-ss-black-444 dark:text-ss-light-333 size-[60%]" />
       </AvatarFallback>

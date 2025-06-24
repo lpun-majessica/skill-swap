@@ -39,14 +39,14 @@ const callbacks = {
     if (isNewUser) {
       const userData = {};
       try {
-        const { id, email, name, picture } = user;
+        const { id, email, name, image } = user;
         const username = email.slice(0, email.search("@"));
 
         userData.id = id;
         userData.email = email;
         userData.username = username;
         if (name) userData.fullname = name;
-        if (picture) userData.pfp = { url: picture };
+        if (image) userData.pfp = { url: image };
 
         await authService.signUp(userData);
       } catch (error) {

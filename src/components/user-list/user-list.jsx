@@ -2,10 +2,14 @@
 
 import { Pagination } from "./pagination";
 import UserCard from "@/components/user-card/user-card";
+import { useUserContext } from "@/contexts/users-context";
 
 import { useEffect, useState } from "react";
+import LoadingIcon from "../common/loading-icon";
 
 export function UserList({ users }) {
+  const { isLoading } = useUserContext();
+
   const pageSize = 8;
   const [currentPage, setCurrentPage] = useState(0);
   const lastPage =
@@ -16,6 +20,14 @@ export function UserList({ users }) {
   }, [currentPage]);
 
   useEffect(() => setCurrentPage(0), [users]);
+
+  if (isLoading) {
+    return (
+      <div className="flex size-full min-h-[60vh] items-center justify-center">
+        <LoadingIcon />
+      </div>
+    );
+  }
 
   return (
     <>

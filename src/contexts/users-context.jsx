@@ -17,6 +17,7 @@ export function UserProvider({ children }) {
   const { currentUser } = useCurrentUserContext();
   const { findConnectionWith } = useConnectionContext();
   const [users, setUsers] = useState(initialUsers);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [selectedTeach, setSelectedTeach] = useState([]);
   const [selectedLearn, setSelectedLearn] = useState([]);
@@ -27,6 +28,7 @@ export function UserProvider({ children }) {
     const fetchUserData = async () => {
       const USERS = await userService.getAllUsers();
       setUsers(USERS.filter((user) => user.id != data?.user));
+      setIsLoading(false);
     };
 
     fetchUserData();
@@ -170,6 +172,7 @@ export function UserProvider({ children }) {
     <UserContext.Provider
       value={{
         users: displayedUsers,
+        isLoading,
         recommend,
         filterByStatus,
         selectedLearn,

@@ -170,7 +170,7 @@ export function UserInfoForm() {
 
         <div className="mt-8 flex w-full flex-row items-center justify-end lg:mt-10">
           <Button
-            className="bg-ss-red-404 text-ss-light-222 hover:bg-ss-red-505/80 w-fit rounded-full px-4 py-2 font-semibold transition"
+            className="bg-ss-red-404 text-ss-light-222 hover:bg-ss-red-505/80 w-35 rounded-full px-4 font-semibold transition"
             disabled={isSubmitting}
           >
             {isSubmitting ? <LoadingIcon /> : "Save changes"}

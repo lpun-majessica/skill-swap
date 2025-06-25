@@ -45,7 +45,7 @@ const callbacks = {
         userData.id = id;
         userData.email = email;
         userData.username = username;
-        if (name) userData.fullname = name;
+        userData.fullname = name ?? username;
         if (image) userData.pfp = { url: image };
 
         await authService.signUp(userData);

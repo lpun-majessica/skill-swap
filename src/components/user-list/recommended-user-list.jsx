@@ -15,7 +15,7 @@ export function RecommendedUserList() {
   return (
     <>
       <div className="mt-4 mb-6 flex h-20 flex-col-reverse items-center justify-center gap-3 min-[900px]:h-15 min-[900px]:flex-row min-[900px]:justify-start">
-        <h1 className="text-ss-black-717 dark:text-ss-light-555 text-2xl font-bold min-[1180px]:text-3xl">
+        <h1 className="text-ss-black-717 dark:text-ss-light-555 h-9 text-2xl font-bold min-[1180px]:text-3xl">
           {data && "Recommended for you"}
         </h1>
 

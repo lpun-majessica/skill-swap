@@ -44,7 +44,7 @@ export default function Filter() {
     <>
       <Drawer autoFocus={true}>
         <DrawerTrigger asChild>
-          <Button className="dark:bg-ss-black-131 dark:text-ss-light-555 text-ss-black-121 bg-ss-black-171/20 mx-3 flex w-full items-center gap-2 rounded-4xl text-base font-semibold md:hidden">
+          <Button className="dark:bg-ss-black-131 dark:text-ss-light-555 text-ss-black-121 bg-ss-black-171/20 mx-3 flex w-full items-center gap-2 rounded-4xl text-base font-semibold sm:hidden">
             <FilterIcon size={16} />
             Filter
           </Button>
@@ -72,7 +72,7 @@ export default function Filter() {
         </DrawerContent>
       </Drawer>
 
-      <div className="bg-ss-light-FFF dark:bg-ss-black-929 hidden h-[625px] w-[254px] flex-col rounded-2xl p-4 shadow-md md:flex">
+      <div className="bg-ss-light-FFF dark:bg-ss-black-929 hidden h-[625px] w-[254px] flex-col rounded-2xl p-4 shadow-md sm:flex">
         <TopBar handleClearAll={handleClearAll} />
         <FilterBody />
       </div>

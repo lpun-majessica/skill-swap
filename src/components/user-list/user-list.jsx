@@ -7,6 +7,13 @@ import { useUserContext } from "@/contexts/users-context";
 import { useEffect, useState } from "react";
 import LoadingIcon from "../common/loading-icon";
 
+const EmptyUserList = () => {
+  return (
+    <p className="mt-10 w-full text-center md:mt-20 lg:mt-30 lg:text-lg">
+      No user available.
+    </p>
+  );
+};
 export function UserList({ users }) {
   const { isLoading } = useUserContext();
 
@@ -28,6 +35,8 @@ export function UserList({ users }) {
       </div>
     );
   }
+
+  if (users.length === 0) return <EmptyUserList />;
 
   return (
     <>

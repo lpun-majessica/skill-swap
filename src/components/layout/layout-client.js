@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 
-const noLayoutPages = new Set(["/signin", "/signup", "/reset-password"]);
+const noLayoutPages = new Set(["/signin", "/verify-email"]);
 
 export default function LayoutClient({ children }) {
   const pathname = usePathname();

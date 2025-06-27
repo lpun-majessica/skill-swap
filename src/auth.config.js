@@ -4,14 +4,20 @@ import Credentials from "next-auth/providers/credentials";
 import Resend from "next-auth/providers/resend";
 
 import authService from "@/services/auth";
+import { sendVerificationEmail } from "./lib/authSendRequest";
 
 const providers = [
   Google,
   Github,
   Resend({
-    apiKey: process.env.AUTH_RESEND_KEY,
     from: "SkillSwap <onboarding@resend.dev>",
-    // sendVerificationRequest, // For customised emails
+    sendVerificationRequest({ identifier: email, url, provider: { from } }) {
+      sendVerificationEmail({
+        identifier: email,
+        url,
+        provider: { from },
+      });
+    },
   }),
   Credentials({
     credentials: {

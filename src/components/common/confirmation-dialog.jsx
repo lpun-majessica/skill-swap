@@ -43,8 +43,12 @@ export default function ConfirmationDialog({
         <DialogTitle className="sr-only">Confirmation Dialog</DialogTitle>
         <DialogDescription className="text-ss-black-222 dark:text-ss-light-555 mb-2 text-center text-sm">
           {dialogText}
-          {username &&
-            " " + <span className="font-semibold">@{username}</span> + "?"}
+          {username && (
+            <span>
+              {" "}
+              <span className="font-semibold">@{username}</span>?
+            </span>
+          )}
         </DialogDescription>
         <div className="flex justify-center gap-4">
           <DialogClose asChild>

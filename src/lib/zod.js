@@ -1,4 +1,4 @@
-import { object, string, email, date, array } from "zod/v4";
+import { object, union, string, email, iso, array } from "zod/v4";
 
 const requiredMessage = "- This field is required";
 const invalidEmail = "- Invalid email address";
@@ -12,17 +12,11 @@ export const updateUserSchema = object({
   username: string().min(1, requiredMessage).trim(),
   job: string().trim(),
   fullname: string().min(1, requiredMessage).max(50, "- Name too long"),
-  dob: date(invalidDate)
-    .min(new Date("1900-01-01"), { error: "- Too old!" })
-    .max(new Date(), { error: "Too young!" })
+  bio: string().trim(),
+  skillsToLearn: array(object({ id: string(), name: string() }))
+    .min(1, requiredMessage)
     .optional(),
-  bio: string().optional(),
-  skillsToLearn: array(object({ id: string(), name: string() })).min(
-    1,
-    requiredMessage,
-  ),
-  skillsToTeach: array(object({ id: string(), name: string() })).min(
-    1,
-    requiredMessage,
-  ),
+  skillsToTeach: array(object({ id: string(), name: string() }))
+    .min(1, requiredMessage)
+    .optional(),
 });

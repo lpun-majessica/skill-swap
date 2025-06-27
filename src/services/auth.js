@@ -4,15 +4,15 @@ const baseUrl = "/api/auth";
 const signIn = async (username, password) => {
   const credentials = { username, password };
   const response = await axios.post(
-    `${process.env.NEXTAUTH_URL}/${baseUrl}/signin`,
+    `${process.env.AUTH_URL}/${baseUrl}/signin`,
     credentials,
   );
   return response.data;
 };
 
 const signUp = async (userData) => {
-  const endpoint = process.env.NEXTAUTH_URL
-    ? `${process.env.NEXTAUTH_URL}/${baseUrl}/signup`
+  const endpoint = process.env.AUTH_URL
+    ? `${process.env.AUTH_URL}/${baseUrl}/signup`
     : `${baseUrl}/signup`;
 
   try {

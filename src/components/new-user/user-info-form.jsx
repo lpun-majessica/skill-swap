@@ -45,6 +45,14 @@ export function UserInfoForm() {
     setIsSubmitting(true);
 
     const { skillsToLearn, skillsToTeach, ...userData } = data;
+
+    const optionalFields = ["job", "bio"];
+    optionalFields.map((field) => {
+      if (!userData[field]) {
+        delete userData[field];
+      }
+    });
+
     await updateCurrentUser(userData);
 
     router.push("/explore");

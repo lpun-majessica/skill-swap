@@ -1,4 +1,5 @@
 import Google from "next-auth/providers/google";
+import Github from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import Resend from "next-auth/providers/resend";
 
@@ -6,6 +7,7 @@ import authService from "@/services/auth";
 
 const providers = [
   Google,
+  Github,
   Resend({
     apiKey: process.env.AUTH_RESEND_KEY,
     from: "SkillSwap <onboarding@resend.dev>",

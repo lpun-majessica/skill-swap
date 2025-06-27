@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Mail } from "lucide-react";
 
 export function SignInForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,7 +63,14 @@ export function SignInForm() {
           className="bg-ss-light-222 text-ss-black-121 hover:bg-ss-light-333 w-full rounded-full py-2 font-semibold transition"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Loading..." : "Send Verification Email"}
+          {isSubmitting ? (
+            "Loading..."
+          ) : (
+            <span className="flex flex-row gap-2">
+              <Mail className="mt-0.75 size-4" />
+              Send Verification Email
+            </span>
+          )}
         </Button>
       </form>
     </Form>

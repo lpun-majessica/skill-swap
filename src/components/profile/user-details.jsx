@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useCurrentUserContext } from "@/contexts/current-user-context";
 import { useConnectionContext } from "@/contexts/connection-context";
 import { useUserContext } from "@/contexts/users-context";
@@ -10,36 +9,17 @@ import UserAvatar from "../user-card/avatar";
 import ImageUpload from "./image-upload";
 import { ConnectionsButtons } from "@/components/user-card/connection-buttons";
 import { ArrowRightLeft, AtSign } from "lucide-react";
-import { Button } from "../ui/button";
 
 const UserDetails = ({ user = null, isEditable = true }) => {
-  const [showPopup, setShowPopup] = useState(false);
-
-  const { currentUser, updateCurrentUser } = useCurrentUserContext();
+  const { currentUser } = useCurrentUserContext();
   const { findConnectionWith } = useConnectionContext();
   const { isPotentialMatch } = useUserContext();
 
   const connection = findConnectionWith(user?.id);
 
-  const handleEditClick = () => setShowPopup(true);
-  const handleClosePopup = () => setShowPopup(false);
-
-  const handleSave = (updatedUser) => {
-    updateCurrentUser(updatedUser);
-    setShowPopup(false);
-  };
-
   const userData = isEditable ? currentUser : user;
-  const {
-    fullname,
-    username,
-    skillsToLearn,
-    skillsToTeach,
-    pfp,
-    bio,
-    dob,
-    job,
-  } = userData;
+  const { fullname, username, skillsToLearn, skillsToTeach, pfp, bio, job } =
+    userData;
 
   const isMatch = isPotentialMatch(skillsToTeach, skillsToLearn);
 
@@ -74,7 +54,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
               pfp={pfp}
             />
             {isEditable && (
-              <ImageUpload className="bg-ss-black-29D hover:bg-ss-black-171 dark:bg-ss-black-171/95 hover:dark:bg-ss-black-171 absolute top-0 right-0 z-1 size-6 rounded-full sm:size-7 md:size-8" />
+              <ImageUpload className="bg-ss-light-333 hover:bg-ss-black-29D dark:bg-ss-black-171/95 hover:dark:bg-ss-black-444/95 absolute top-0 right-0 z-1 size-6 rounded-full sm:size-7 md:size-8" />
             )}
           </div>
         </div>
@@ -84,14 +64,20 @@ const UserDetails = ({ user = null, isEditable = true }) => {
         {fullname}
       </h2>
 
-      <h4 className="text-ss-red-444 mb-3 text-sm lg:text-base">{job}</h4>
-      {!isEditable && (
-        <ConnectionsButtons
-          connection={connection}
-          cardUserId={user.id}
-          cardUsername={username}
-        />
-      )}
+      <h4 className="text-ss-red-444 mb-3 h-7 text-sm lg:text-base">{job}</h4>
+
+      <div className="h-8 min-[1280px]:h-9 min-[1545px]:h-10">
+        {isEditable ? (
+          <EditProfilePopup />
+        ) : (
+          <ConnectionsButtons
+            connection={connection}
+            cardUserId={user.id}
+            cardUsername={username}
+          />
+        )}
+      </div>
+
       <div className="dark:border-ss-black-444/80 my-4 flex w-75 flex-col items-center rounded-2xl border-1 border-gray-300 px-5 py-4 sm:w-85 md:w-100">
         <div className="flex w-full flex-col gap-4">
           {/* Username */}
@@ -103,18 +89,6 @@ const UserDetails = ({ user = null, isEditable = true }) => {
               <span className="dark:text-ss-light-333 text-sm text-gray-500">
                 <AtSign className="-mt-1 mr-1 inline size-4 opacity-50" />
                 {username}
-              </span>
-            </div>
-          </div>
-
-          {/* Date of Birth */}
-          <div>
-            <p className="dark:text-ss-light-FFF mb-1 text-sm font-semibold text-gray-900">
-              Date of Birth
-            </p>
-            <div className="dark:bg-ss-black-121 h-10 rounded-xl bg-gray-100 px-4 py-2">
-              <span className="dark:text-ss-light-333 text-sm text-gray-500">
-                {dob}
               </span>
             </div>
           </div>
@@ -132,20 +106,6 @@ const UserDetails = ({ user = null, isEditable = true }) => {
           </div>
         </div>
       </div>
-
-      {isEditable && (
-        <Button
-          onClick={handleEditClick}
-          className="text-ss-light-222 bg-ss-black-171/90 dark:bg-ss-black-444 dark:hover:bg-ss-red-505 hover:bg-ss-red-404 mt-2 rounded-3xl px-6 py-2 transition duration-150 ease-in-out"
-        >
-          Edit profile
-        </Button>
-      )}
-
-      {/* Popup */}
-      {showPopup && (
-        <EditProfilePopup onSave={handleSave} onClose={handleClosePopup} />
-      )}
     </div>
   );
 };

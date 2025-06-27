@@ -6,9 +6,12 @@ import React from "react";
 import UserCardDemo from "@/components/user-card/user-card-demo";
 import { HeartHandshake, Repeat2, Share2 } from "lucide-react";
 import { mockUsers } from "@/utils/constant";
+import { useSession } from "next-auth/react";
 
 export default function HomePage() {
   const router = useRouter();
+  const { data } = useSession();
+  const handleRedirect = () => router.push(data ? "/explore" : "/signin");
 
   return (
     <div className="font-inter flex w-full flex-col items-center overflow-x-hidden">
@@ -38,8 +41,8 @@ export default function HomePage() {
             Share What You Know, Learn What You Love.
           </p>
           <button
-            className="font-inter text-ss-light-222 bg-ss-red-505 hover:bg-ss-red-404 mt-6 rounded-full px-6 py-3 font-bold hover:cursor-pointer"
-            onClick={() => router.push("/signin")}
+            className="font-inter text-ss-light-222 bg-ss-red-505 hover:bg-ss-red-404 mt-6 rounded-full px-9 py-3 font-bold hover:cursor-pointer md:mt-10 md:text-lg"
+            onClick={handleRedirect}
           >
             Get Started
           </button>
@@ -265,8 +268,8 @@ export default function HomePage() {
           </p>
           <div className="flex justify-center gap-4">
             <button
-              className="text-ss-light-222 hover:bg-ss-red-404 bg-ss-red-505 rounded-full px-6 py-2 font-bold transition hover:cursor-pointer"
-              onClick={() => router.push("/signin")}
+              className="text-ss-light-222 hover:bg-ss-red-404 bg-ss-red-505 rounded-full px-8 py-2 font-bold transition hover:cursor-pointer"
+              onClick={handleRedirect}
             >
               Get Started
             </button>

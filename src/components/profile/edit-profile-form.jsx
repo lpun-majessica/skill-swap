@@ -29,8 +29,8 @@ const EditProfileForm = ({ setDialogOpen }) => {
     defaultValues: {
       fullname: currentUser?.fullname,
       username: currentUser?.username,
-      job: currentUser?.job,
-      bio: currentUser?.bio,
+      job: currentUser?.job ?? "",
+      bio: currentUser?.bio ?? "",
     },
   });
 

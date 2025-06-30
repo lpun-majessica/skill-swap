@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import clsx from "clsx";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { ModeToggle } from "../common/mode-toggle";
-import { signIn, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 import Link from "next/link";
 import Logo from "./logo";
@@ -18,6 +18,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,7 +30,9 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleSignIn = signIn;
+  const handleSignIn = () => {
+    router.push("/signin");
+  };
 
   const handleSignOut = () => {
     signOut();

@@ -37,7 +37,7 @@ export default function UserProfile() {
   }
 
   return (
-    <div className="my-5 flex flex-col justify-center gap-10 lg:mt-12 lg:flex-row">
+    <>
       {/* Left: user details */}
       <UserDetails user={user} isEditable={false} />
 
@@ -46,6 +46,6 @@ export default function UserProfile() {
         <SkillDetails type="teach" skills={user.skillsToTeach} />
         <SkillDetails type="learn" skills={user.skillsToLearn} />
       </div>
-    </div>
+    </>
   );
 }

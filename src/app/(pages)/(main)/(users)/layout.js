@@ -8,11 +8,7 @@ export default function UsersLayout({ children }) {
 function DataProvider({ children }) {
   return (
     <ConnectionProvider>
-      <UserProvider>
-        <div className="mt-5 mb-8 flex flex-col justify-center gap-10 lg:mt-12 lg:flex-row">
-          {children}
-        </div>
-      </UserProvider>
+      <UserProvider>{children}</UserProvider>
     </ConnectionProvider>
   );
 }

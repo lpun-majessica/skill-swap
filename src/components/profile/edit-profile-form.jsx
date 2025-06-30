@@ -63,14 +63,14 @@ const EditProfileForm = ({ setDialogOpen }) => {
           render={({ field }) => (
             <FormItem>
               <div className="flex flex-row items-center gap-2">
-                <FormLabel className="text-base font-bold">
+                <FormLabel className="text-sm font-bold md:text-base">
                   Your Name <span className="text-ss-red-505">*</span>
                 </FormLabel>
                 <FormMessage />
               </div>
               <FormControl>
                 <Input
-                  className="mb-4 w-full rounded-full border border-gray-300 px-4 py-4 focus:outline-none"
+                  className="mb-4 w-full rounded-full border border-gray-300 px-4 py-4 text-sm focus:outline-none md:text-base"
                   placeholder="Jane Doe"
                   {...field}
                 />
@@ -86,14 +86,14 @@ const EditProfileForm = ({ setDialogOpen }) => {
           render={({ field }) => (
             <FormItem>
               <div className="flex flex-row items-center gap-2">
-                <FormLabel className="text-base font-bold">
+                <FormLabel className="text-sm font-bold md:text-base">
                   Username <span className="text-ss-red-505">*</span>
                 </FormLabel>
                 <FormMessage />
               </div>
               <FormControl>
                 <Input
-                  className="mb-4 w-full rounded-full border border-gray-300 px-4 py-4 focus:outline-none"
+                  className="mb-4 w-full rounded-full border border-gray-300 px-4 py-4 text-sm focus:outline-none md:text-base"
                   placeholder="jane.doe"
                   {...field}
                 />
@@ -109,14 +109,14 @@ const EditProfileForm = ({ setDialogOpen }) => {
           render={({ field }) => (
             <FormItem>
               <div className="flex flex-row items-center gap-2">
-                <FormLabel className="text-base font-bold">
+                <FormLabel className="text-sm font-bold md:text-base">
                   Current job title
                 </FormLabel>
                 <FormMessage />
               </div>
               <FormControl>
                 <Input
-                  className="mb-4 w-full rounded-full border border-gray-300 px-4 py-4 focus:outline-none"
+                  className="mb-4 w-full rounded-full border border-gray-300 px-4 py-4 text-sm focus:outline-none md:text-base"
                   placeholder="Full-stack Developer"
                   {...field}
                 />
@@ -132,16 +132,18 @@ const EditProfileForm = ({ setDialogOpen }) => {
           render={({ field }) => (
             <FormItem>
               <div className="flex flex-row items-center gap-2">
-                <FormLabel className="text-base font-bold">Bio</FormLabel>
+                <FormLabel className="text-sm font-bold md:text-base">
+                  Bio
+                </FormLabel>
                 <FormMessage />
               </div>
               <FormControl>
                 <Textarea
-                  className="mb-4 w-full resize-none rounded-2xl border border-gray-300 px-4 py-2 focus:outline-none xl:min-h-20"
+                  className="mb-4 w-full resize-none rounded-2xl border border-gray-300 px-4 py-2 text-sm focus:outline-none md:text-base xl:min-h-20"
                   {...field}
                 />
               </FormControl>
-              <FormDescription className="-mt-5 italic">
+              <FormDescription className="-mt-5 text-sm italic md:text-base">
                 Short description about yourself
               </FormDescription>
             </FormItem>

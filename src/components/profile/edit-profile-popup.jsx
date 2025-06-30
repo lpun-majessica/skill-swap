@@ -36,7 +36,7 @@ const EditProfilePopup = () => {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="dark:bg-ss-black-929 w-90 rounded-2xl bg-white p-6 shadow-lg sm:w-lg">
+      <DialogContent className="dark:bg-ss-black-929 w-84 rounded-2xl bg-white p-6 shadow-lg sm:w-lg">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">Edit profile</DialogTitle>
 

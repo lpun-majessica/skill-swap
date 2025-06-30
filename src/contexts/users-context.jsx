@@ -13,7 +13,7 @@ import { listSkill } from "@/utils/skills";
 const UserContext = createContext();
 
 export function UserProvider({ children }) {
-  const { data } = useSession();
+  const { data, status } = useSession();
   const { currentUser } = useCurrentUserContext();
   const { findConnectionWith } = useConnectionContext();
   const [users, setUsers] = useState(initialUsers);
@@ -31,7 +31,9 @@ export function UserProvider({ children }) {
       setIsLoading(false);
     };
 
-    fetchUserData();
+    if (status !== "loading") {
+      fetchUserData();
+    }
   }, [data]);
 
   let displayedUsers = users;

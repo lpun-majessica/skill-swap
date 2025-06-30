@@ -27,7 +27,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
 
   return (
     <div
-      className={`dark:bg-ss-black-929 mx-auto flex h-fit w-87 flex-col items-center rounded-2xl bg-white px-6 py-8 sm:w-sm md:w-md lg:mx-0 lg:w-lg ${
+      className={`dark:bg-ss-black-929 mx-auto flex h-fit w-80 flex-col items-center rounded-2xl bg-white px-6 py-8 sm:w-sm md:w-md lg:mx-0 lg:w-lg ${
         !isEditable && isMatch
           ? "ring-ss-red-666 shadow-[0_0px_7px_rgba(218,_5,_5,_0.3)] ring-1 dark:shadow-none dark:ring-[#c06464]"
           : "shadow-lg inset-shadow-2xs"
@@ -78,7 +78,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
         )}
       </div>
 
-      <div className="dark:border-ss-black-444/80 my-4 flex w-75 flex-col items-center rounded-2xl border-1 border-gray-300 px-5 py-4 sm:w-85 md:w-100">
+      <div className="dark:border-ss-black-444/80 my-4 flex w-73 flex-col items-center rounded-2xl border-1 border-gray-300 px-5 py-4 sm:w-85 md:w-100">
         <div className="flex w-full flex-col gap-4">
           {/* Username */}
           <div>

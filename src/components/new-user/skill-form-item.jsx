@@ -163,7 +163,7 @@ const SkillFormItem = ({ type, setFormValue }) => {
   };
 
   return (
-    <FormItem className="dark:bg-ss-black-929 mx-auto -mb-2 w-87 max-w-lg rounded-2xl bg-white p-6 shadow-lg inset-shadow-2xs sm:w-sm md:w-md lg:mx-0">
+    <FormItem className="dark:bg-ss-black-929 mx-auto -mb-2 w-80 max-w-lg rounded-2xl bg-white p-6 shadow-lg inset-shadow-2xs sm:w-sm md:w-md lg:mx-0">
       <div className="mb-1 flex flex-row items-center gap-2">
         <FormLabel className="items-center text-base font-bold lg:text-lg">
           {title}

@@ -92,7 +92,6 @@ export default function MobileMenu({
               <span>My Profile</span>
             </Link>
           </div>
-          <div className="my-2 h-px w-full bg-gray-200 dark:bg-zinc-800" />
 
           <SeparatorLine />
 

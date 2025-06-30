@@ -39,7 +39,7 @@ export default function ConfirmationDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="dark:bg-ss-black-444 w-sm rounded-lg border-none bg-white p-5 shadow-md">
+      <DialogContent className="dark:bg-ss-black-131 w-sm rounded-lg border-none bg-white p-5 shadow-md">
         <DialogTitle className="sr-only">Confirmation Dialog</DialogTitle>
         <DialogDescription className="text-ss-black-222 dark:text-ss-light-555 mb-2 text-center text-sm">
           {dialogText}
@@ -52,7 +52,7 @@ export default function ConfirmationDialog({
         </DialogDescription>
         <div className="flex justify-center gap-4">
           <DialogClose asChild>
-            <Button className="bg-ss-light-555 border-ss-light-222 text-ss-black-444 hover:bg-ss-light-222 dark:bg-ss-black-444 dark:hover:bg-ss-black-555 dark:border-ss-black-666 dark:text-ss-light-555 h-10 w-24 rounded-4xl border-2">
+            <Button className="border-ss-light-222 text-ss-black-444 hover:bg-ss-light-222 dark:hover:bg-ss-black-444 dark:border-ss-black-444 dark:text-ss-light-555 h-10 w-24 rounded-4xl border-2 bg-transparent">
               Back
             </Button>
           </DialogClose>

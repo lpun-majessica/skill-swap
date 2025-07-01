@@ -66,7 +66,7 @@ export function UserProvider({ children }) {
     );
   }
 
-  const isPotentialMatch = (skillsToLearn, skillsToTeach) => {
+  const isPotentialMatch = (skillsToTeach, skillsToLearn) => {
     const targetTeach = listSkill(skillsToTeach);
     const targetLearn = listSkill(skillsToLearn);
     const userTeach = listSkill(currentUser.skillsToTeach);
@@ -138,7 +138,6 @@ export function UserProvider({ children }) {
 
   function getConnectionStatus(userId) {
     const connection = findConnectionWith(userId);
-
     if (!connection) return "not_connected";
 
     if (connection.isAccepted) return "connected";
@@ -155,8 +154,8 @@ export function UserProvider({ children }) {
     const userLearn = listSkill(user.skillsToLearn);
 
     return (
-      compareSkills(targetTeach, userTeach) +
-      compareSkills(targetLearn, userLearn)
+      compareSkills(targetTeach, userLearn) +
+      compareSkills(targetLearn, userTeach)
     );
   }
 

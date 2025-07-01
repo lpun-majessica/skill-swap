@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback } from "react";
-import { useAuthContext } from "@/contexts/auth-context";
 import { useCurrentUserContext } from "@/contexts/current-user-context";
 
 import { CldUploadWidget } from "next-cloudinary";
@@ -13,10 +12,11 @@ import { toast } from "sonner";
 import { CLOUDINARY_CONFIG } from "@/utils/config";
 
 import userService from "@/services/user";
+let userId;
 
 const uploadWidgetOptions = {
   clientAllowedFormats: "image",
-  sources: ["local", "url", "camera", "google_drive", "dropbox"],
+  sources: ["local", "url", "camera", "google_drive"],
   showAdvancedOptions: false,
   cropping: false,
   multiple: false,
@@ -49,8 +49,10 @@ const uploadWidgetOptions = {
 };
 
 const ImageUpload = ({ className }) => {
-  const { currentUser } = useAuthContext();
-  const { updateProfilePicture } = useCurrentUserContext();
+  const { currentUser, updateProfilePicture } = useCurrentUserContext();
+  if (currentUser) {
+    userId = currentUser.id;
+  }
 
   const checkModeration = useCallback(
     async (info, startTime, loadingToastId) => {
@@ -61,14 +63,14 @@ const ImageUpload = ({ className }) => {
       }
 
       try {
-        const data = await userService.checkImageModerationResult(info);
+        const response = await userService.checkImageModerationResult(info);
 
-        if (currentUser && data.status === "approved") {
-          updateProfilePicture(data.publicId, data.url);
-          toast.dismiss(loadingToastId);
-          toast.success("Upload image successfully!");
-        } else if (data.status === "rejected") {
-          toast.error(data.message);
+        if (response.status === "approved") {
+          updateProfilePicture(userId, response.publicId, response.url);
+
+          window.location.reload();
+        } else if (response.status === "rejected") {
+          toast.error(response.message);
         } else {
           setTimeout(() => checkModeration(info, startTime), 1000);
         }
@@ -110,7 +112,7 @@ const ImageUpload = ({ className }) => {
             variant="secondary"
             size="icon"
             className={className}
-            onClick={() => open()}
+            onClick={open}
             title="Edit profile picture"
           >
             <Pencil className="size-3 md:size-4" />

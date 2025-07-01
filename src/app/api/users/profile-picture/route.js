@@ -7,6 +7,8 @@ export async function POST(request) {
 
   if (data.notification_type) {
     return processWebhookRequests(data);
+  } else if (data.type === "upload" && !moderationResults.get(data.asset_id)) {
+    return processWebhookRequests(data);
   } else {
     return processFrontend(data);
   }
@@ -21,7 +23,7 @@ function processWebhookRequests(data) {
   if (moderation_status === "rejected") {
     status = "rejected";
 
-    if (moderation_kind === " aws_rek") {
+    if (moderation_kind === "aws_rek") {
       message = "Your image was rejected due to unsuitable content";
     } else if (moderation_kind === "perception_point") {
       message = "Your image was rejected due to potential malware";
@@ -55,6 +57,7 @@ function processFrontend(data) {
       status: "approved",
       publicId: public_id,
       url: secure_url,
+      message: moderationResult.message,
     });
   } else {
     return NextResponse.json({

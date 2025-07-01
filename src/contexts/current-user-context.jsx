@@ -62,8 +62,8 @@ export function CurrentUserProvider({ children }) {
     setCurrentUserData(updatedUser);
   };
 
-  const updateProfilePicture = async (publicId, url) => {
-    const updatedUser = await userService.updateUser(data.user, {
+  const updateProfilePicture = async (userId, publicId, url) => {
+    const updatedUser = await userService.updateUser(userId, {
       pfp: { publicId: publicId, url: url },
     });
 

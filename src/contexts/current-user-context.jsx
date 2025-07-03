@@ -10,23 +10,24 @@ import { createContext, useEffect, useState, useContext } from "react";
 import { useSession } from "next-auth/react";
 
 import userService from "@/services/user";
+import { connectSocket } from "@/lib/socket";
 
 const CurrentUserContext = createContext();
 
 export function CurrentUserProvider({ children }) {
-  const { data } = useSession();
+  const { data, status } = useSession();
   const [currentUserData, setCurrentUserData] = useState(guestUser);
-  const [isLoading, setIsLoading] = useState(true);
+  const isLoading = status === "loading";
 
   useEffect(() => {
     const fetchUserData = async () => {
       const userData = await userService.getUser(data.user);
       setCurrentUserData(userData);
-      setIsLoading(false);
     };
 
     if (data) {
       fetchUserData();
+      connectSocket(data.user);
     } else {
       setCurrentUserData(guestUser);
     }

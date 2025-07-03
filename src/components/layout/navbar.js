@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
-import clsx from "clsx";
+import { disconnectSocket } from "@/lib/socket";
 import { usePathname, useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
+
+import { Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { ModeToggle } from "../common/mode-toggle";
-import { signOut } from "next-auth/react";
 
+import clsx from "clsx";
 import Link from "next/link";
 import Logo from "./logo";
 import NavItems from "./navbar/nav-item";
@@ -17,8 +19,10 @@ import MobileMenu from "./navbar/mobile-menu";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
   const pathname = usePathname();
   const router = useRouter();
+  const { data } = useSession();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,6 +39,7 @@ export default function Navbar() {
   };
 
   const handleSignOut = () => {
+    disconnectSocket(data.user);
     signOut();
     setMenuOpen(false);
   };

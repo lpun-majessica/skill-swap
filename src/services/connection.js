@@ -25,17 +25,9 @@ const removeConnection = async (connection) => {
   return response.data;
 };
 
-const findConnection = async (currentUserId, userId) => {
-  const response = await axios.get(
-    `${baseUrl}/find?currentUserId=${currentUserId}&userId=${userId}`,
-  );
-  return response.data;
-};
-
 export default {
   getAllConnections,
   addConnection,
   updateConnection,
   removeConnection,
-  findConnection,
 };

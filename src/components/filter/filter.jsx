@@ -84,8 +84,8 @@ function TopBar({ handleClearAll }) {
   return (
     <div className="mb-4 hidden items-center justify-between sm:flex">
       <div className="flex items-center gap-2">
-        <FilterIcon size={16} className="text-black dark:text-white" />
-        <span className="text-base font-semibold text-black sm:text-lg dark:text-white">
+        <FilterIcon size={15} className="text-black dark:text-white" />
+        <span className="text-base font-semibold text-black dark:text-white">
           Filter
         </span>
       </div>

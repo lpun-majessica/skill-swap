@@ -31,6 +31,8 @@ export function ConnectionProvider({ children }) {
     const newConnection = await connectionService.addConnection(connection);
 
     setConnections(connections.concat(newConnection));
+
+    return newConnection;
   };
 
   const updateConnection = async (connectionId, isAccepted = true) => {
@@ -44,6 +46,8 @@ export function ConnectionProvider({ children }) {
         conn.id === updatedConnection.id ? updatedConnection : conn,
       ),
     );
+
+    return updatedConnection;
   };
 
   const removeConnection = async (connectionId) => {

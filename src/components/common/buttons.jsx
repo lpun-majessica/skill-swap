@@ -4,9 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
+import { toast } from "sonner";
+
 import { Button as ButtonTemplate } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
-import { toast } from "sonner";
 import ConfirmationDialog from "@/components/common/confirmation-dialog";
 
 const sharedClass =
@@ -14,13 +15,13 @@ const sharedClass =
 const redButton = `${sharedClass} bg-ss-red-505 text-ss-light-555 hover:bg-ss-red-404 active:bg-ss-red-404/70 dark:bg-ss-red-404 dark:hover:bg-ss-red-404/70 dark:active:bg-ss-red-404/50 dark:text-ss-light-222`;
 const grayButton = `${sharedClass} flex flex-row justify-center items-center gap-1 bg-ss-light-555 border-2 border-ss-light-222 text-ss-black-444 hover:bg-ss-light-222 dark:bg-ss-black-131 dark:hover:bg-ss-black-444 dark:border-ss-black-444 dark:text-ss-light-555`;
 
-export function Button({ text, handleClick, children, username }) {
+export function Button({ text, onClick, children, username }) {
   const router = useRouter();
   const { data } = useSession();
 
   const className = text !== "Decline" ? redButton : grayButton;
 
-  const showToast = () => {
+  const handleClick = () => {
     if (!data) {
       router.push("/signin");
       return;
@@ -46,18 +47,18 @@ export function Button({ text, handleClick, children, username }) {
       );
     }
 
-    if (handleClick) handleClick();
+    if (onClick) onClick();
   };
 
   return (
-    <ButtonTemplate className={className} onClick={showToast}>
+    <ButtonTemplate className={className} onClick={handleClick}>
       {text}
       {children}
     </ButtonTemplate>
   );
 }
 
-export function PopUpButton({ variant, username, handleClick }) {
+export function PopUpButton({ variant, username, onClick }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const buttonConfig = {
@@ -84,7 +85,7 @@ export function PopUpButton({ variant, username, handleClick }) {
   };
 
   const handleConfirm = () => {
-    handleClick();
+    onClick();
   };
 
   return (

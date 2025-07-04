@@ -72,8 +72,8 @@ const UserDetails = ({ user = null, isEditable = true }) => {
         ) : (
           <ConnectionsButtons
             connection={connection}
-            cardUserId={user.id}
-            cardUsername={username}
+            targetUserId={user.id}
+            targetUsername={username}
           />
         )}
       </div>

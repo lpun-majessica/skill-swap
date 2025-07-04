@@ -1,13 +1,18 @@
 "use client";
 
+import { useNavigationContext } from "@/contexts/navigation-context";
+
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import clsx from "clsx";
 import { navItems } from "@/utils/constant";
 
-export default function NavItems({ isHomePage, scrolled, pathname }) {
+import { Button } from "@/components/ui/button";
+
+export default function NavItems() {
+  const { pathname, scrolled, isHomePage } = useNavigationContext();
+
   return (
-    <div className="hidden items-center gap-6 md:flex">
+    <div className="hidden items-center gap-3 sm:flex md:gap-6">
       {navItems.map((item) => {
         const isActive = pathname === item.href;
         return (

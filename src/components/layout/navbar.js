@@ -1,12 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { disconnectSocket } from "@/lib/socket";
-import { usePathname, useRouter } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
+import { useNavigationContext } from "@/contexts/navigation-context";
 
-import { Menu, X } from "lucide-react";
-import { Button } from "../ui/button";
 import { ModeToggle } from "../common/mode-toggle";
 
 import clsx from "clsx";
@@ -17,34 +12,7 @@ import UserMenu from "./navbar/user-menu";
 import MobileMenu from "./navbar/mobile-menu";
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const pathname = usePathname();
-  const router = useRouter();
-  const { data } = useSession();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > window.innerHeight);
-    };
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const handleSignIn = () => {
-    router.push("/signin");
-  };
-
-  const handleSignOut = () => {
-    disconnectSocket(data.user);
-    signOut();
-    setMenuOpen(false);
-  };
-
-  const isHomePage = pathname === "/";
+  const { scrolled, isHomePage } = useNavigationContext();
 
   return (
     <nav
@@ -57,10 +25,10 @@ export default function Navbar() {
     >
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 md:py-4">
         {/* Left: Logo + Nav */}
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-5 md:gap-10">
           {/* Logo with Link */}
           <Link href="/" className="flex items-center gap-2">
-            <Logo isHomePage={isHomePage} scrolled={scrolled} />
+            <Logo />
             <span
               className={clsx(
                 "text-lg font-bold",
@@ -76,53 +44,17 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation Items */}
-          <NavItems
-            isHomePage={isHomePage}
-            scrolled={scrolled}
-            pathname={pathname}
-          />
+          <NavItems />
         </div>
 
-        {/* Right: Login or User Info */}
-        <div className="hidden items-center gap-4 md:flex">
-          <UserMenu
-            handleSignIn={handleSignIn}
-            handleSignOut={handleSignOut}
-            isHomePage={isHomePage}
-            scrolled={scrolled}
-          />
-          <ModeToggle isHomePage={isHomePage} scrolled={scrolled} />
-        </div>
-
-        {/* Mobile menu toggle */}
-        <div className="flex items-center gap-2 md:hidden">
-          <ModeToggle isHomePage={isHomePage} scrolled={scrolled} />
-
-          <Button
-            onClick={() => setMenuOpen(!menuOpen)}
-            variant="ghost"
-            size="icon"
-            className={clsx(
-              "focus:ring-0",
-              isHomePage && !scrolled
-                ? "text-white hover:text-white"
-                : "text-black dark:text-white",
-            )}
-          >
-            {menuOpen ? <X /> : <Menu />}
-          </Button>
+        <div className="flex items-center gap-2 md:gap-4">
+          <UserMenu className="hidden items-center gap-2 sm:flex md:gap-3" />
+          <span className="border-ss-black-171 hidden h-7 w-0 border sm:block" />
+          <ModeToggle />
+          <span className="border-ss-black-171 h-7 w-0 border sm:hidden" />
+          <MobileMenu className="flex items-center sm:hidden" />
         </div>
       </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <MobileMenu
-          pathname={pathname}
-          handleSignIn={handleSignIn}
-          handleSignOut={handleSignOut}
-          setMenuOpen={setMenuOpen}
-        />
-      )}
     </nav>
   );
 }

@@ -1,119 +1,147 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useEffect, useRef } from "react";
+import { useState } from "react";
+import { useNavigationContext } from "@/contexts/navigation-context";
 
 import Link from "next/link";
 import clsx from "clsx";
 import { navItems } from "@/utils/constant";
+
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import NotificationFeed from "@/components/notification/notification-feed";
 
-export default function MobileMenu({
-  pathname,
-  handleSignIn,
-  handleSignOut,
-  setMenuOpen,
-}) {
+export default function MobileMenu({ className }) {
   const { data } = useSession();
+  const { isHomePage, scrolled, pathname } = useNavigationContext();
+  const [open, setOpen] = useState(false);
 
-  const menuRef = useRef();
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const handleOpenChange = () => {
+    setOpen(!open);
+  };
+  const handleClose = () => setOpen(false);
 
   return (
-    <div
-      ref={menuRef}
-      className="dark:bg-ss-black-717 bg-white px-4 pb-4 text-black shadow-lg md:hidden dark:text-white"
-    >
-      <div className="w-full pt-2" />
+    <div className={className}>
+      <NotificationFeed />
 
-      {/* Main navigation items */}
-      {navItems.map((item) => {
-        const isActive = pathname === item.href;
-        return (
-          <div key={item.href} className="w-full">
-            <Link
-              href={item.href}
-              className={clsx(
-                "my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm",
-                "transition-colors",
-                "focus:bg-gray-100 focus:outline-none dark:focus:bg-zinc-800",
-                isActive && "bg-ss-black-29D/30 dark:bg-ss-black-131 font-bold",
-              )}
-              onClick={() => setMenuOpen(false)}
-            >
-              <span>{item.label}</span>
-            </Link>
-          </div>
-        );
-      })}
-
-      {data ? (
-        <>
-          <SeparatorLine />
-
-          {/* User specific options */}
-          <div className="w-full">
-            <Link
-              href="/my-network"
-              className={clsx(
-                "my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm",
-                "transition-colors",
-                pathname === "/my-network" &&
-                  "bg-ss-black-29D/30 dark:bg-ss-black-131 font-bold",
-              )}
-              onClick={() => setMenuOpen(false)}
-            >
-              <span>My Network</span>
-            </Link>
-          </div>
-
-          <div className="w-full">
-            <Link
-              href="/settings"
-              className={clsx(
-                "my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm",
-                "transition-color",
-                pathname === "/settings" &&
-                  "bg-ss-black-29D/30 dark:bg-ss-black-131 font-bold",
-              )}
-              onClick={() => setMenuOpen(false)}
-            >
-              <span>My Profile</span>
-            </Link>
-          </div>
-
-          <SeparatorLine />
-
-          <div className="w-full">
-            <Button
-              onClick={handleSignOut}
-              className="text-ss-black-121 dark:text-ss-light-FFF my-1 flex w-full justify-start rounded-md bg-transparent px-4 py-2 text-sm transition-colors"
-            >
-              Sign Out
-            </Button>
-          </div>
-        </>
-      ) : (
-        <div className="mt-2 flex w-full justify-center px-4">
+      <Popover open={open} onOpenChange={handleOpenChange}>
+        <PopoverTrigger asChild>
           <Button
-            onClick={handleSignIn}
-            className="bg-ss-red-505 mt-2 inline-block h-auto rounded-full border-0 px-6 py-2 text-white transition hover:bg-red-700"
+            variant="ghost"
+            size="icon"
+            className={clsx(
+              "focus:ring-0",
+              isHomePage && !scrolled
+                ? "text-white hover:text-white"
+                : "text-black dark:text-white",
+            )}
           >
-            Sign In
+            {open ? <X /> : <Menu />}
           </Button>
-        </div>
-      )}
+        </PopoverTrigger>
+
+        <PopoverContent className="dark:bg-ss-black-717 w-screen bg-white px-4 pb-6 text-black shadow-lg md:hidden dark:text-white">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <div key={item.href} className="w-full">
+                <Link
+                  href={item.href}
+                  className={clsx(
+                    "my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm",
+                    "transition-colors",
+                    "focus:bg-gray-100 focus:outline-none dark:focus:bg-zinc-800",
+                    isActive &&
+                      "bg-ss-black-29D/30 dark:bg-ss-black-131 font-bold",
+                  )}
+                  onClick={handleClose}
+                >
+                  <span>{item.label}</span>
+                </Link>
+              </div>
+            );
+          })}
+
+          <SeparatorLine />
+
+          {data ? (
+            <UserNavSection handleClose={handleClose} />
+          ) : (
+            <GuestNavSection />
+          )}
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+}
+
+function UserNavSection({ handleClose }) {
+  const { pathname, handleSignOut } = useNavigationContext();
+
+  return (
+    <>
+      <div className="w-full">
+        <Link
+          href="/my-network"
+          className={clsx(
+            "my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm",
+            "transition-colors",
+            pathname === "/my-network" &&
+              "bg-ss-black-29D/30 dark:bg-ss-black-131 font-bold",
+          )}
+          onClick={handleClose}
+        >
+          <span>My Network</span>
+        </Link>
+      </div>
+
+      <div className="w-full">
+        <Link
+          href="/my-profile"
+          className={clsx(
+            "my-1 flex w-full justify-start rounded-md px-4 py-2 text-sm",
+            "transition-color",
+            pathname === "/my-profile" &&
+              "bg-ss-black-29D/30 dark:bg-ss-black-131 font-bold",
+          )}
+          onClick={handleClose}
+        >
+          <span>My Profile</span>
+        </Link>
+      </div>
+
+      <SeparatorLine />
+
+      <div className="w-full">
+        <Button
+          onClick={handleSignOut}
+          className="text-ss-black-121 dark:text-ss-light-FFF my-1 flex w-full justify-start rounded-md bg-transparent px-4 py-2 text-sm transition-colors"
+        >
+          Sign Out
+        </Button>
+      </div>
+    </>
+  );
+}
+
+function GuestNavSection() {
+  const { handleSignIn } = useNavigationContext();
+
+  return (
+    <div className="mt-2 flex w-full justify-center px-4">
+      <Button
+        onClick={handleSignIn}
+        className="bg-ss-red-505 mt-2 inline-block h-auto rounded-full border-0 px-6 py-2 text-white transition hover:bg-red-700"
+      >
+        Sign In
+      </Button>
     </div>
   );
 }

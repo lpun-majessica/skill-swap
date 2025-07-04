@@ -8,6 +8,8 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/sonner";
 import LayoutClient from "@/components/layout/layout-client";
 import { CurrentUserProvider } from "@/contexts/current-user-context";
+import { NavigationProvider } from "@/contexts/navigation-context";
+import { NotificationProvider } from "@/contexts/notification-context";
 
 export const metadata = {
   title: "SkillSwap",
@@ -35,9 +37,13 @@ function ContextProvider({ children }) {
   return (
     <SessionProvider>
       <CurrentUserProvider>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
+        <NotificationProvider>
+          <NavigationProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              {children}
+            </ThemeProvider>
+          </NavigationProvider>
+        </NotificationProvider>
       </CurrentUserProvider>
     </SessionProvider>
   );

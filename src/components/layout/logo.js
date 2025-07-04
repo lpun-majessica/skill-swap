@@ -1,9 +1,13 @@
 "use client";
 
+import { useNavigationContext } from "@/contexts/navigation-context";
+
 import Image from "next/image";
 import clsx from "clsx";
 
-export default function Logo({ isHomePage, scrolled, displayOption }) {
+export default function Logo({ displayOption }) {
+  const { isHomePage, scrolled } = useNavigationContext();
+
   return (
     <>
       {/* Light logo (white) - visible by default on homepage when not scrolled,
@@ -14,13 +18,13 @@ export default function Logo({ isHomePage, scrolled, displayOption }) {
         width={32}
         height={32}
         className={clsx(
-          "w-8 h-8",
+          "h-8 w-8",
           displayOption,
           isHomePage
             ? scrolled
               ? "hidden dark:block"
               : "block"
-            : "hidden dark:block"
+            : "hidden dark:block",
         )}
       />
 
@@ -32,13 +36,13 @@ export default function Logo({ isHomePage, scrolled, displayOption }) {
         width={32}
         height={32}
         className={clsx(
-          "w-8 h-8",
+          "h-8 w-8",
           displayOption,
           isHomePage
             ? scrolled
               ? "block dark:hidden"
               : "hidden"
-            : "block dark:hidden"
+            : "block dark:hidden",
         )}
       />
     </>
@@ -54,7 +58,7 @@ export function WhiteLogo({ className = "" }) {
         alt="SkillSwap Logo"
         width={32}
         height={32}
-        className={clsx("w-8 h-8", className)}
+        className={clsx("h-8 w-8", className)}
       />
     </>
   );

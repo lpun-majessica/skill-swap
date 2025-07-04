@@ -12,10 +12,8 @@ export async function GET(request) {
     }
 
     const notifications = await Notification.find({
-      $or: [{ sender_id: userId }, { receiver_id: userId }],
-    })
-      .populate("sender_id")
-      .populate("receiver_id");
+      $or: [{ sender: userId }, { receiver: userId }],
+    }).populate("sender");
 
     return NextResponse.json(notifications);
   } catch (error) {
@@ -32,9 +30,7 @@ export async function POST(request) {
     const notification = new Notification(notificationData);
     await notification.save();
 
-    return NextResponse.json(
-      notification.populate("sender_id").populate("receiver_id"),
-    );
+    return NextResponse.json(notification.populate("sender"));
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 404 });
   }

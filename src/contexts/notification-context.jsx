@@ -36,13 +36,15 @@ export function NotificationProvider({ children }) {
     return notification;
   };
 
-  const createNotification = async (sender_id, receiver_id, isRead = false) => {
+  const createNotification = async (sender_id, isRead = false) => {
     const type = "createNotification";
-    const notification = { sender_id, receiver_id, type, isRead };
+    const notification = { sender_id, receiver_id: data.user, type, isRead };
     const newNotification =
       await notificationService.createNotification(notification);
 
     setNotifications(notifications.concat(newNotification));
+
+    return newNotification;
   };
 
   const updateNotification = async (notificationId) => {

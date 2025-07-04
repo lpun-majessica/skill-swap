@@ -4,14 +4,13 @@ const origin = process.env.ORIGIN;
 const port = process.env.SOCKET_PORT;
 const endpoint = `${origin}:${port}`;
 
-let clientSocket;
+const clientSocket = io(endpoint);
 
 clientSocket.on("connect", () => {
   console.log("Connected to Socket.IO");
 });
 
 const connectSocket = (userId) => {
-  clientSocket = io(endpoint);
   clientSocket.emit("join", userId);
 };
 

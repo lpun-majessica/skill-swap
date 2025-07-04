@@ -22,8 +22,8 @@ io.on("connection", (socket) => {
     console.log("Left user stream");
   });
 
-  socket.on("connection", ({ targetUserId, type, notificationId }) => {
-    io.to(targetUserId).emit(type, notificationId);
+  socket.on("connectionRequest", (type, connection) => {
+    io.to(targetUserId).emit(type, connection);
   });
 });
 

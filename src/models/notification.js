@@ -2,10 +2,9 @@ import mongoose from "mongoose";
 import User from "./user";
 
 const notificationSchema = new mongoose.Schema({
-  sender_id: { type: mongoose.Schema.Types.ObjectId, ref: User },
-  receiver_id: { type: mongoose.Schema.Types.ObjectId, ref: User },
+  sender: { type: mongoose.Schema.Types.ObjectId, ref: User },
+  receiver: mongoose.Schema.Types.ObjectId,
   type: String,
-  content: String,
   isRead: Boolean,
   createdAt: {
     type: Date,

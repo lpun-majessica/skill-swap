@@ -1,20 +1,44 @@
-import { Button, PopUpButton } from "@/components/common/buttons";
-import { UserRoundPlus } from "lucide-react";
-
 import { useConnectionContext } from "@/contexts/connection-context";
 import { useCurrentUserContext } from "@/contexts/current-user-context";
 
-export function ConnectionsButtons({ connection, cardUserId, cardUsername }) {
+import { clientSocket } from "@/lib/socket";
+
+import { Button, PopUpButton } from "@/components/common/buttons";
+import { UserRoundPlus } from "lucide-react";
+
+export function ConnectionsButtons({
+  connection,
+  targetUserId,
+  targetUsername,
+}) {
   const { currentUser } = useCurrentUserContext();
   const { createConnection, updateConnection, removeConnection } =
     useConnectionContext();
+
+  const handleCreateConnection = async () => {
+    const newConnection = await createConnection(currentUser.id, targetUserId);
+    clientSocket.emit("connectionRequest", "createConnection", newConnection);
+  };
+
+  const handleRemoveConnection = () => {
+    removeConnection(connection.id);
+  };
+
+  const handleAcceptConnection = async () => {
+    const updatedConnection = await updateConnection(connection.id);
+    clientSocket.emit(
+      "connectionRequest",
+      "acceptConnection",
+      updatedConnection,
+    );
+  };
 
   if (!connection) {
     return (
       <Button
         text="Connect"
-        username={cardUsername}
-        handleClick={() => createConnection(currentUser.id, cardUserId)}
+        username={targetUsername}
+        onClick={handleCreateConnection}
       >
         <UserRoundPlus />
       </Button>
@@ -25,16 +49,16 @@ export function ConnectionsButtons({ connection, cardUserId, cardUsername }) {
     return (
       <PopUpButton
         variant="connected"
-        username={cardUsername}
-        handleClick={() => removeConnection(connection.id)}
+        username={targetUsername}
+        onClick={handleRemoveConnection}
       />
     );
   } else if (connection.sender_id === currentUser.id) {
     return (
       <PopUpButton
         variant="pending"
-        username={cardUsername}
-        handleClick={() => removeConnection(connection.id)}
+        username={targetUsername}
+        onClick={handleRemoveConnection}
       />
     );
   } else if (connection.receiver_id === currentUser.id) {
@@ -42,13 +66,13 @@ export function ConnectionsButtons({ connection, cardUserId, cardUsername }) {
       <>
         <Button
           text="Decline"
-          username={cardUsername}
-          handleClick={() => removeConnection(connection.id)}
+          username={targetUsername}
+          onClick={handleRemoveConnection}
         />
         <Button
           text="Accept"
-          username={cardUsername}
-          handleClick={() => updateConnection(connection.id)}
+          username={targetUsername}
+          onClick={handleAcceptConnection}
         />
       </>
     );

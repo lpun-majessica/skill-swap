@@ -34,15 +34,16 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   await dbConnect();
+  const returnData = { new: true };
 
   try {
     const { id } = await params;
 
-    await Notification.findByIdAndDelete(id);
-    return NextResponse.json({
-      success: true,
-      message: "This notif is deleted",
-    });
+    const deletedNotification = await Notification.findByIdAndDelete(
+      id,
+      returnData,
+    );
+    return NextResponse.json(deletedNotification);
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 404 });
   }

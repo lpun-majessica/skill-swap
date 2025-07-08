@@ -35,3 +35,20 @@ export async function POST(request) {
     return NextResponse.json({ error: error.message }, { status: 404 });
   }
 }
+
+export async function DELETE(request) {
+  await dbConnect();
+  const returnData = { new: true };
+
+  try {
+    const filter = await request.json();
+
+    const deletedNotification = await Notification.findOneAndDelete(
+      filter,
+      returnData,
+    );
+    return NextResponse.json(deletedNotification);
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 404 });
+  }
+}

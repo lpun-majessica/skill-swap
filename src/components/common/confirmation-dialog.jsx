@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,6 +8,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { Button } from "./buttons";
 
 export default function ConfirmationDialog({
   isOpen,
@@ -52,16 +52,14 @@ export default function ConfirmationDialog({
         </DialogDescription>
         <div className="flex justify-center gap-4">
           <DialogClose asChild>
-            <Button className="border-ss-black-444 text-ss-black-444 hover:bg-ss-black-171 hover:text-ss-light-777 dark:border-ss-light-333 dark:text-ss-light-333 hover:dark:bg-ss-light-333 hover:dark:text-ss-black-131 h-8 w-30 rounded-4xl border bg-transparent px-6 font-semibold transition-colors duration-150 lg:h-9">
-              Back
-            </Button>
+            <Button text="Back" variant="gray" onClick={onClose} />
           </DialogClose>
+
           <Button
-            className="bg-ss-red-505 text-ss-light-555 hover:bg-ss-red-404 active:bg-ss-red-404/70 dark:bg-ss-red-404 dark:hover:bg-ss-red-404/70 dark:active:bg-ss-red-404/50 dark:text-ss-light-222 h-8 w-30 rounded-4xl lg:h-9"
+            text={confirmButtonText}
+            variant="red"
             onClick={handleConfirm}
-          >
-            {confirmButtonText}
-          </Button>
+          />
         </div>
       </DialogContent>
     </Dialog>

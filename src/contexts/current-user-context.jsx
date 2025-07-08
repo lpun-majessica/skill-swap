@@ -10,7 +10,7 @@ import { createContext, useEffect, useState, useContext } from "react";
 import { useSession } from "next-auth/react";
 
 import userService from "@/services/user";
-import { connectSocket } from "@/lib/socket";
+import { connectSocket, disconnectSocket } from "@/lib/socket";
 
 const CurrentUserContext = createContext();
 
@@ -25,12 +25,14 @@ export function CurrentUserProvider({ children }) {
       setCurrentUserData(userData);
     };
 
-    if (data) {
+    if (data && !isLoading) {
       fetchUserData();
       connectSocket(data.user);
     } else {
       setCurrentUserData(guestUser);
     }
+
+    return () => disconnectSocket(data?.user);
   }, [data]);
 
   const updateCurrentUser = async (updatedFields) => {

@@ -13,10 +13,7 @@ const notificationSchema = new mongoose.Schema({
   },
 });
 
-notificationSchema.index(
-  { sender_id: 1, receiver_id: 1, type: 1 },
-  { unique: true },
-);
+notificationSchema.index({ sender: 1, receiver: 1, type: 1 }, { unique: true });
 
 notificationSchema.set("toJSON", {
   transform: (document, returnedObject) => {

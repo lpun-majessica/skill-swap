@@ -1,4 +1,4 @@
-import { object, union, string, email, iso, array } from "zod/v4";
+import { object, string, email, array } from "zod/v4";
 
 const requiredMessage = "- This field is required";
 const invalidEmail = "- Invalid email address";
@@ -9,8 +9,13 @@ export const signInSchema = object({
 });
 
 export const updateUserSchema = object({
-  username: string().min(1, requiredMessage).trim(),
-  fullname: string().min(1, requiredMessage).max(50, "- Name too long"),
+  username: string()
+    .min(1, requiredMessage)
+    .max(25, "- Username over 25 character")
+    .trim(),
+  fullname: string()
+    .min(1, requiredMessage)
+    .max(50, "- Name over 50 characters"),
   job: string().trim(),
   bio: string().trim(),
   skillsToLearn: array(object({ id: string(), name: string() }))

@@ -1,8 +1,12 @@
 import axios from "axios";
 const baseUrl = "/api/connections";
 
-const getAllConnections = async () => {
-  const response = await axios.get(baseUrl);
+const getAllConnections = async (userId) => {
+  if (!userId) {
+    return;
+  }
+  const queryParams = `userId=${userId}`;
+  const response = await axios.get(`${baseUrl}?${queryParams}`);
   return response.data;
 };
 
@@ -15,8 +19,8 @@ const addConnection = async (connection) => {
   return response.data;
 };
 
-const updateConnection = async (updatedConnection) => {
-  const response = await axios.put(baseUrl, updatedConnection);
+const updateConnection = async (connectionId, isAccepted) => {
+  const response = await axios.put(`${baseUrl}/${connectionId}`, isAccepted);
   return response.data;
 };
 

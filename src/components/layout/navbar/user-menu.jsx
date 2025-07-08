@@ -16,18 +16,23 @@ import { Button } from "@/components/ui/button";
 import UserAvatar from "@/components/user-card/avatar";
 import NotificationFeed from "@/components/notification/notification-feed";
 
+import { CircleUserRound, LogIn, LogOut, UsersRound } from "lucide-react";
+
 export default function UserMenu({ className }) {
   const { data } = useSession();
   const { currentUser, isLoading } = useCurrentUserContext();
-  const { handleSignIn, handleSignOut } = useNavigationContext();
+  const { handleSignOut } = useNavigationContext();
 
   if (!data || isLoading) {
     return (
       <Button
-        onClick={handleSignIn}
-        className="bg-ss-red-505 inline-block h-auto rounded-full border-0 px-6 py-1.5 text-white transition hover:bg-red-700 lg:py-2"
+        asChild
+        className="bg-ss-red-505 hidden h-8 w-fit rounded-full px-6 font-semibold text-white transition hover:bg-red-700 sm:flex lg:h-9"
       >
-        Sign In
+        <Link href="/signin">
+          <LogIn className="mt-0.5" />
+          Sign In
+        </Link>
       </Button>
     );
   }
@@ -40,7 +45,10 @@ export default function UserMenu({ className }) {
         asChild
         className="bg-ss-red-505 h-8 rounded-full px-4 text-white transition hover:bg-red-700 lg:h-9"
       >
-        <Link href="/my-network">My Network</Link>
+        <Link href="/my-network">
+          <UsersRound />
+          My Network
+        </Link>
       </Button>
 
       <NotificationFeed />
@@ -52,16 +60,23 @@ export default function UserMenu({ className }) {
           </button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuContent
+          align="end"
+          sideOffset={5}
+          alignOffset={-25}
+          className="bg-ss-black-121 w-40"
+        >
           <DropdownMenuItem asChild>
             <Link href="/my-profile" className="cursor-pointer">
-              My Profile{username && `: ${username}`}
+              <CircleUserRound className="size-5" />
+              My Profile
             </Link>
           </DropdownMenuItem>
 
           <DropdownMenuSeparator className="border-1" />
 
           <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+            <LogOut className="size-5" />
             Sign Out
           </DropdownMenuItem>
         </DropdownMenuContent>

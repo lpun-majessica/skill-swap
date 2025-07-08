@@ -32,16 +32,18 @@ export default function HomePage() {
 
         {/* Content */}
         <div className="text-ss-light-222 relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">
-          <h1 className="font-inter text-ss-light-222 max-w-3xl text-3xl leading-[120%] font-bold md:text-4xl">
-            Grow Your Network, Sharpen Your Skills
+          <h1 className="font-inter text-ss-light-222 flex max-w-3xl flex-col gap-2 text-2xl leading-[120%] font-bold sm:text-3xl md:flex-row lg:text-4xl">
+            <span>Grow Your Network</span>
+            <span className="hidden md:block"> - </span>
+            <span>Sharpen Your Skills</span>
           </h1>
-          <p className="font-inter font-regular text-ss-light-222 mt-4 max-w-2xl text-xl md:text-2xl">
+          <p className="font-inter font-regular text-ss-light-222 mt-4 max-w-2xl text-lg sm:text-xl lg:text-2xl">
             Fuel Your Growth Through Skill Exchange.
             <br />
             Share What You Know, Learn What You Love.
           </p>
           <button
-            className="font-inter text-ss-light-222 bg-ss-red-505 hover:bg-ss-red-404 mt-6 rounded-full px-9 py-3 font-bold hover:cursor-pointer md:mt-10 md:text-lg"
+            className="font-inter text-ss-light-222 bg-ss-red-505 hover:bg-ss-red-404 mt-6 rounded-full px-7 py-2 font-bold hover:cursor-pointer md:mt-10 md:text-lg lg:px-9 lg:py-2.5"
             onClick={handleRedirect}
           >
             Get Started
@@ -52,20 +54,20 @@ export default function HomePage() {
       {/* === 2. Intro + Features === */}
       <section className="bg-background mt-20 w-full px-6 py-15 md:py-20">
         <div className="mx-auto max-w-6xl">
-          <h2 className="font-regular dark:text-ss-light-222 text-ss-black-717 mb-4 text-center text-2xl md:text-3xl">
+          <h2 className="font-regular dark:text-ss-light-222 text-ss-black-717 mb-4 text-center text-2xl lg:text-3xl">
             Welcome to{" "}
             <span className="relative inline-block">
               {/* Image behind text */}
               <img
                 src="/lpp/red_box.svg "
                 alt=""
-                className="bg-ss-red-505 dark:bg-ss-red-404 pointer-events-none absolute top-6 left-3 z-0 w-full rounded-sm"
+                className="bg-ss-red-505 dark:bg-ss-red-404 pointer-events-none absolute top-4.75 left-2.5 z-0 w-full rounded-sm md:top-6 md:left-3"
               />
               {/* Text on top */}
               <span className="relative z-10 font-bold">SkillSwap</span>
             </span>
           </h2>
-          <p className="font-regular font-inter dark:text-ss-light-222 text-ss-black-717 mx-auto mb-12 max-w-2xl text-center text-[20px]">
+          <p className="font-regular font-inter dark:text-ss-light-222 text-ss-black-717 mx-auto mb-12 max-w-2xl text-center text-base md:text-lg lg:text-[20px]">
             SkillSwap is a platform that helps you connect with others through
             technology skills — whether you want to teach or learn. Share your
             knowledge, grow your skills, and empower each other.
@@ -112,29 +114,27 @@ export default function HomePage() {
       </section>
 
       {/* === 3. What You Can Do === */}
-      <section className="bg-background w-full px-6 py-10 md:py-16">
+      <section className="bg-background w-full px-10 py-10 md:py-16">
         <div
-          className="bg-ss-red-505 mx-auto flex max-w-6xl flex-col items-center gap-8 overflow-hidden rounded-2xl p-6 md:flex-row md:p-10"
+          className="bg-ss-red-505 mx-auto flex max-w-6xl flex-row items-center gap-8 overflow-hidden rounded-2xl p-6 md:p-10"
           style={{
             backgroundImage: "url('/lpp/grid.svg')",
             backgroundSize: "cover",
           }}
         >
           {/* Image side */}
-          <div className="w-full md:w-1/2">
-            <img
-              src="/lpp/laptop.svg"
-              alt="Collaboration"
-              className="h-full w-full rounded-xl object-cover"
-            />
-          </div>
+          <img
+            src="/lpp/laptop.svg"
+            alt="Collaboration"
+            className="hidden rounded-xl object-cover md:block md:aspect-square md:w-3/8 lg:aspect-4/3"
+          />
 
           {/* Text side */}
           <div className="text-ss-light-222 flex-1 space-y-4">
-            <h2 className="mb-4 text-2xl font-bold md:text-3xl">
+            <h2 className="mb-4 text-xl font-bold md:text-2xl lg:text-3xl">
               What You Can Do?
             </h2>
-            <ul className="mb-6 list-disc space-y-2 pl-5">
+            <ul className="mb-6 list-disc space-y-2 pl-5 lg:text-lg">
               <li>
                 Find people who can teach you skills you're eager to learn
               </li>
@@ -144,23 +144,20 @@ export default function HomePage() {
             </ul>
 
             {/* Tags */}
-            <div className="flex flex-wrap gap-2">
-              {[
-                "Python",
-                "C++",
-                "ReactJS",
-                "Angular",
-                "Java",
-                "PHP",
-                "SQL",
-              ].map((tag) => (
-                <span
-                  key={tag}
-                  className="text-ss-red-404 rounded-full bg-white px-3 py-1 text-sm font-semibold"
-                >
-                  {tag}
-                </span>
-              ))}
+            <div className="flex flex-wrap items-center gap-2">
+              {["Python", "C++", "JavaScript", "Java", "PHP", "SQL"].map(
+                (tag) => (
+                  <span
+                    key={tag}
+                    className="text-ss-red-404 rounded-full bg-white px-3 py-1 text-sm font-semibold lg:text-base"
+                  >
+                    {tag}
+                  </span>
+                ),
+              )}
+              <span className="text-ss-light-222 text-sm font-semibold lg:text-base">
+                and more
+              </span>
             </div>
           </div>
         </div>
@@ -259,10 +256,10 @@ export default function HomePage() {
 
         {/* Centered content */}
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-5">
-          <h2 className="dark:text-ss-light-222 text-ss-black-717 mb-4 text-3xl font-bold md:text-4xl">
+          <h2 className="dark:text-ss-light-222 text-ss-black-717 mb-4 text-2xl font-bold sm:text-3xl lg:text-4xl">
             Ready to start your skill–sharing journey?
           </h2>
-          <p className="text-dark dark:text-ss-light-222 mb-6 max-w-xl py-2 text-xl md:text-2xl">
+          <p className="text-dark dark:text-ss-light-222 mb-6 max-w-xl py-2 text-lg sm:text-xl lg:text-2xl">
             Join SkillSwap today and be part of a growing tech learning
             community!
           </p>

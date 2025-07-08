@@ -75,7 +75,7 @@ export default function UserCard({
           />
         </CardContent>
 
-        <CardFooter className="-mb-1 flex flex-row flex-wrap justify-center gap-2 lg:mb-0">
+        <CardFooter className="-mb-1 flex flex-row flex-wrap justify-center gap-2 lg:mt-1 lg:mb-0">
           <ConnectionsButtons
             connection={connection}
             targetUserId={id}

@@ -52,12 +52,12 @@ export default function ConfirmationDialog({
         </DialogDescription>
         <div className="flex justify-center gap-4">
           <DialogClose asChild>
-            <Button className="border-ss-light-222 text-ss-black-444 hover:bg-ss-light-222 dark:hover:bg-ss-black-444 dark:border-ss-black-444 dark:text-ss-light-555 h-10 w-24 rounded-4xl border-2 bg-transparent">
+            <Button className="border-ss-black-444 text-ss-black-444 hover:bg-ss-black-171 hover:text-ss-light-777 dark:border-ss-light-333 dark:text-ss-light-333 hover:dark:bg-ss-light-333 hover:dark:text-ss-black-131 h-8 w-30 rounded-4xl border bg-transparent px-6 font-semibold transition-colors duration-150 lg:h-9">
               Back
             </Button>
           </DialogClose>
           <Button
-            className="bg-ss-red-505 text-ss-light-555 hover:bg-ss-red-404 active:bg-ss-red-404/70 dark:bg-ss-red-404 dark:hover:bg-ss-red-404/70 dark:active:bg-ss-red-404/50 dark:text-ss-light-222 h-10 w-28 rounded-4xl"
+            className="bg-ss-red-505 text-ss-light-555 hover:bg-ss-red-404 active:bg-ss-red-404/70 dark:bg-ss-red-404 dark:hover:bg-ss-red-404/70 dark:active:bg-ss-red-404/50 dark:text-ss-light-222 h-8 w-30 rounded-4xl lg:h-9"
             onClick={handleConfirm}
           >
             {confirmButtonText}

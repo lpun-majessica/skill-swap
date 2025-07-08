@@ -10,6 +10,11 @@ export default function SettingsPage() {
         <SkillSection type="teach" />
         <SkillSection type="learn" />
       </div>
+
+      <Script
+        src="https://upload-widget.cloudinary.com/global/all.js"
+        strategy="beforeInteractive"
+      />
     </AuthGuard>
   );
 }

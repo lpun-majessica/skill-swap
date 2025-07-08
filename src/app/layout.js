@@ -26,11 +26,6 @@ export default async function RootLayout({ children }) {
           <LayoutClient>{children}</LayoutClient>
           <Toaster closeButton />
         </ContextProvider>
-
-        <Script
-          src="https://upload-widget.cloudinary.com/global/all.js"
-          strategy="beforeInteractive"
-        />
       </body>
     </html>
   );

@@ -12,7 +12,7 @@ export async function GET(request) {
     }
 
     const notifications = await Notification.find({
-      $or: [{ sender: userId }, { receiver: userId }],
+      receiver: userId,
     }).populate("sender");
 
     return NextResponse.json(notifications);
@@ -30,23 +30,7 @@ export async function POST(request) {
     const notification = new Notification(notificationData);
     await notification.save();
 
-    return NextResponse.json(notification.populate("sender"));
-  } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 404 });
-  }
-}
-
-export async function DELETE(request) {
-  await dbConnect();
-
-  try {
-    const filter = await request.json();
-
-    await Notification.findOneAndDelete(filter);
-    return NextResponse.json({
-      success: true,
-      message: "This notif is deleted",
-    });
+    return NextResponse.json(await notification.populate("sender"));
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 404 });
   }

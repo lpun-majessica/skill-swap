@@ -28,8 +28,8 @@ const updateNotification = async (notificationId) => {
   return response.data;
 };
 
-const removeNotification = async (notificationData) => {
-  const response = await axios.delete(baseUrl, { data: notificationData });
+const removeNotification = async (notificationId) => {
+  const response = await axios.delete(`${baseUrl}/${notificationId}`);
   return response.data;
 };
 

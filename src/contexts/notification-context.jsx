@@ -5,7 +5,11 @@ const initialNotifications = [];
 import { createContext, useEffect, useState, useContext } from "react";
 import { useSession } from "next-auth/react";
 
+import { toast } from "sonner";
 import notificationService from "@/services/notification";
+import { clientSocket } from "@/lib/socket";
+
+import { ConnectionsButtons } from "@/components/user-card/connection-buttons";
 
 const NotificationContext = createContext();
 
@@ -13,12 +17,20 @@ export function NotificationProvider({ children }) {
   const { data, status } = useSession();
   const [notifications, setNotifications] = useState(initialNotifications);
 
+  const unreadCount = notifications.filter((notif) => !notif.isRead).length;
+
   useEffect(() => {
     const fetchNotificationData = async () => {
       const NOTIFS = await notificationService.getAllNotifications(data?.user);
 
       if (NOTIFS) {
-        setNotifications(NOTIFS);
+        const sortedNotifs = NOTIFS.sort((notifA, notifB) => {
+          const timeA = new Date(notifA.createdAt);
+          const timeB = new Date(notifB.createdAt);
+
+          return timeB - timeA;
+        });
+        setNotifications(sortedNotifs);
       }
     };
 
@@ -29,6 +41,45 @@ export function NotificationProvider({ children }) {
     }
   }, [data]);
 
+  useEffect(() => {
+    const onCreateConnection = (notification, connection) => {
+      const { sender, receiver } = notification;
+      if (receiver.id !== data?.user) {
+        return;
+      }
+
+      const { username } = sender;
+
+      setNotifications(notifications.concat(notification));
+      toast(`@${username} wants to connect with you.`, {
+        action: (
+          <ConnectionsButtons
+            connection={connection}
+            targetUsername={username}
+          />
+        ),
+      });
+    };
+
+    const onAcceptConnection = (notification) => {
+      const { sender, receiver } = notification;
+
+      if (receiver.id !== data?.user) {
+        return;
+      }
+      setNotifications(notifications.concat(notification));
+      toast(`@${sender.username} accepted your connection request.`);
+    };
+
+    clientSocket.on("createConnection", onCreateConnection);
+    clientSocket.on("acceptConnection", onAcceptConnection);
+
+    return () => {
+      clientSocket.off("createConnection", onCreateConnection);
+      clientSocket.off("acceptConnection", onAcceptConnection);
+    };
+  }, []);
+
   const getNotification = async (notificationId) => {
     const notification =
       await notificationService.getNotification(notificationId);
@@ -36,32 +87,36 @@ export function NotificationProvider({ children }) {
     return notification;
   };
 
-  const createNotification = async (sender_id, isRead = false) => {
-    const type = "createNotification";
-    const notification = { sender_id, receiver_id: data.user, type, isRead };
-    const newNotification =
-      await notificationService.createNotification(notification);
+  const createNotification = async (sender, receiver, type, isRead = false) => {
+    const notification = { sender, receiver, type, isRead };
 
-    setNotifications(notifications.concat(newNotification));
-
-    return newNotification;
+    return await notificationService.createNotification(notification);
   };
 
   const updateNotification = async (notificationId) => {
-    const updatedNotification =
-      await notificationService.updateNotification(notificationId);
+    await notificationService.updateNotification(notificationId);
 
     setNotifications(
       notifications.map((notif) =>
-        notif.id === updatedNotification.id ? updatedNotification : notif,
+        notif.id === notificationId ? { ...notif, isRead: true } : notif,
       ),
     );
   };
 
+  const updateAllNotifications = () => {
+    notifications.map(
+      async (notif) => await notificationService.updateNotification(notif.id),
+    );
+
+    setNotifications(
+      notifications.map((notif) => {
+        return { ...notif, isRead: true };
+      }),
+    );
+  };
+
   const removeNotification = async (notificationId) => {
-    await notificationService.removeNotification({
-      notificationId,
-    });
+    await notificationService.removeNotification(notificationId);
 
     setNotifications(
       notifications.filter((notif) => notif.id !== notificationId),
@@ -72,9 +127,11 @@ export function NotificationProvider({ children }) {
     <NotificationContext.Provider
       value={{
         notifications,
+        unreadCount,
         getNotification,
         createNotification,
         updateNotification,
+        updateAllNotifications,
         removeNotification,
       }}
     >

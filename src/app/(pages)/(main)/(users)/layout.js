@@ -1,4 +1,3 @@
-import { ConnectionProvider } from "@/contexts/connection-context";
 import { UserProvider } from "@/contexts/users-context";
 
 export default function UsersLayout({ children }) {
@@ -6,9 +5,5 @@ export default function UsersLayout({ children }) {
 }
 
 function DataProvider({ children }) {
-  return (
-    <ConnectionProvider>
-      <UserProvider>{children}</UserProvider>
-    </ConnectionProvider>
-  );
+  return <UserProvider>{children}</UserProvider>;
 }

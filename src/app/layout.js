@@ -7,9 +7,11 @@ import { SessionProvider } from "next-auth/react";
 
 import { Toaster } from "@/components/ui/sonner";
 import LayoutClient from "@/components/layout/layout-client";
+
 import { CurrentUserProvider } from "@/contexts/current-user-context";
 import { NavigationProvider } from "@/contexts/navigation-context";
 import { NotificationProvider } from "@/contexts/notification-context";
+import { ConnectionProvider } from "@/contexts/connection-context";
 
 export const metadata = {
   title: "SkillSwap",
@@ -24,6 +26,7 @@ export default async function RootLayout({ children }) {
           <LayoutClient>{children}</LayoutClient>
           <Toaster closeButton />
         </ContextProvider>
+
         <Script
           src="https://upload-widget.cloudinary.com/global/all.js"
           strategy="beforeInteractive"
@@ -37,13 +40,19 @@ function ContextProvider({ children }) {
   return (
     <SessionProvider>
       <CurrentUserProvider>
-        <NotificationProvider>
-          <NavigationProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              {children}
-            </ThemeProvider>
-          </NavigationProvider>
-        </NotificationProvider>
+        <ConnectionProvider>
+          <NotificationProvider>
+            <NavigationProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+              >
+                {children}
+              </ThemeProvider>
+            </NavigationProvider>
+          </NotificationProvider>
+        </ConnectionProvider>
       </CurrentUserProvider>
     </SessionProvider>
   );

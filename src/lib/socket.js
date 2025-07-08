@@ -1,20 +1,31 @@
 import { io } from "socket.io-client";
 
-const origin = process.env.ORIGIN;
-const port = process.env.SOCKET_PORT;
-const endpoint = `${origin}:${port}`;
+const origin = process.env.NEXT_PUBLIC_ORIGIN;
+const port = process.env.NEXT_PUBLIC_SOCKET_PORT;
+const URL =
+  process.env.NODE_ENV === "production" ? undefined : `${origin}:${port}`;
 
-const clientSocket = io(endpoint);
+const clientSocket = io(URL, { transports: ["websocket"] });
 
-clientSocket.on("connect", () => {
-  console.log("Connected to Socket.IO");
+clientSocket.on("connect_error", (err) => {
+  // the reason of the error, for example "xhr poll error"
+  console.log(err.message);
+
+  // some additional description, for example the status code of the initial HTTP response
+  console.log(err.description);
 });
 
 const connectSocket = (userId) => {
+  if (!userId) {
+    return;
+  }
   clientSocket.emit("join", userId);
 };
 
 const disconnectSocket = (userId) => {
+  if (!userId) {
+    return;
+  }
   clientSocket.emit("leave", userId);
 };
 

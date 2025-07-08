@@ -2,7 +2,7 @@
 
 import { disconnectSocket } from "@/lib/socket";
 import { signOut, useSession } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { createContext, useEffect, useContext, useState } from "react";
 
 const NavigationContext = createContext();
@@ -13,7 +13,6 @@ export function NavigationProvider({ children }) {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
-  const router = useRouter();
   const { data } = useSession();
 
   useEffect(() => {
@@ -26,10 +25,6 @@ export function NavigationProvider({ children }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleSignIn = () => {
-    router.push("/signin");
-  };
-
   const handleSignOut = () => {
     disconnectSocket(data.user);
     signOut();
@@ -37,7 +32,7 @@ export function NavigationProvider({ children }) {
 
   return (
     <NavigationContext.Provider
-      value={{ scrolled, pathname, isHomePage, handleSignIn, handleSignOut }}
+      value={{ scrolled, pathname, isHomePage, handleSignOut }}
     >
       {children}
     </NavigationContext.Provider>

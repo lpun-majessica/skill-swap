@@ -6,21 +6,58 @@ import { createContext, useEffect, useState, useContext } from "react";
 import { useSession } from "next-auth/react";
 
 import connectionService from "@/services/connection";
+import { clientSocket } from "@/lib/socket";
 
 const ConnectionContext = createContext();
 
 export function ConnectionProvider({ children }) {
-  const { data } = useSession();
+  const { data, status } = useSession();
   const [connections, setConnections] = useState(initialConnections);
 
   useEffect(() => {
-    const fetchConnectionData = async () => {
-      const CONNECTIONS = await connectionService.getAllConnections();
+    const fetchConnectionData = async (userId) => {
+      const CONNECTIONS = await connectionService.getAllConnections(userId);
       setConnections(CONNECTIONS);
     };
 
-    fetchConnectionData();
+    if (data && status !== "loading") {
+      fetchConnectionData(data.user);
+    }
   }, [data]);
+
+  useEffect(() => {
+    const handleCreate = (_, connection) => {
+      setConnections(connections.concat(connection));
+    };
+
+    const handleAccept = (_, connection) => {
+      setConnections(
+        connections.map((conn) =>
+          conn.id === connection.id ? { ...conn, isAccepted: true } : conn,
+        ),
+      );
+    };
+
+    const handleDelete = (_, connection) => {
+      setConnections(connections.filter((conn) => conn.id !== connection.id));
+    };
+
+    clientSocket.on("createConnection", handleCreate);
+    clientSocket.on("acceptConnection", handleAccept);
+
+    clientSocket.on("cancelConnection", handleDelete);
+    clientSocket.on("declineConnection", handleDelete);
+    clientSocket.on("removeConnection", handleDelete);
+
+    return () => {
+      clientSocket.off("createConnection", handleCreate);
+      clientSocket.off("acceptConnection", handleAccept);
+
+      clientSocket.on("cancelConnection", handleDelete);
+      clientSocket.on("declineConnection", handleDelete);
+      clientSocket.on("removeConnection", handleDelete);
+    };
+  }, [connections]);
 
   const createConnection = async (
     sender_id,
@@ -36,14 +73,14 @@ export function ConnectionProvider({ children }) {
   };
 
   const updateConnection = async (connectionId, isAccepted = true) => {
-    const updatedConnection = await connectionService.updateConnection({
+    const updatedConnection = await connectionService.updateConnection(
       connectionId,
-      isAccepted,
-    });
+      { isAccepted },
+    );
 
     setConnections(
       connections.map((conn) =>
-        conn.id === updatedConnection.id ? updatedConnection : conn,
+        conn.id === connectionId ? { ...conn, isAccepted } : conn,
       ),
     );
 
@@ -51,13 +88,11 @@ export function ConnectionProvider({ children }) {
   };
 
   const removeConnection = async (connectionId) => {
-    const removedConnection = await connectionService.removeConnection({
+    await connectionService.removeConnection({
       connectionId,
     });
 
-    setConnections(
-      connections.filter((conn) => conn.id !== removedConnection.id),
-    );
+    setConnections(connections.filter((conn) => conn.id !== connectionId));
   };
 
   const findConnectionWith = (userId) => {

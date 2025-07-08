@@ -7,7 +7,8 @@ import NotificationOptions from "./notification-options";
 
 const NotificationSlide = ({ data }) => {
   const { findConnectionWith } = useConnectionContext();
-  const { updateNotification, removeNotification } = useNotificationContext();
+  const { updateNotification, removeNotificationById } =
+    useNotificationContext();
   const { id, sender, type, isRead, createdAt } = data;
   const { id: senderId, username: senderUsername } = sender;
 
@@ -26,7 +27,7 @@ const NotificationSlide = ({ data }) => {
     }
   };
 
-  const handleDelete = async () => await removeNotification(id);
+  const handleDelete = async () => await removeNotificationById(id);
 
   return (
     <div className="mx-2 flex h-fit min-h-18 items-center justify-between gap-4 md:my-2">

@@ -28,7 +28,12 @@ const updateNotification = async (notificationId) => {
   return response.data;
 };
 
-const removeNotification = async (notificationId) => {
+const removeNotification = async (filter) => {
+  const response = await axios.delete(baseUrl, { data: filter });
+  return response.data;
+};
+
+const removeNotificationById = async (notificationId) => {
   const response = await axios.delete(`${baseUrl}/${notificationId}`);
   return response.data;
 };
@@ -39,4 +44,5 @@ export default {
   createNotification,
   updateNotification,
   removeNotification,
+  removeNotificationById,
 };

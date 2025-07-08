@@ -42,7 +42,7 @@ export function NotificationProvider({ children }) {
   }, [data]);
 
   useEffect(() => {
-    const onCreateConnection = (notification, connection) => {
+    const handleCreate = (notification, connection) => {
       const { sender, receiver } = notification;
       if (receiver.id !== data?.user) {
         return;
@@ -61,22 +61,40 @@ export function NotificationProvider({ children }) {
       });
     };
 
-    const onAcceptConnection = (notification) => {
+    const handleAccept = async (notification) => {
       const { sender, receiver } = notification;
-
       if (receiver.id !== data?.user) {
         return;
       }
+
       setNotifications(notifications.concat(notification));
       toast(`@${sender.username} accepted your connection request.`);
     };
 
-    clientSocket.on("createConnection", onCreateConnection);
-    clientSocket.on("acceptConnection", onAcceptConnection);
+    const handleCancel = async (filter) => {
+      const { sender, receiver, type } = filter;
+      if (receiver.id !== data?.user) {
+        return;
+      }
+
+      setNotifications(
+        notifications.filter(
+          (notif) =>
+            notif.sender === sender &&
+            notif.receiver === receiver &&
+            notif.type === type,
+        ),
+      );
+    };
+
+    clientSocket.on("createConnection", handleCreate);
+    clientSocket.on("acceptConnection", handleAccept);
+    clientSocket.on("cancelConnection", handleCancel);
 
     return () => {
-      clientSocket.off("createConnection", onCreateConnection);
-      clientSocket.off("acceptConnection", onAcceptConnection);
+      clientSocket.off("createConnection", handleCreate);
+      clientSocket.off("acceptConnection", handleAccept);
+      clientSocket.off("cancelConnection", handleCancel);
     };
   }, []);
 
@@ -115,8 +133,17 @@ export function NotificationProvider({ children }) {
     );
   };
 
-  const removeNotification = async (notificationId) => {
-    await notificationService.removeNotification(notificationId);
+  const removeNotification = async (filter) => {
+    const deletedNotification =
+      await notificationService.removeNotification(filter);
+
+    setNotifications(
+      notifications.filter((notif) => notif.id !== deletedNotification.id),
+    );
+  };
+
+  const removeNotificationById = async (notificationId) => {
+    await notificationService.removeNotificationById(notificationId);
 
     setNotifications(
       notifications.filter((notif) => notif.id !== notificationId),
@@ -133,6 +160,7 @@ export function NotificationProvider({ children }) {
         updateNotification,
         updateAllNotifications,
         removeNotification,
+        removeNotificationById,
       }}
     >
       {children}

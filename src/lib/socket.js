@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 
 const origin = process.env.NEXT_PUBLIC_ORIGIN;
 const port = process.env.NEXT_PUBLIC_SOCKET_PORT;
-const URL = `${origin}:${port}`;
+const URL = process.env.NEXT_PUBLIC_BACKEND_URL || `${origin}:${port}`;
 
 let clientSocket;
 if (!clientSocket) {

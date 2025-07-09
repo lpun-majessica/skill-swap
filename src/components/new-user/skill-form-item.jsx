@@ -66,7 +66,7 @@ const Wrapper = ({ open, handleOpenChange, description, children }) => {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="mt-2 w-75 justify-between rounded-2xl sm:w-85 md:w-100"
+            className="mt-2 w-69 justify-between rounded-2xl sm:w-85 md:w-100"
           >
             Add skill
             <ChevronsUpDown className="opacity-50" />

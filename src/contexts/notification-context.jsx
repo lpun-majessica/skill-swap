@@ -81,7 +81,7 @@ export function NotificationProvider({ children }) {
       clientSocket.off("acceptConnection", handleNewNotif);
       clientSocket.off("cancelConnection", handleCancel);
     };
-  }, [notifications]);
+  }, []);
 
   const getNotification = async (notificationId) => {
     const notification =

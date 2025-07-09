@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 import UserDetails from "@/components/profile/user-details";
 import SkillSection from "@/components/profile/skill-section";
 import AuthGuard from "@/components/auth/auth-guard";

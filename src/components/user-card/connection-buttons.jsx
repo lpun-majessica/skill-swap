@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useConnectionContext } from "@/contexts/connection-context";
 import { useCurrentUserContext } from "@/contexts/current-user-context";
 import { useNotificationContext } from "@/contexts/notification-context";
@@ -11,6 +12,7 @@ import { Button, PopUpButton } from "@/components/common/buttons";
 import { UserRoundPlus } from "lucide-react";
 
 export function ConnectionsButtons({ targetUserId, targetUsername }) {
+  const router = useRouter();
   const { currentUser } = useCurrentUserContext();
   const {
     createConnection,
@@ -22,6 +24,8 @@ export function ConnectionsButtons({ targetUserId, targetUsername }) {
 
   const connection = findConnectionWith(targetUserId);
   const socketTargets = { sender: currentUser.id, receiver: targetUserId };
+
+  const handleNotSignIn = () => router.push("/signin");
 
   const notifyUser = async (type) => {
     const { sender, receiver } = socketTargets;
@@ -112,10 +116,8 @@ export function ConnectionsButtons({ targetUserId, targetUsername }) {
 
   if (currentUser.id === 0) {
     return (
-      <Button text="Connect" variant="red">
-        <Link href="/signin">
-          <UserRoundPlus />
-        </Link>
+      <Button text="Connect" variant="red" onClick={handleNotSignIn}>
+        <UserRoundPlus />
       </Button>
     );
   }

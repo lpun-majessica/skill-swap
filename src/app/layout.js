@@ -24,7 +24,16 @@ export default async function RootLayout({ children }) {
       <body>
         <ContextProvider>
           <LayoutClient>{children}</LayoutClient>
-          <Toaster closeButton />
+          <Toaster
+            closeButton
+            toastOptions={{
+              style: {
+                minWidth: "fit-content",
+                maxWidth: "86vw",
+                padding: "18px 20px",
+              },
+            }}
+          />
         </ContextProvider>
       </body>
     </html>

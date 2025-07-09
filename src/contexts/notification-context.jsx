@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import notificationService from "@/services/notification";
 import { clientSocket } from "@/lib/socket";
 
-import { ConnectionsButtons } from "@/components/user-card/connection-buttons";
+import NotificationSlide from "@/components/notification/notification-slide";
 
 const NotificationContext = createContext();
 
@@ -42,33 +42,18 @@ export function NotificationProvider({ children }) {
   }, [data]);
 
   useEffect(() => {
-    const handleCreate = (notification, connection) => {
-      const { sender, receiver } = notification;
-      if (receiver.id !== data?.user) {
-        return;
-      }
-
-      const { username } = sender;
-
-      setNotifications(notifications.concat(notification));
-      toast(`@${username} wants to connect with you.`, {
-        action: (
-          <ConnectionsButtons
-            connection={connection}
-            targetUsername={username}
-          />
-        ),
-      });
-    };
-
-    const handleAccept = async (notification) => {
-      const { sender, receiver } = notification;
+    const handleNewNotif = (notification) => {
+      const { receiver } = notification;
       if (receiver.id !== data?.user) {
         return;
       }
 
       setNotifications(notifications.concat(notification));
-      toast(`@${sender.username} accepted your connection request.`);
+      toast(
+        <div className="-mx-3 w-[90vw] md:mr-5 md:max-w-sm lg:max-w-md">
+          <NotificationSlide data={notification} isToast={true} />
+        </div>,
+      );
     };
 
     const handleCancel = async (filter) => {
@@ -87,16 +72,16 @@ export function NotificationProvider({ children }) {
       );
     };
 
-    clientSocket.on("createConnection", handleCreate);
-    clientSocket.on("acceptConnection", handleAccept);
+    clientSocket.on("createConnection", handleNewNotif);
+    clientSocket.on("acceptConnection", handleNewNotif);
     clientSocket.on("cancelConnection", handleCancel);
 
     return () => {
-      clientSocket.off("createConnection", handleCreate);
-      clientSocket.off("acceptConnection", handleAccept);
+      clientSocket.off("createConnection", handleNewNotif);
+      clientSocket.off("acceptConnection", handleNewNotif);
       clientSocket.off("cancelConnection", handleCancel);
     };
-  }, []);
+  }, [notifications]);
 
   const getNotification = async (notificationId) => {
     const notification =

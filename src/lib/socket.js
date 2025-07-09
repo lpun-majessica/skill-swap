@@ -2,10 +2,12 @@ import { io } from "socket.io-client";
 
 const origin = process.env.NEXT_PUBLIC_ORIGIN;
 const port = process.env.NEXT_PUBLIC_SOCKET_PORT;
-const URL =
-  process.env.NODE_ENV === "production" ? undefined : `${origin}:${port}`;
+const URL = `${origin}:${port}`;
 
-const clientSocket = io(URL, { transports: ["websocket"] });
+let clientSocket;
+if (!clientSocket) {
+  clientSocket = io(URL, { transports: ["websocket"] });
+}
 
 clientSocket.on("connect_error", (err) => {
   // the reason of the error, for example "xhr poll error"

@@ -1,7 +1,5 @@
 import "./globals.css";
 
-import Script from "next/script";
-
 import { ThemeProvider } from "@/contexts/theme-context";
 import { SessionProvider } from "next-auth/react";
 

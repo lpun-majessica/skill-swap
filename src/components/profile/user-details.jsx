@@ -66,7 +66,7 @@ const UserDetails = ({ user = null, isEditable = true }) => {
 
       <h4 className="text-ss-red-444 mb-3 h-7 text-sm lg:text-base">{job}</h4>
 
-      <div className="h-8 min-[1280px]:h-9 min-[1545px]:h-10">
+      <div className="flex h-8 flex-row gap-3 min-[1280px]:h-9 min-[1545px]:h-10">
         {isEditable ? (
           <EditProfilePopup />
         ) : (

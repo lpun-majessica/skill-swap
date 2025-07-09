@@ -6,17 +6,11 @@ Built with **Next.js** (JavaScript), **Auth.js**, **MongoDB**, **Socket.IO**, **
 
 ### Preview
 
-<div>
+<div align="center">
     <img src="public/demo/signin.png" alt="signin-page-preview" width="45%" />
     <img src="public/demo/home.png" alt="home-page-preview" width="45%" />
-</div>
-
-<div>
     <img src="public/demo/explore.png" alt="explore-page-preview" width="45%" />
     <img src="public/demo/my-network.png" alt="my-network-page-preview" width="45%" />
-</div>
-
-<div>
     <img src="public/demo/my-profile.png" alt="my-profile-page-preview" width="45%" />
     <img src="public/demo/user-profile.png" alt="user-profile-page-preview" width="45%" />
 </div>

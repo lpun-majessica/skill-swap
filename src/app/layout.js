@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 
 import { Toaster } from "@/components/ui/sonner";
 import LayoutClient from "@/components/layout/layout-client";
+import NavigationEvents from "@/components/new-user/navigation-events";
 
 import { CurrentUserProvider } from "@/contexts/current-user-context";
 import { NavigationProvider } from "@/contexts/navigation-context";
@@ -22,6 +23,7 @@ export default async function RootLayout({ children }) {
       <body>
         <ContextProvider>
           <LayoutClient>{children}</LayoutClient>
+          <NavigationEvents />
           <Toaster
             closeButton
             toastOptions={{

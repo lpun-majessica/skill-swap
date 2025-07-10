@@ -33,7 +33,7 @@ export function UserInfoForm() {
     resolver: zodResolver(updateUserSchema),
     defaultValues: {
       fullname: currentUser?.fullname ?? "",
-      username: currentUser?.username,
+      username: currentUser?.username ?? "",
       job: "",
       bio: "",
       skillsToLearn: currentUser?.skillsToLearn ?? [],

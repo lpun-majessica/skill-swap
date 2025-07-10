@@ -17,15 +17,16 @@ const CurrentUserContext = createContext();
 export function CurrentUserProvider({ children }) {
   const { data, status } = useSession();
   const [currentUserData, setCurrentUserData] = useState(guestUser);
-  const isLoading = status === "loading";
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
       const userData = await userService.getUser(data.user);
       setCurrentUserData(userData);
+      setIsLoading(false);
     };
 
-    if (data && !isLoading) {
+    if (data && status !== "loading") {
       fetchUserData();
       connectSocket(data.user);
     } else {

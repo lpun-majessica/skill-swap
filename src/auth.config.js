@@ -43,6 +43,7 @@ const callbacks = {
     session.user = token.user;
     return session;
   },
+
   async jwt({ token, user, isNewUser }) {
     if (isNewUser) {
       const userData = {};

@@ -31,8 +31,7 @@ export function SignInForm() {
   const onSubmit = (data) => {
     setIsSubmitting(true);
 
-    const email = data;
-    signIn("resend", email);
+    signIn("resend", data);
   };
 
   return (

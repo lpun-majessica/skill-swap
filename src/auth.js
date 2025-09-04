@@ -21,7 +21,7 @@ export const providerMap = authConfig.providers
 export const signIn = (provider, options = {}) =>
   authSignIn(provider, { ...options, redirectTo: "/explore" });
 
-export const { handlers, signOut, auth } = NextAuth({
+export const { handlers, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   pages: {

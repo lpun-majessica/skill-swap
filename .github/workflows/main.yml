@@ -35,4 +35,4 @@ jobs:
     steps:
       - name: Trigger deployment
         if: ${{ github.event_name == 'push' && !contains(env.COMMIT_MESSAGES, '#skip') }}
-        run: curl --request POST {{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: curl --request POST ${{ secrets.VERCEL_DEPLOY_HOOK }}

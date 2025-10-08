@@ -1,7 +1,7 @@
 // @vitest-environment node
 
 import { POST } from "./route.js";
-import User from "@/models/User";
+import { User } from "@/models";
 
 const testUser = { email: "test@example.com", username: "test" };
 

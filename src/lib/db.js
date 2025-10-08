@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { MONGODB_URI } from "@/utils/config";
 
 if (!MONGODB_URI) {
-  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
+  throw new Error("Missing environment variable: MONGODB_URI");
 }
 
 const uri = MONGODB_URI;
@@ -18,4 +18,10 @@ async function dbConnect() {
   connection.isConnected = db.connections[0].readyState;
 }
 
-export default dbConnect;
+async function dbDisconnect() {
+  if (connection.isConnected) {
+    await mongoose.disconnect();
+  }
+}
+
+export { dbConnect, dbDisconnect };

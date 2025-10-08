@@ -5,8 +5,6 @@ const MONGODB_URI =
     ? process.env.TEST_MONGODB_URI
     : process.env.MONGODB_URI;
 
-const PORT = process.env.PORT;
-
 const CLOUDINARY_URL = process.env.CLOUDINARY_URL;
 
 const CLOUDINARY_CONFIG = {
@@ -15,4 +13,4 @@ const CLOUDINARY_CONFIG = {
   apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
 };
 
-export { MONGODB_URI, PORT, CLOUDINARY_URL, CLOUDINARY_CONFIG };
+export { MONGODB_URI, CLOUDINARY_URL, CLOUDINARY_CONFIG };

@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/db";
+import { dbConnect } from "@/lib/db";
 import mongoose from "mongoose";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
@@ -17,13 +17,9 @@ export async function POST(request) {
     const user = new User(userData);
     await user.save();
 
-    const response = NextResponse.json(
-      { message: "New user created" },
-      { status: 201 },
-    );
-    return response;
+    return NextResponse.json({ message: "New user created" }, { status: 201 });
   } catch (error) {
     console.log(error);
-    return NextResponse.json({ error: error.message }, { status: 404 });
+    return NextResponse.json({ error: error.message }, { status: 400 });
   }
 }

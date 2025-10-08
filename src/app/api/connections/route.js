@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/db";
+import { dbConnect } from "@/lib/db";
 import Connection from "@/models/connection";
 import { NextResponse } from "next/server";
 
@@ -17,7 +17,7 @@ export async function GET(request) {
 
     return NextResponse.json(connections, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 404 });
+    return NextResponse.json({ error: error.message }, { status: 400 });
   }
 }
 

@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/db";
+import { dbConnect } from "@/lib/db";
 import Skill from "@/models/skill";
 import { NextResponse } from "next/server";
 
@@ -21,7 +21,7 @@ export async function POST(request) {
 
   try {
     const savedSkill = await newSkill.save();
-    return NextResponse.json(savedSkill);
+    return NextResponse.json(savedSkill, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: error.message });
   }

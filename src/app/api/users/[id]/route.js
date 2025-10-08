@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/db";
+import { dbConnect } from "@/lib/db";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
 
@@ -13,7 +13,7 @@ export async function GET(request, { params }) {
 
     return NextResponse.json(user);
   } catch (error) {
-    return NextResponse.json({ error: error.message });
+    return NextResponse.json({ error: error.message }, { status: 404 });
   }
 }
 
@@ -32,9 +32,9 @@ export async function PUT(request, { params }) {
       .populate("skillsToTeach")
       .populate("skillsToLearn");
 
-    return NextResponse.json(updatedUser);
+    return NextResponse.json(updatedUser, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: error.message });
+    return NextResponse.json({ error: error.message }, { status: 404 });
   }
 }
 
@@ -44,8 +44,8 @@ export async function DELETE(request, { params }) {
 
   try {
     await User.findByIdAndDelete(id);
-    return NextResponse.json({ message: `User ID ${id} deleted` });
+    return new NextResponse(null, { status: 204 });
   } catch (error) {
-    return NextResponse.json({ error: error.message });
+    return NextResponse.json({ error: error.message }, { status: 404 });
   }
 }

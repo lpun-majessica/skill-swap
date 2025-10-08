@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/db";
+import { dbConnect } from "@/lib/db";
 import Connection from "@/models/connection";
 import { NextResponse } from "next/server";
 
@@ -18,7 +18,7 @@ export async function PUT(request, { params }) {
       .populate("sender_id", { fullname: 1 })
       .populate("receiver_id", { fullname: 1 });
 
-    return NextResponse.json(updatedConnection, { status: 200 });
+    return NextResponse.json(updatedConnection, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 404 });
   }

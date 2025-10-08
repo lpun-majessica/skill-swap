@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/db";
+import { dbConnect } from "@/lib/db";
 import Notification from "@/models/notification";
 import { NextResponse } from "next/server";
 
@@ -30,7 +30,7 @@ export async function POST(request) {
     const notification = new Notification(notificationData);
     await notification.save();
 
-    return NextResponse.json(await notification.populate("sender"));
+    return NextResponse.json(notification, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 404 });
   }
@@ -38,16 +38,16 @@ export async function POST(request) {
 
 export async function DELETE(request) {
   await dbConnect();
-  const returnData = { new: true };
+  const returnData = { new: false };
 
   try {
     const filter = await request.json();
 
-    const deletedNotification = await Notification.findOneAndDelete(
+    await Notification.findOneAndDelete(
       filter,
       returnData,
     );
-    return NextResponse.json(deletedNotification);
+    return new NextResponse(null, { status: 204 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 404 });
   }

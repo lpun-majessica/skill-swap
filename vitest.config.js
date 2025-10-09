@@ -18,4 +18,19 @@ export default defineConfig({
   resolve: {
     alias: [{ find: "@", replacement: resolve(__dirname, "./src") }],
   },
+  test: {
+    fileParallelism: false,
+    projects: [
+      {
+        extends: true,
+        fileParallelism: false,
+        test: {
+          name: "api",
+          include: ["src/app/api/**/*.test.js"],
+          environment: "node",
+          globals: true
+        }
+      },
+    ],
+  },
 });

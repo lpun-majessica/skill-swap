@@ -1,5 +1,3 @@
-// @vitest-environment node
-
 import { POST } from "./route.js";
 import { User } from "@/models";
 

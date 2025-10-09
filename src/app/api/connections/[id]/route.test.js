@@ -1,5 +1,3 @@
-// @vitest-environment node
-
 import { PUT } from "./route";
 import { connections } from "@/utils/test-helper";
 

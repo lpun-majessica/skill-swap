@@ -1,5 +1,3 @@
-// @vitest-environment node
-
 import { GET, POST, DELETE } from "./route";
 
 import { dbConnect, dbDisconnect } from "@/lib/db";

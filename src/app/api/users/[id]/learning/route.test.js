@@ -1,4 +1,3 @@
-// @vitest-environment node
 import { beforeEach } from "vitest";
 
 import { POST, DELETE } from "./route";

@@ -1,5 +1,3 @@
-// @vitest-environment node
-
 import { DELETE, GET, PUT } from "./route";
 import { notifications, users } from "@/utils/test-helper";
 

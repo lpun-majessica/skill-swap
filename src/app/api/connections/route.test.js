@@ -1,5 +1,3 @@
-// @vitest-environment node
-
 import { GET, POST } from "./route";
 import { users, connections } from "@/utils/test-helper";
 
